@@ -1,0 +1,47 @@
+# the set of all the Lending entities is the set of all of the
+# NFTs being lent out on the Rent NFT platform
+type Lending @entity {
+  id: ID!
+
+  nftAddress: Bytes!
+  tokenId: BigInt!
+
+  lenderAddress: Bytes!
+  maxRentDuration: BigInt!
+  dailyRentPrice: BigInt!
+  # collateral
+  nftPrice: BigInt!
+  paymentToken: BigInt!
+
+  renting: Renting
+
+  collateralClaimed: Boolean!
+}
+
+type Renting @entity {
+  id: ID!
+
+  renterAddress: Bytes!
+  rentDuration: BigInt!
+  rentedAt: BigInt!
+
+  lending: Lending!
+}
+
+# tracks all of the lending of renting of a single NFT
+# same NFT can be re-lent / re-rented multiple times
+# this location tracks all of that
+# https://thegraph.com/docs/define-a-subgraph#defining-entities
+type LendingRenting @entity {
+  # id is nftAddress::tokenId
+  id: ID!
+  lending: [Lending!]!
+  renting: [Renting!]
+}
+
+# tracks all of the lending / renting per user
+type User @entity {
+  id: ID!
+  lending: [Lending!]
+  renting: [Renting!]
+}
