@@ -8,7 +8,7 @@ dataSources:
     name: RentNft
     network: hardhat
     source:
-      address: "0x2B5384Ba9CE1cF889Ef758E14B6E9B7abb6e4bbF"
+      address: "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707"
       abi: RentNft
       startBlock: 1
     mapping:
@@ -21,7 +21,7 @@ dataSources:
         - name: RentNft
           file: ./build/contracts/RentNft.json
       eventHandlers:
-        - event: Lent(indexed address,indexed uint256,uint256,indexed address,uint16,uint32,uint32,uint8)
+        - event: Lent(indexed address,indexed uint256,uint256,indexed address,uint16,bytes4,bytes4,uint8)
           handler: handleLent
         - event: Rented(indexed address,indexed uint256,uint256,indexed address,uint16,uint32)
           handler: handleRented

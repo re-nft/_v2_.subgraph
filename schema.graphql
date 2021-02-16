@@ -8,9 +8,8 @@ type Lending @entity {
 
   lenderAddress: Bytes!
   maxRentDuration: BigInt!
-  dailyRentPrice: BigInt!
-  # collateral
-  nftPrice: BigInt!
+  dailyRentPrice: Bytes!
+  nftPrice: Bytes!
   paymentToken: BigInt!
 
   renting: Renting
