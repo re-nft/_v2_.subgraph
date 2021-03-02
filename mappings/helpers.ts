@@ -1,5 +1,5 @@
 import { Address, BigInt, Bytes } from "@graphprotocol/graph-ts";
-import { User, LendingRenting } from "../generated/schema";
+import { User, Nft } from "../generated/schema";
 
 export const fetchUser = (address: Address): User => {
   let user = User.load(address.toHexString());
@@ -13,15 +13,15 @@ export const fetchUser = (address: Address): User => {
 };
 
 // id is set to nftAddress::tokenId
-export const fetchLendingRenting = (id: string): LendingRenting => {
-  let lendingRenting = LendingRenting.load(id);
-  if (lendingRenting === null) {
-    lendingRenting = new LendingRenting(id);
-    lendingRenting.lending = new Array<string>();
-    lendingRenting.renting = new Array<string>();
-    lendingRenting.save();
+export const fetchNft = (id: string): Nft => {
+  let nft = Nft.load(id);
+  if (nft === null) {
+    nft = new Nft(id);
+    nft.lending = new Array<string>();
+    nft.renting = new Array<string>();
+    nft.save();
   }
-  return <LendingRenting>lendingRenting;
+  return <Nft>nft;
 };
 
 export const getNftId = (nftAddr: Bytes, tokenId: BigInt): string =>

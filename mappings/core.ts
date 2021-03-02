@@ -6,8 +6,8 @@ import {
   CollateralClaimed,
   LendingStopped,
 } from "../generated/RentNft/RentNft";
-import { Lending, LendingRenting, Renting, User } from "../generated/schema";
-import { fetchUser, fetchLendingRenting, getNftId } from "./helpers";
+import { Lending, Renting, Nft, User } from "../generated/schema";
+import { fetchUser, fetchNft, getNftId } from "./helpers";
 
 // ! notes for self
 // 1. string templating does not work
@@ -15,7 +15,6 @@ import { fetchUser, fetchLendingRenting, getNftId } from "./helpers";
 // 3. pushing directly into arrays won't work. Need to make a copy and then assign a copy to prop
 
 export function handleLent(event: Lent): void {
-  // ! FACE MUST EXIST AT THIS POINT
   let lentParams = event.params;
   // imagine the following: contract A & contract B
   // contract A is the owner of the NFT
@@ -54,14 +53,14 @@ export function handleLent(event: Lent): void {
   lender.lending = newLending;
 
   let nftId = getNftId(lending.nftAddress, lending.tokenId);
-  let lendingRenting = fetchLendingRenting(nftId);
-  let lendings = lendingRenting.lending;
+  let nft = fetchNft(nftId);
+  let lendings = nft.lending;
   lendings.push(lending.id);
-  lendingRenting.lending = lendings;
+  nft.lending = lendings;
 
   lending.save();
   lender.save();
-  lendingRenting.save();
+  nft.save();
 }
 
 export function handleRented(event: Rented): void {
@@ -82,19 +81,19 @@ export function handleRented(event: Rented): void {
   let lending = Lending.load(lendingId);
   lending.renting = renting.id;
   let nftId = getNftId(lending.nftAddress, lending.tokenId);
-  // we know lendingRenting exists here, no need to fetch
-  let lendingRenting = LendingRenting.load(nftId);
-  let rentings = lendingRenting.renting;
+  // we know nft exists here, no need to fetch
+  let nft = Nft.load(nftId);
+  let rentings = nft.renting;
   rentings.push(renting.id);
-  lendingRenting.renting = rentings;
+  nft.renting = rentings;
 
   lending.save();
   renting.save();
   renter.save();
-  lendingRenting.save();
+  nft.save();
 }
 
-// on returned, we remove renting from LendingRenting
+// on returned, we remove renting from Nft
 // we remove from User
 // and we null out the renting field in Lending
 export function handleReturned(event: Returned): void {
@@ -109,17 +108,17 @@ export function handleReturned(event: Returned): void {
   renter.renting = rentings;
 
   let nftId = getNftId(returnParams.nftAddress, returnParams.tokenId);
-  let lendingRenting = LendingRenting.load(nftId);
-  rentings = lendingRenting.renting;
+  let nft = Nft.load(nftId);
+  rentings = nft.renting;
   rentingIx = rentings.indexOf(renting);
   rentings.splice(rentingIx, 1);
-  lendingRenting.renting = rentings;
+  nft.renting = rentings;
 
   lending.renting = null;
 
   renter.save();
   lending.save();
-  lendingRenting.save();
+  nft.save();
 }
 
 // on collateral claim we must remove the lending and renting from LendingRenting
@@ -130,21 +129,21 @@ export function handleClaimCollateral(event: CollateralClaimed): void {
   let lending = Lending.load(claimParams.lendingId.toString());
 
   let nftId = getNftId(claimParams.nftAddress, claimParams.tokenId);
-  let lendingRenting = LendingRenting.load(nftId);
-  let lendings = lendingRenting.lending;
-  let rentings = lendingRenting.renting;
+  let nft = Nft.load(nftId);
+  let lendings = nft.lending;
+  let rentings = nft.renting;
   let lendingIx = lendings.indexOf(lending.id);
   let rentingIx = rentings.indexOf(lending.renting);
   lendings.splice(lendingIx, 1);
   rentings.splice(rentingIx, 1);
 
-  lendingRenting.lending = lendings;
-  lendingRenting.renting = rentings;
+  nft.lending = lendings;
+  nft.renting = rentings;
 
   lending.collateralClaimed = true;
 
   lending.save();
-  lendingRenting.save();
+  nft.save();
 }
 
 // when someone stops lending, we must remove the entity from the user's
@@ -155,15 +154,15 @@ export function handleStopLending(event: LendingStopped): void {
   let lending = Lending.load(lendingStopParams.lendingId.toString());
 
   let nftId = getNftId(lendingStopParams.nftAddress, lendingStopParams.tokenId);
-  let lendingRenting = LendingRenting.load(nftId);
-  let lendings = lendingRenting.lending;
-  let rentings = lendingRenting.renting;
+  let nft = Nft.load(nftId);
+  let lendings = nft.lending;
+  let rentings = nft.renting;
   let lendingIx = lendings.indexOf(lending.id);
   let rentingIx = rentings.indexOf(lending.renting);
   lendings.splice(lendingIx, 1);
   rentings.splice(rentingIx, 1);
-  lendingRenting.lending = lendings;
-  lendingRenting.renting = rentings;
+  nft.lending = lendings;
+  nft.renting = rentings;
 
   let lender = User.load(lending.lenderAddress.toHexString());
   lendings = <string[]>lender.lending;
@@ -171,7 +170,7 @@ export function handleStopLending(event: LendingStopped): void {
   lendings.splice(lendingIx, 1);
   lender.lending = lendings;
 
-  lendingRenting.save();
+  nft.save();
   lender.save();
   lending.save();
 }

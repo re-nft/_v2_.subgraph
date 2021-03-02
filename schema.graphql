@@ -1,4 +1,4 @@
-# the set of all the Lending entities is the set of all of the
+# ! The set of all the Lending entities is the set of all of the
 # NFTs being lent out on the Rent NFT platform
 type Lending @entity {
   id: ID!
@@ -27,20 +27,47 @@ type Renting @entity {
   lending: Lending!
 }
 
-# tracks all of the lending of renting of a single NFT
+# ! Tracks all of the lending of renting of a single NFT
 # same NFT can be re-lent / re-rented multiple times
 # this location tracks all of that
-# https://thegraph.com/docs/define-a-subgraph#defining-entities
-type LendingRenting @entity {
-  # id is nftAddress::tokenId
+# per unique id := nftAddress::tokenId combination
+#
+# 1. Note: you will always have an array of lending
+# but not neccesarily an array of renting. This is because
+# if AllRenft entity is created, then the entry point's
+# event is lend event. renting array is only ever populated
+# if the Nft has been rented.
+#
+# 2. Note: that this is a single entity and there will be multiple
+# entities. When we make a graphql request, we will be pulling ALL
+# such entities
+#
+# 3. Also note that when this nftAddress::tokenId unique combo gets
+# re-lent by the renter, we push into the lending array. This implies
+# that if you have lending.length === renting.length + 1, then the
+# nft and tokenId combo are available for lend.
+# If, however, lending.length === renting.length, then it is being currently
+# rented by someone.
+type Nft @entity {
+  # ! id is nftAddress::tokenId
   id: ID!
+  # ! each Lending and Renting in the arrays here will have the
+  # ! SAME nftAddress and tokenId!!!!!! As per the id of this entity
   lending: [Lending!]!
   renting: [Renting!]
 }
 
-# tracks all of the lending / renting per user
+# ! Tracks all of the lending / renting per user
+# in comparison to AllRenft, User will only track user's
+# lending and renting.
+# 1. Note: unlike in AllRenft, each lending here is now a unique
+# nftAddress and tokenId. Recall, in AllRenft each lending is the
+# same nftAddress and tokenId combo. Same reasoning applies to renting.
 type User @entity {
+  # ! id here is user's Ethereum address
   id: ID!
+  # ! each Lending and Renting in the arrays here will have
+  # ! DIFFERENT nftAddress and tokenId!!!!
   lending: [Lending!]
   renting: [Renting!]
 }
