@@ -6,6 +6,7 @@ type Lending @entity {
   nftAddress: Bytes!
   tokenId: BigInt!
 
+  # TODO: change to Int! some of the below
   lenderAddress: Bytes!
   maxRentDuration: BigInt!
   dailyRentPrice: Bytes!
@@ -26,6 +27,9 @@ type Renting @entity {
 
   lending: Lending!
 }
+
+# TODO: use derived from here instead of the slices. Requires a separate branch
+# since it is super easey to mess up the subgraph
 
 # ! Tracks all of the lending of renting of a single NFT
 # same NFT can be re-lent / re-rented multiple times
