@@ -1,6 +1,8 @@
 import { Address, BigInt, Bytes } from "@graphprotocol/graph-ts";
 import { User, Nft } from "../generated/schema";
 
+const RENFT_SUBGRAPH_ID_SEPARATOR = "::";
+
 export const fetchUser = (address: Address): User => {
   let user = User.load(address.toHexString());
   if (user === null) {
@@ -25,4 +27,4 @@ export const fetchNft = (id: string): Nft => {
 };
 
 export const getNftId = (nftAddr: Bytes, tokenId: BigInt): string =>
-  nftAddr.toHexString().concat("::").concat(tokenId.toString());
+  nftAddr.toHexString().concat(RENFT_SUBGRAPH_ID_SEPARATOR).concat(tokenId.toString());
