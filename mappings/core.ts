@@ -5,7 +5,7 @@ import {
   Returned,
   CollateralClaimed,
   LendingStopped,
-} from "../generated/RentNft/RentNft";
+} from "../generated/ReNFT/ReNFT";
 import { Lending, Renting, Nft, User } from "../generated/schema";
 import { fetchUser, fetchNft, getNftId } from "./helpers";
 
