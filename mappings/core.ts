@@ -5,7 +5,7 @@ import {
   Returned,
   CollateralClaimed,
   LendingStopped,
-} from "../generated/RentNft/RentNft";
+} from "../generated/ReNFT/ReNFT";
 import { Lending, Renting, Nft, User } from "../generated/schema";
 import { fetchUser, fetchNft, getNftId } from "./helpers";
 
@@ -31,12 +31,6 @@ export function handleLent(event: Lent): void {
   // AKA mortgage backed security
 
   let lending = new Lending(lentParams.lendingId.toString());
-  // let lending = new Lending(
-  //   event.transaction.hash
-  //     .toHexString()
-  //     .concat("::")
-  //     .concat(lentParams.lendingId.toString())
-  // );
 
   lending.nftAddress = lentParams.nftAddress;
   lending.tokenId = lentParams.tokenId;
