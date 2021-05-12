@@ -26,5 +26,5 @@ export const fetchNft = (id: string): Nft => {
   return <Nft>nft;
 };
 
-export const getNftId = (nftAddr: Bytes, tokenId: BigInt): string =>
-  nftAddr.toHexString().concat(RENFT_SUBGRAPH_ID_SEPARATOR).concat(tokenId.toString());
+export const getNftId = (nftAddr: Bytes, tokenId: BigInt, amount: BigInt): string =>
+  nftAddr.toHexString().concat(RENFT_SUBGRAPH_ID_SEPARATOR).concat(tokenId.toString()).concat(RENFT_SUBGRAPH_ID_SEPARATOR).concat(amount.toString());
