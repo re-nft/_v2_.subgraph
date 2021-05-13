@@ -7,8 +7,6 @@ export const fetchUser = (address: Address): User => {
   let user = User.load(address.toHexString());
   if (user === null) {
     user = new User(address.toHexString());
-    user.lending = new Array<string>();
-    user.renting = new Array<string>();
     user.save();
   }
   return <User>user;
@@ -19,8 +17,6 @@ export const fetchNft = (id: string): Nft => {
   let nft = Nft.load(id);
   if (nft === null) {
     nft = new Nft(id);
-    nft.lending = new Array<string>();
-    nft.renting = new Array<string>();
     nft.save();
   }
   return <Nft>nft;
