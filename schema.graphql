@@ -12,6 +12,7 @@ type Lending @entity {
   nftPrice: Bytes!
   paymentToken: BigInt!
   lentAmount: BigInt!
+  isERC721: Boolean!
 
   renting: Renting
 

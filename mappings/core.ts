@@ -40,6 +40,7 @@ export function handleLent(event: Lent): void {
   lending.paymentToken = BigInt.fromI32(lentParams.paymentToken);
   lending.collateralClaimed = false;
   lending.lentAmount = BigInt.fromI32(lentParams.lentAmount);
+  lending.isERC721 = lentParams.isERC721;
 
   let lender = fetchUser(lentParams.lenderAddress);
   lending.lenderUser = lender.id;
