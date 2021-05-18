@@ -125,5 +125,6 @@ export function handleStopLending(event: LendingStopped): void {
   let lending = Lending.load(lendingStopParams.lendingId.toString());
 
   store.remove('Lending', lending.id);
-  lending.save();
+  // it is incorrect to call save after store remove operation. the below will not work
+  // lending.save();
 }
