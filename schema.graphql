@@ -1,21 +1,26 @@
-# ! The set of all the Lending entities is the set of all of the
-# NFTs being lent out on the Rent NFT platform
+# The set of all the Lending entities is the set of all of the"
+# NFTs being lent out on the Rent NFT platform"
 type Lending @entity {
   id: ID!
 
   nftAddress: Bytes!
   tokenId: BigInt!
 
-  # TODO: change to Int! some of the below
   lenderAddress: Bytes!
   maxRentDuration: BigInt!
   dailyRentPrice: Bytes!
   nftPrice: Bytes!
   paymentToken: BigInt!
+  lentAmount: BigInt!
+  isERC721: Boolean!
 
   renting: Renting
 
   collateralClaimed: Boolean!
+
+  "id := nftAddresss::tokenId::lentAmount"
+  nft: Nft!
+  lenderUser: User!
 }
 
 type Renting @entity {
@@ -26,52 +31,49 @@ type Renting @entity {
   rentedAt: BigInt!
 
   lending: Lending!
+
+  "id := nftAddress::tokenId::lentAmount"
+  nft: Nft!
+  renterUser: User!
 }
 
-# TODO: use derived from here instead of the slices. Requires a separate branch
-# since it is super easey to mess up the subgraph
-
-# ! Tracks all of the lending of renting of a single NFT
+# Tracks all of the lending and renting of a single NFT
 # same NFT can be re-lent / re-rented multiple times
-# this location tracks all of that
-# per unique id := nftAddress::tokenId combination
-#
+# This type tracks all of that
+# per unique id := nftAddress::tokenId::lentAmount combination
+
 # 1. Note: you will always have an array of lending
-# but not neccesarily an array of renting. This is because
-# if AllRenft entity is created, then the entry point's
-# event is lend event. renting array is only ever populated
-# if the Nft has been rented.
-#
+# but not neccesarily an array of renting.
+# Renting array is only ever populated if the Nft has been rented.
+
 # 2. Note: that this is a single entity and there will be multiple
 # entities. When we make a graphql request, we will be pulling ALL
 # such entities
-#
-# 3. Also note that when this nftAddress::tokenId unique combo gets
+
+# 3. Also note that when this nftAddress::tokenId::lentAmount unique combo gets
 # re-lent by the renter, we push into the lending array. This implies
 # that if you have lending.length === renting.length + 1, then the
 # nft and tokenId combo are available for lend.
 # If, however, lending.length === renting.length, then it is being currently
-# rented by someone.
+# rented by someone"
 type Nft @entity {
-  # ! id is nftAddress::tokenId
+  "id is nftAddress::tokenId::lentAmount"
   id: ID!
-  # ! each Lending and Renting in the arrays here will have the
-  # ! SAME nftAddress and tokenId!!!!!! As per the id of this entity
-  lending: [Lending!]!
-  renting: [Renting!]
+  "each Lending and Renting in the arrays here will have the SAME nftAddress and tokenId!!!!!! As per the id of this entity"
+  lending: [Lending!]! @derivedFrom(field: "nft")
+  renting: [Renting!] @derivedFrom(field: "nft")
 }
 
-# ! Tracks all of the lending / renting per user
+# Tracks all of the lending / renting per user
 # in comparison to AllRenft, User will only track user's
 # lending and renting.
-# 1. Note: unlike in AllRenft, each lending here is now a unique
-# nftAddress and tokenId. Recall, in AllRenft each lending is the
-# same nftAddress and tokenId combo. Same reasoning applies to renting.
+# 1. Note: unlike in Nft, each lending here is now a unique
+# nftAddress::tokenId::lentAmount. Recall, in Nft each lending is the
+# same nftAddress::tokenId::lentAmount combo. Same applies to renting."
 type User @entity {
-  # ! id here is user's Ethereum address
+  "id here is user's Ethereum address"
   id: ID!
-  # ! each Lending and Renting in the arrays here will have
-  # ! DIFFERENT nftAddress and tokenId!!!!
-  lending: [Lending!]
-  renting: [Renting!]
+  "each Lending and Renting in the arrays here will have DIFFERENT nftAddress and tokenId"
+  lending: [Lending!] @derivedFrom(field: "lenderUser")
+  renting: [Renting!] @derivedFrom(field: "renterUser")
 }

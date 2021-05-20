@@ -1,4 +1,4 @@
-import { BigInt } from "@graphprotocol/graph-ts";
+import { BigInt, store } from "@graphprotocol/graph-ts";
 import {
   Lent,
   Rented,
@@ -12,7 +12,6 @@ import { fetchUser, fetchNft, getNftId } from "./helpers";
 // ! notes for self
 // 1. string templating does not work
 // 2. variables from function scope not visible inside of .filter
-// 3. pushing directly into arrays won't work. Need to make a copy and then assign a copy to prop
 
 export function handleLent(event: Lent): void {
   let lentParams = event.params;
@@ -40,17 +39,15 @@ export function handleLent(event: Lent): void {
   lending.nftPrice = lentParams.nftPrice;
   lending.paymentToken = BigInt.fromI32(lentParams.paymentToken);
   lending.collateralClaimed = false;
+  lending.lentAmount = BigInt.fromI32(lentParams.lentAmount);
+  lending.isERC721 = lentParams.isERC721;
 
   let lender = fetchUser(lentParams.lenderAddress);
-  let newLending = lender.lending;
-  newLending.push(lending.id);
-  lender.lending = newLending;
+  lending.lenderUser = lender.id;
 
-  let nftId = getNftId(lending.nftAddress, lending.tokenId);
+  let nftId = getNftId(lending.nftAddress, lending.tokenId, lending.lentAmount);
   let nft = fetchNft(nftId);
-  let lendings = nft.lending;
-  lendings.push(lending.id);
-  nft.lending = lendings;
+  lending.nft = nft.id;
 
   lending.save();
   lender.save();
@@ -68,18 +65,14 @@ export function handleRented(event: Rented): void {
   renting.lending = lendingId;
 
   let renter = fetchUser(rentedParams.renterAddress);
-  let newRenterRenting = renter.renting;
-  newRenterRenting.push(renting.id);
-  renter.renting = newRenterRenting;
+  renting.renterUser = renter.id;
 
   let lending = Lending.load(lendingId);
   lending.renting = renting.id;
-  let nftId = getNftId(lending.nftAddress, lending.tokenId);
+  let nftId = getNftId(lending.nftAddress, lending.tokenId, lending.lentAmount);
   // we know nft exists here, no need to fetch
   let nft = Nft.load(nftId);
-  let rentings = nft.renting;
-  rentings.push(renting.id);
-  nft.renting = rentings;
+  renting.nft = nft.id;
 
   lending.save();
   renting.save();
@@ -94,19 +87,13 @@ export function handleReturned(event: Returned): void {
   let returnParams = event.params;
   let lending = Lending.load(returnParams.lendingId.toString());
   let renting = lending.renting;
+  let Renter = Renting.load(renting);
 
-  let renter = User.load(returnParams.renterAddress.toHexString());
-  let rentings = renter.renting;
-  let rentingIx = rentings.indexOf(renting);
-  rentings.splice(rentingIx, 1);
-  renter.renting = rentings;
+  let renter = User.load(Renter.renterAddress.toHexString());
+  store.remove("Renting", renting);
 
-  let nftId = getNftId(returnParams.nftAddress, returnParams.tokenId);
+  let nftId = getNftId(lending.nftAddress, lending.tokenId, lending.lentAmount);
   let nft = Nft.load(nftId);
-  rentings = nft.renting;
-  rentingIx = rentings.indexOf(renting);
-  rentings.splice(rentingIx, 1);
-  nft.renting = rentings;
 
   lending.renting = null;
 
@@ -117,22 +104,13 @@ export function handleReturned(event: Returned): void {
 
 // on collateral claim we must remove the lending and renting from LendingRenting
 // we must also remove this from the corresponding users' profiles
-// renting. todo: in the future mark this in the reputaion of the address
+// renting
 export function handleClaimCollateral(event: CollateralClaimed): void {
   let claimParams = event.params;
   let lending = Lending.load(claimParams.lendingId.toString());
 
-  let nftId = getNftId(claimParams.nftAddress, claimParams.tokenId);
+  let nftId = getNftId(lending.nftAddress, lending.tokenId, lending.lentAmount);
   let nft = Nft.load(nftId);
-  let lendings = nft.lending;
-  let rentings = nft.renting;
-  let lendingIx = lendings.indexOf(lending.id);
-  let rentingIx = rentings.indexOf(lending.renting);
-  lendings.splice(lendingIx, 1);
-  rentings.splice(rentingIx, 1);
-
-  nft.lending = lendings;
-  nft.renting = rentings;
 
   lending.collateralClaimed = true;
 
@@ -142,29 +120,11 @@ export function handleClaimCollateral(event: CollateralClaimed): void {
 
 // when someone stops lending, we must remove the entity from the user's
 // lending field
-// I must also remove the lending - renting pair
 export function handleStopLending(event: LendingStopped): void {
   let lendingStopParams = event.params;
   let lending = Lending.load(lendingStopParams.lendingId.toString());
 
-  let nftId = getNftId(lendingStopParams.nftAddress, lendingStopParams.tokenId);
-  let nft = Nft.load(nftId);
-  let lendings = nft.lending;
-  let rentings = nft.renting;
-  let lendingIx = lendings.indexOf(lending.id);
-  let rentingIx = rentings.indexOf(lending.renting);
-  lendings.splice(lendingIx, 1);
-  rentings.splice(rentingIx, 1);
-  nft.lending = lendings;
-  nft.renting = rentings;
-
-  let lender = User.load(lending.lenderAddress.toHexString());
-  lendings = <string[]>lender.lending;
-  lendingIx = lendings.indexOf(lending.id);
-  lendings.splice(lendingIx, 1);
-  lender.lending = lendings;
-
-  nft.save();
-  lender.save();
-  lending.save();
+  store.remove('Lending', lending.id);
+  // it is incorrect to call save after store remove operation. the below will not work
+  // lending.save();
 }
