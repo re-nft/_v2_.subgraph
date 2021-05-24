@@ -77,3 +77,10 @@ type User @entity {
   lending: [Lending!] @derivedFrom(field: "lenderUser")
   renting: [Renting!] @derivedFrom(field: "renterUser")
 }
+
+type LendingRentingCount @entity {
+  id: ID!
+  lending: BigInt!
+  "less or equal lending"
+  renting: BigInt!
+}

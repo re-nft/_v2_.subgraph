@@ -6,12 +6,14 @@ import {
   CollateralClaimed,
   LendingStopped,
 } from "../generated/ReNFT/ReNFT";
-import { Lending, Renting, Nft, User } from "../generated/schema";
+import { Lending, Renting, Nft, User, LendingRentingCount } from "../generated/schema";
 import { fetchUser, fetchNft, getNftId } from "./helpers";
 
 // ! notes for self
 // 1. string templating does not work
 // 2. variables from function scope not visible inside of .filter
+
+let lrc = new LendingRentingCount("lendingRentingCount");
 
 export function handleLent(event: Lent): void {
   let lentParams = event.params;
@@ -49,9 +51,12 @@ export function handleLent(event: Lent): void {
   let nft = fetchNft(nftId);
   lending.nft = nft.id;
 
+  lrc.lending = lrc.lending.plus(BigInt.fromI32(1));
+
   lending.save();
   lender.save();
   nft.save();
+  lrc.save();
 }
 
 export function handleRented(event: Rented): void {
@@ -74,10 +79,13 @@ export function handleRented(event: Rented): void {
   let nft = Nft.load(nftId);
   renting.nft = nft.id;
 
+  lrc.renting = lrc.renting.plus(BigInt.fromI32(1));
+
   lending.save();
   renting.save();
   renter.save();
   nft.save();
+  lrc.save();
 }
 
 // on returned, we remove renting from Nft
@@ -97,9 +105,12 @@ export function handleReturned(event: Returned): void {
 
   lending.renting = null;
 
+  lrc.renting = lrc.renting.minus(BigInt.fromI32(1));
+
   renter.save();
   lending.save();
   nft.save();
+  lrc.save();
 }
 
 // on collateral claim we must remove the lending and renting from LendingRenting
@@ -114,8 +125,12 @@ export function handleClaimCollateral(event: CollateralClaimed): void {
 
   lending.collateralClaimed = true;
 
+  lrc.renting = lrc.renting.minus(BigInt.fromI32(1));
+  lrc.lending = lrc.lending.plus(BigInt.fromI32(1));
+
   lending.save();
   nft.save();
+  lrc.save();
 }
 
 // when someone stops lending, we must remove the entity from the user's
@@ -124,7 +139,10 @@ export function handleStopLending(event: LendingStopped): void {
   let lendingStopParams = event.params;
   let lending = Lending.load(lendingStopParams.lendingId.toString());
 
+  lrc.lending = lrc.lending.plus(BigInt.fromI32(1));
+
   store.remove('Lending', lending.id);
   // it is incorrect to call save after store remove operation. the below will not work
   // lending.save();
+  lrc.save();
 }
