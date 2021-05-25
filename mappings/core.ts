@@ -14,6 +14,9 @@ import { fetchUser, fetchNft, getNftId } from "./helpers";
 // 2. variables from function scope not visible inside of .filter
 
 let lrc = new LendingRentingCount("lendingRentingCount");
+lrc.lending = BigInt.fromI32(0);
+lrc.renting = BigInt.fromI32(0);
+lrc.save();
 
 export function handleLent(event: Lent): void {
   let lentParams = event.params;
