@@ -64,12 +64,12 @@ export function handleLent(event: Lent): void {
 
 export function handleRented(event: Rented): void {
   let rentedParams = event.params;
+  let lendingId = rentedParams.lendingId.toString();
 
-  let renting = new Renting(event.transaction.hash.toHexString());
+  let renting = new Renting(lendingId);
   renting.renterAddress = rentedParams.renterAddress;
   renting.rentDuration = BigInt.fromI32(rentedParams.rentDuration);
   renting.rentedAt = rentedParams.rentedAt;
-  let lendingId = rentedParams.lendingId.toString();
   renting.lending = lendingId;
 
   let renter = fetchUser(rentedParams.renterAddress);
