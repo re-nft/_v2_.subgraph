@@ -5,30 +5,30 @@ schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: ReNFT
-    network: localhost
+    name: Registry
+    network: ropsten
     source:
-      address: "0xe8a037575f1676d7ff965b555a3e79f6f329f6f6"
-      abi: ReNFT
-      startBlock: 1
+      address: "0xB2E5B718FA46b1571C8699E82b4ce7575A673971"
+      abi: Registry
+      startBlock: 10990000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
-        - ReNFT
+        - Registry
       abis:
-        - name: ReNFT
-          file: ./build/contracts/ReNFT.json
+        - name: Registry
+          file: ./build/contracts/Registry.json
       eventHandlers:
-        - event: Lent(indexed address,indexed uint256,uint8,uint256,indexed address,uint8,bytes4,bytes4,bool,uint8)
-          handler: handleLent
-        - event: Rented(uint256,indexed address,uint8,uint32)
-          handler: handleRented
-        - event: Returned(indexed uint256,uint32)
-          handler: handleReturned
-        - event: CollateralClaimed(indexed uint256,uint32)
-          handler: handleClaimCollateral
-        - event: LendingStopped(indexed uint256,uint32)
-          handler: handleStopLending
+        - event: Lend(bool,indexed address,indexed address,indexed uint256,uint256,uint8,bytes4,uint16,uint8)
+          handler: handleLend
+        - event: Rent(indexed address,indexed uint256,indexed uint256,uint16,uint8,uint32)
+          handler: handleRent
+        - event: StopRent(indexed uint256,uint32)
+          handler: handleStopRent
+        - event: RentClaimed(indexed uint256,uint32)
+          handler: handleRentClaimed
+        - event: StopLend(indexed uint256,uint32)
+          handler: handleStopLend
       file: ./mappings/core.ts
