@@ -8,7 +8,7 @@ dataSources:
     name: Registry
     network: ropsten
     source:
-      address: "0xB2E5B718FA46b1571C8699E82b4ce7575A673971"
+      address: "0x1c3e74a9ACd2719A2b57B22B82551190BD09bDC3"
       abi: Registry
       startBlock: 10990000
     mapping:
