@@ -6,16 +6,12 @@ import {
   RentClaimed,
   StopLend,
 } from "../generated/Registry/Registry";
-import { Lending, Renting, User, LendingRentingCount } from "../generated/schema";
-import { fetchUser } from "./helpers";
-
-let lrc = new LendingRentingCount("lendingRentingCount");
-lrc.lending = BigInt.fromI32(0);
-lrc.renting = BigInt.fromI32(0);
-lrc.save();
+import { Lending, Renting, User } from "../generated/schema";
+import { fetchUser, fetchLrc } from "./helpers";
 
 export function handleLend(event: Lend): void {
   let lentParams = event.params;
+  let lrc = fetchLrc();
   let lending = new Lending(lentParams.lendingID.toString());
   lending.nftAddress = lentParams.nftAddress;
   lending.tokenID = lentParams.tokenID;
@@ -41,6 +37,7 @@ export function handleRent(event: Rent): void {
   let rentingId = rentedParams.rentingID.toString();
   let lending = Lending.load(lendingId);
   let renting = new Renting(rentingId);
+  let lrc = fetchLrc();
   renting.renterAddress = rentedParams.renterAddress;
   renting.rentDuration = BigInt.fromI32(rentedParams.rentDuration);
   renting.rentedAt = rentedParams.rentedAt;
@@ -61,6 +58,7 @@ export function handleStopRent(event: StopRent): void {
   let returnParams = event.params;
   let renting = Renting.load(returnParams.rentingID.toString());
   let lending = Lending.load(renting.lendingID);
+  let lrc = fetchLrc();
   lending.availableAmount = lending.availableAmount.plus(renting.rentAmount);
   let renter = User.load(renting.renterAddress.toHexString());
   store.remove("Renting", renting.id);
@@ -74,6 +72,7 @@ export function handleRentClaimed(event: RentClaimed): void {
   let claimParams = event.params;
   let renting = Renting.load(claimParams.rentingID.toString());
   let lending = Lending.load(renting.lendingID);
+  let lrc = fetchLrc();
   lending.availableAmount = lending.availableAmount.plus(renting.rentAmount);
   renting.expired = true;
   lending.rentClaimed = true;
@@ -86,6 +85,7 @@ export function handleRentClaimed(event: RentClaimed): void {
 export function handleStopLend(event: StopLend): void {
   let lendingStopParams = event.params;
   let lending = Lending.load(lendingStopParams.lendingID.toString());
+  let lrc = fetchLrc();
   lrc.lending = lrc.lending.minus(BigInt.fromI32(1));
   lrc.save();
   store.remove('Lending', lending.id);
