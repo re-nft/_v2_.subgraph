@@ -11,6 +11,7 @@ type Lending @entity {
   dailyRentPrice: Bytes!
   paymentToken: BigInt!
   lendAmount: BigInt!
+  availableAmount: BigInt!
   is721: Boolean!
 
   renting: [Renting!] @derivedFrom(field: "lendingID")
@@ -23,6 +24,7 @@ type Renting @entity {
   id: ID!
 
   renterAddress: Bytes!
+  rentAmount: BigInt!
   rentDuration: BigInt!
   rentedAt: BigInt!
   expired: Boolean!
@@ -36,4 +38,10 @@ type User @entity {
   id: ID!
   lending: [Lending!] @derivedFrom(field: "userID")
   renting: [Renting!] @derivedFrom(field: "userID")
+}
+
+type LendingRentingCount @entity {
+  id: ID!
+  lending: BigInt!
+  renting: BigInt!
 }
