@@ -30,9 +30,9 @@ export function handleLend(event: Lend): void {
   let lender = fetchUser(lentParams.lenderAddress);
   lending.userID = lender.id;
   lrc.lending = lrc.lending.plus(BigInt.fromI32(1));
+  lrc.save();
   lending.save();
   lender.save();
-  lrc.save();
 }
 
 export function handleRent(event: Rent): void {
@@ -51,10 +51,10 @@ export function handleRent(event: Rent): void {
   let renter = fetchUser(rentedParams.renterAddress);
   renting.userID = renter.id;
   lrc.renting = lrc.renting.plus(BigInt.fromI32(1));
+  lrc.save();
   lending.save();
   renting.save();
   renter.save();
-  lrc.save();
 }
 
 export function handleStopRent(event: StopRent): void {
@@ -65,10 +65,9 @@ export function handleStopRent(event: StopRent): void {
   let renter = User.load(renting.renterAddress.toHexString());
   store.remove("Renting", renting.id);
   lrc.renting = lrc.renting.minus(BigInt.fromI32(1));
-  renting.save();
+  lrc.save();
   renter.save();
   lending.save();
-  lrc.save();
 }
 
 export function handleRentClaimed(event: RentClaimed): void {
@@ -79,16 +78,15 @@ export function handleRentClaimed(event: RentClaimed): void {
   renting.expired = true;
   lending.rentClaimed = true;
   lrc.renting = lrc.renting.minus(BigInt.fromI32(1));
-  lrc.lending = lrc.lending.plus(BigInt.fromI32(1));
+  lrc.save();
   renting.save();
   lending.save();
-  lrc.save();
 }
 
 export function handleStopLend(event: StopLend): void {
   let lendingStopParams = event.params;
   let lending = Lending.load(lendingStopParams.lendingID.toString());
   lrc.lending = lrc.lending.minus(BigInt.fromI32(1));
-  store.remove('Lending', lending.id);
   lrc.save();
+  store.remove('Lending', lending.id);
 }
