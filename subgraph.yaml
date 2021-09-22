@@ -6,11 +6,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: ReNFT
-    network: localhost
+    network: mainnet
     source:
-      address: "0xe8a037575f1676d7ff965b555a3e79f6f329f6f6"
+      address: "0x94D8f036a0fbC216Bb532D33bDF6564157Af0cD7"
       abi: ReNFT
-      startBlock: 1
+      startBlock: 12875508
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4

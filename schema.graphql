@@ -13,6 +13,7 @@ type Lending @entity {
   paymentToken: BigInt!
   lentAmount: BigInt!
   isERC721: Boolean!
+  lentAt: BigInt!
 
   renting: Renting
 
