@@ -24,7 +24,7 @@ export function handleLend(event: Lend): void {
   lending.availableAmount = BigInt.fromI32(lentParams.lendAmount);
   lending.is721 = lentParams.is721;
   let lender = fetchUser(lentParams.lenderAddress);
-  lending.userID = lender.id;
+  lending.user = lender.id;
   lrc.lending = lrc.lending.plus(BigInt.fromI32(1));
   lrc.save();
   lending.save();
@@ -42,11 +42,11 @@ export function handleRent(event: Rent): void {
   renting.rentDuration = BigInt.fromI32(rentedParams.rentDuration);
   renting.rentedAt = rentedParams.rentedAt;
   renting.expired = false;
-  renting.lendingID = lendingId;
+  renting.lending = lendingId;
   renting.rentAmount = BigInt.fromI32(rentedParams.rentAmount);
   lending.availableAmount = lending.availableAmount.minus(renting.rentAmount);
   let renter = fetchUser(rentedParams.renterAddress);
-  renting.userID = renter.id;
+  renting.user = renter.id;
   lrc.renting = lrc.renting.plus(BigInt.fromI32(1));
   lrc.save();
   lending.save();
@@ -57,7 +57,7 @@ export function handleRent(event: Rent): void {
 export function handleStopRent(event: StopRent): void {
   let returnParams = event.params;
   let renting = Renting.load(returnParams.rentingID.toString());
-  let lending = Lending.load(renting.lendingID);
+  let lending = Lending.load(renting.lending);
   let lrc = fetchLrc();
   lending.availableAmount = lending.availableAmount.plus(renting.rentAmount);
   let renter = User.load(renting.renterAddress.toHexString());
@@ -71,7 +71,7 @@ export function handleStopRent(event: StopRent): void {
 export function handleRentClaimed(event: RentClaimed): void {
   let claimParams = event.params;
   let renting = Renting.load(claimParams.rentingID.toString());
-  let lending = Lending.load(renting.lendingID);
+  let lending = Lending.load(renting.lending);
   let lrc = fetchLrc();
   lending.availableAmount = lending.availableAmount.plus(renting.rentAmount);
   renting.expired = true;

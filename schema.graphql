@@ -14,8 +14,8 @@ type Lending @entity {
   availableAmount: BigInt!
   is721: Boolean!
 
-  renting: [Renting!] @derivedFrom(field: "lendingID")
-  userID: User!
+  renting: [Renting!] @derivedFrom(field: "lending")
+  user: User!
 
   rentClaimed: Boolean!
 }
@@ -29,15 +29,15 @@ type Renting @entity {
   rentedAt: BigInt!
   expired: Boolean!
 
-  lendingID: Lending!
-  userID: User!
+  lending: Lending!
+  user: User!
 }
 
 type User @entity {
   "id here is user's Ethereum address"
   id: ID!
-  lending: [Lending!] @derivedFrom(field: "userID")
-  renting: [Renting!] @derivedFrom(field: "userID")
+  lending: [Lending!] @derivedFrom(field: "user")
+  renting: [Renting!] @derivedFrom(field: "user")
 }
 
 type LendingRentingCount @entity {
