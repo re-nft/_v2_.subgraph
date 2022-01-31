@@ -19,7 +19,6 @@ export function handleLend(event: Lend): void {
   lending.maxRentDuration = BigInt.fromI32(lentParams.maxRentDuration);
   lending.dailyRentPrice = lentParams.dailyRentPrice;
   lending.paymentToken = BigInt.fromI32(lentParams.paymentToken);
-  lending.rentClaimed = false;
   lending.lendAmount = BigInt.fromI32(lentParams.lendAmount);
   lending.availableAmount = BigInt.fromI32(lentParams.lendAmount);
   lending.is721 = lentParams.is721;
@@ -76,7 +75,6 @@ export function handleRentClaimed(event: RentClaimed): void {
   let lrc = fetchLrc();
   lending.availableAmount = lending.availableAmount.plus(renting.rentAmount);
   renting.expired = true;
-  lending.rentClaimed = true;
   lrc.renting = lrc.renting.minus(BigInt.fromI32(1));
   lrc.save();
   renting.save();
