@@ -13,6 +13,7 @@ type Lending @entity {
   lendAmount: BigInt!
   availableAmount: BigInt!
   is721: Boolean!
+  lentAt: BigInt!
 
   renting: [Renting!] @derivedFrom(field: "lending")
   user: User!

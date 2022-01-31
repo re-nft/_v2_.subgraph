@@ -23,6 +23,7 @@ export function handleLend(event: Lend): void {
   lending.lendAmount = BigInt.fromI32(lentParams.lendAmount);
   lending.availableAmount = BigInt.fromI32(lentParams.lendAmount);
   lending.is721 = lentParams.is721;
+  lending.lentAt = event.block.timestamp;
   let lender = fetchUser(lentParams.lenderAddress);
   lending.user = lender.id;
   lrc.lending = lrc.lending.plus(BigInt.fromI32(1));
@@ -88,5 +89,5 @@ export function handleStopLend(event: StopLend): void {
   let lrc = fetchLrc();
   lrc.lending = lrc.lending.minus(BigInt.fromI32(1));
   lrc.save();
-  store.remove('Lending', lending.id);
+  store.remove("Lending", lending.id);
 }
