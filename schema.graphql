@@ -17,6 +17,8 @@ type Lending @entity {
 
   renting: [Renting!] @derivedFrom(field: "lending")
   user: User!
+
+  rentClaimed: Boolean!
 }
 
 type Renting @entity {
