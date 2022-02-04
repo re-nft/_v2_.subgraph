@@ -6,10 +6,7 @@
   "scripts": {
     "codegen": "yarn graph codegen",
     "build": "yarn graph build",
-    "deploy": "graph deploy --studio renft-registry",
-    "create-local": "yarn graph create --node http://localhost:8020 nazariyv/Registry",
-    "remove-local": "yarn graph remove --node http://localhost:8020 nazariyv/Registry",
-    "deploy-local": "yarn graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 nazariyv/Registry"
+    "deploy": "graph deploy --studio renft-registry"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.21.1",
