@@ -2,7 +2,7 @@ specVersion: 0.0.2
 description: ReNFT is a decentralised protofol for NFT lending and renting
 repository: https://github.com/re-nft/subgraph
 schema:
-  file: ./schema.graphql
+  file: schema.graphql
 dataSources:
   - kind: ethereum/contract
     name: Sylvester
@@ -19,9 +19,10 @@ dataSources:
         - Sylvester
       abis:
         - name: Sylvester
-          file: ./build/contracts/Sylvester.json
+          file: Sylvester/build/contracts/Sylvester.json
       eventHandlers:
-        - event: Lend(bool,indexed address,indexed address,indexed uint256,uint256,uint8,bytes4,uint16,uint8)
+        - event: Lend(bool,indexed address,indexed address,indexed
+            uint256,uint256,uint8,bytes4,uint16,uint8)
           handler: handleLend
         - event: Rent(indexed address,indexed uint256,indexed uint256,uint16,uint8,uint32)
           handler: handleRent
@@ -31,4 +32,4 @@ dataSources:
           handler: handleRentClaimed
         - event: StopLend(indexed uint256,uint32)
           handler: handleStopLend
-      file: ./mappings/core.ts
+      file: Sylvester/Sylvester.wasm

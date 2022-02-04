@@ -5,7 +5,7 @@ import {
   StopRent,
   RentClaimed,
   StopLend,
-} from "../generated/Registry/Registry";
+} from "../generated/Sylvester/Sylvester";
 import { Lending, Renting, User } from "../generated/schema";
 import { fetchUser, fetchLrc } from "./helpers";
 
