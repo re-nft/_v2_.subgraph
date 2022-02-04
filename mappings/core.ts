@@ -5,7 +5,7 @@ import {
   Returned,
   CollateralClaimed,
   LendingStopped,
-} from "../generated/ReNFT/ReNFT";
+} from "../generated/Azrael/Azrael";
 import { Lending, Renting, Nft, User, LendingRentingCount } from "../generated/schema";
 import { fetchUser, fetchNft, getNftId } from "./helpers";
 
@@ -51,7 +51,7 @@ export function handleLent(event: Lent): void {
   let lender = fetchUser(lentParams.lenderAddress);
   lending.lenderUser = lender.id;
 
-  let nftId = getNftId(lending.nftAddress, lending.tokenId, lending.lentAmount);
+  let nftId = getNftId(lentParams.lendingId);
   let nft = fetchNft(nftId);
   lending.nft = nft.id;
 
@@ -78,7 +78,7 @@ export function handleRented(event: Rented): void {
 
   let lending = Lending.load(lendingId);
   lending.renting = renting.id;
-  let nftId = getNftId(lending.nftAddress, lending.tokenId, lending.lentAmount);
+  let nftId = getNftId(rentedParams.lendingId);
   // we know nft exists here, no need to fetch
   let nft = Nft.load(nftId);
   renting.nft = nft.id;
@@ -104,7 +104,7 @@ export function handleReturned(event: Returned): void {
   let renter = User.load(Renter.renterAddress.toHexString());
   store.remove("Renting", renting);
 
-  let nftId = getNftId(lending.nftAddress, lending.tokenId, lending.lentAmount);
+  let nftId = getNftId(returnParams.lendingId);
   let nft = Nft.load(nftId);
 
   lending.renting = null;
@@ -124,7 +124,7 @@ export function handleClaimCollateral(event: CollateralClaimed): void {
   let claimParams = event.params;
   let lending = Lending.load(claimParams.lendingId.toString());
 
-  let nftId = getNftId(lending.nftAddress, lending.tokenId, lending.lentAmount);
+  let nftId = getNftId(claimParams.lendingId);
   let nft = Nft.load(nftId);
 
   lending.collateralClaimed = true;
