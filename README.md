@@ -7,6 +7,13 @@ The branches for the respective subgraphs are:
 and
 `sylvester`
 
+## Versions
+
+Azrael Mainnet: no version (dub it 1.0.1)
+Sylvester Mainnet: 1.0.2
+Azrael Rinkeby: 1.0.1
+Sylvester Rinkeby: 1.0.2
+
 ## Rinkeby
 
 No additional branches were made for the Rinkeby testnet. But here you can find the addresses
