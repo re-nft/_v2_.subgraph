@@ -2,7 +2,7 @@
   "name": "@renft/subgraph",
   "license": "GPL-3.0-or-later",
   "version": "1.0.0",
-  "author": "Nazariy Vavryk <nazariy@inbox.ru>",
+  "author": "reNFT <hello@renft.io>",
   "scripts": {
     "codegen": "yarn graph codegen",
     "build": "yarn graph build",
