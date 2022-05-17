@@ -7,6 +7,16 @@ The branches for the respective subgraphs are:
 and
 `sylvester`
 
+## Deploy
+
+To deploy run
+
+`yarn codegen`
+
+`yarn build`
+
+`yarn deploy`
+
 ## Versions
 
 Azrael Mainnet: no version (dub it 1.0.1)
@@ -16,6 +26,8 @@ Sylvester Mainnet: 1.0.2
 Azrael Rinkeby: 1.0.1
 
 Sylvester Rinkeby: 1.0.2
+
+Sylvester Matic: 1.0.2-matic. Temp query url: https://api.studio.thegraph.com/query/3020/renft-registry/1.0.2-matic
 
 ## Rinkeby
 
