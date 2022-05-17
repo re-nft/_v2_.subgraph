@@ -30,3 +30,8 @@ Block: `10110403`
 Another thing to change when deploying to rinkeby is the slug in `package.json`. It should be `renft-registry-rinkeby` or `renft-rinkeby` respectively.
 
 Also, do not forget to change the `network` to `rinkeby` in `subgraph.yaml`.
+
+## Terminology
+
+Azrael - collateral solution
+Sylvester - collateral free solution
