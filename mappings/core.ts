@@ -5,7 +5,7 @@ import {
   StopLend,
   StopRent
 } from "../generated/Whoopi/Whoopi";
-import { Lending, Renting, User } from "../generated/schema";
+import { Lending, Renting } from "../generated/schema";
 import { fetchUser, fetchLrc } from "./helpers";
 
 export function handleLend(event: Lend): void {
