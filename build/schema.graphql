@@ -4,28 +4,35 @@ type Lending @entity {
   id: ID!
 
   nftAddress: Bytes!
-  tokenID: BigInt!
+  tokenId: BigInt!
 
+  upfrontRentFee: BigInt!
   lenderAddress: Bytes!
+  # Max rent duration is in number of cycles
   maxRentDuration: BigInt!
-  dailyRentPrice: Bytes!
   paymentToken: BigInt!
-  lendAmount: BigInt!
-  availableAmount: BigInt!
-  is721: Boolean!
+  # If the list is empty, then anyone can rent
+  allowedRenters: [Bytes!]!
+  revShareBeneficiaries: [Bytes!]!
+  revSharePortions: [Int!]!
   lentAt: BigInt!
 
+  # This is an array of all rentings, even the expired ones
+  # To stop renting, you call a function with a lending id
+  # There is no way to identify the renting
+  # For that reason, we had an additional attribute on this
+  # schema: `lastRenting`, so that we know which one to set
+  # to `expired` when the renting is stopped.
   renting: [Renting!] @derivedFrom(field: "lending")
+  lastRenting: Renting
   user: User!
-
-  rentClaimed: Boolean!
 }
 
 type Renting @entity {
   id: ID!
 
   renterAddress: Bytes!
-  rentAmount: BigInt!
+  # Rent duration is in number of cycles
   rentDuration: BigInt!
   rentedAt: BigInt!
   expired: Boolean!
@@ -41,6 +48,7 @@ type User @entity {
   renting: [Renting!] @derivedFrom(field: "user")
 }
 
+# How many active lending and rentings there are
 type LendingRentingCount @entity {
   id: ID!
   lending: BigInt!

@@ -1,4 +1,4 @@
-import { BigInt, store } from "@graphprotocol/graph-ts";
+import { BigInt, store, Bytes, Address, ByteArray } from "@graphprotocol/graph-ts";
 import {
   Lend,
   Rent,
@@ -12,20 +12,25 @@ export function handleLend(event: Lend): void {
   let lentParams = event.params;
   let lrc = fetchLrc();
   let lending = new Lending(lentParams.lendingId.toString());
+
   lending.nftAddress = lentParams.nftAddress;
-  lending.tokenID = lentParams.tokenId;
+  lending.tokenId = lentParams.tokenId;
+  lending.upfrontRentFee = lentParams.upfrontRentFee;
   lending.lenderAddress = lentParams.lenderAddress;
   lending.maxRentDuration = BigInt.fromI32(lentParams.maxRentDuration);
-  // lending.dailyRentPrice = lentParams.dailyRentPrice;
+  lending.allowedRenters = lentParams.allowedRenters.map<Bytes>(
+    (value: Address) => (Bytes.fromHexString(value.toHexString())) as Bytes
+  );
   lending.paymentToken = BigInt.fromI32(lentParams.paymentToken);
-  lending.rentClaimed = false;
-  // lending.lendAmount = BigInt.fromI32(lentParams.lendAmount);
-  // lending.availableAmount = BigInt.fromI32(lentParams.lendAmount);
-  // lending.is721 = lentParams.is721;
+  lending.revShareBeneficiaries = lentParams.revShares.beneficiaries.map<Bytes>(
+    (value: Address) => (Bytes.fromHexString(value.toHexString())) as Bytes
+  );
+  lending.revSharePortions = lentParams.revShares.portions;
   lending.lentAt = event.block.timestamp;
   let lender = fetchUser(lentParams.lenderAddress);
   lending.user = lender.id;
   lrc.lending = lrc.lending.plus(BigInt.fromI32(1));
+
   lrc.save();
   lending.save();
   lender.save();
@@ -38,6 +43,7 @@ export function handleRent(event: Rent): void {
   // let lending = Lending.load(lendingId);
   // let renting = new Renting(rentingId);
   // let lrc = fetchLrc();
+
   // renting.renterAddress = rentedParams.renterAddress;
   // renting.rentDuration = BigInt.fromI32(rentedParams.rentDuration);
   // renting.rentedAt = rentedParams.rentedAt;
@@ -48,6 +54,7 @@ export function handleRent(event: Rent): void {
   // let renter = fetchUser(rentedParams.renterAddress);
   // renting.user = renter.id;
   // lrc.renting = lrc.renting.plus(BigInt.fromI32(1));
+
   // lrc.save();
   // lending.save();
   // renting.save();
