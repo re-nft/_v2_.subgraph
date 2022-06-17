@@ -6,7 +6,8 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: Whoopi
-    network: mainnet
+    # to deploy to avalanche mainnet, use avalanche
+    network: fuji
     source:
       address: "0xBBda1DDeAd65E780b4330F771801011C995fa02E"
       abi: Whoopi

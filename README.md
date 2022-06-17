@@ -61,6 +61,17 @@ If you want to index avalanche, use: `avalanche`.
 If you want to index fuji, use: `fuji`.
 
 
+### Non Ethereum Mainnet Deploys
+
+To deploy to anything other than Ethereum mainnet network you need to:
+
+`graph auth --product hosted-service <ACCESS_TOKEN>`
+
+`graph deploy --product hosted-service <GITHUB_USER>/<SUBGRAPH NAME>`
+
+So to deploy whoopi-fuji, the slug above would be `re-nft/whoopi-fuji`
+
+
 ### Deployment notes
 
 6/17/2022.
