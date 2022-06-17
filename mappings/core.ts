@@ -27,6 +27,7 @@ export function handleLend(event: Lend): void {
   );
   lending.revSharePortions = lentParams.revShares.portions;
   lending.lentAt = event.block.timestamp;
+  lending.expired = false;
   let lender = fetchUser(lentParams.lenderAddress.toHexString());
   lending.user = lender.id;
   lrc.lending = lrc.lending.plus(BigInt.fromI32(1));
@@ -64,11 +65,15 @@ export function handleRent(event: Rent): void {
 }
 
 export function handleStopLend(event: StopLend): void {
-  // let lendingStopParams = event.params;
-  // let lending = Lending.load(lendingStopParams.lendingID.toString());
-  // let lrc = fetchLrc();
-  // lrc.lending = lrc.lending.minus(BigInt.fromI32(1));
-  // lrc.save();
+  let lendingStopParams = event.params;
+  let lending = Lending.load(lendingStopParams.lendingId.toString())!;
+  let lrc = fetchLrc();
+
+  lending.expired = true;
+  lrc.lending = lrc.lending.minus(BigInt.fromI32(1));
+
+  lrc.save();
+  lending.save();
   // store.remove("Lending", lending.id);
 }
 

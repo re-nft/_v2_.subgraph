@@ -16,6 +16,13 @@ type Lending @entity {
   revShareBeneficiaries: [String!]!
   revSharePortions: [Int!]!
   lentAt: BigInt!
+  # Used to track if lending is active
+  # Due to the fact that we need to be trackign all the
+  # historical lendings and rentings, we can't delete
+  # the lendings and rentings from the store.
+  # Therfore, to know if a particular lending is active,
+  # we check that expired is false.
+  expired: Boolean!
 
   # This is an array of all rentings, even the expired ones
   # To stop renting, you call a function with a lending id
