@@ -3,17 +3,17 @@
 type Lending @entity {
   id: ID!
 
-  nftAddress: Bytes!
+  nftAddress: String!
   tokenId: BigInt!
 
   upfrontRentFee: BigInt!
-  lenderAddress: Bytes!
+  lenderAddress: String!
   # Max rent duration is in number of cycles
   maxRentDuration: BigInt!
   paymentToken: BigInt!
   # If the list is empty, then anyone can rent
-  allowedRenters: [Bytes!]!
-  revShareBeneficiaries: [Bytes!]!
+  allowedRenters: [String!]!
+  revShareBeneficiaries: [String!]!
   revSharePortions: [Int!]!
   lentAt: BigInt!
 
@@ -31,7 +31,7 @@ type Lending @entity {
 type Renting @entity {
   id: ID!
 
-  renterAddress: Bytes!
+  renterAddress: String!
   # Rent duration is in number of cycles
   rentDuration: BigInt!
   rentedAt: BigInt!

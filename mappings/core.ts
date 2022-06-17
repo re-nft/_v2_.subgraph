@@ -13,21 +13,21 @@ export function handleLend(event: Lend): void {
   let lrc = fetchLrc();
   let lending = new Lending(lentParams.lendingId.toString());
 
-  lending.nftAddress = lentParams.nftAddress;
+  lending.nftAddress = lentParams.nftAddress.toHexString();
   lending.tokenId = lentParams.tokenId;
   lending.upfrontRentFee = lentParams.upfrontRentFee;
-  lending.lenderAddress = lentParams.lenderAddress;
+  lending.lenderAddress = lentParams.lenderAddress.toHexString();
   lending.maxRentDuration = BigInt.fromI32(lentParams.maxRentDuration);
-  lending.allowedRenters = lentParams.allowedRenters.map<Bytes>(
-    (value: Address) => (Bytes.fromHexString(value.toHexString())) as Bytes
+  lending.allowedRenters = lentParams.allowedRenters.map<string>(
+    (item) => item.toHexString()
   );
   lending.paymentToken = BigInt.fromI32(lentParams.paymentToken);
-  lending.revShareBeneficiaries = lentParams.revShares.beneficiaries.map<Bytes>(
-    (value: Address) => (Bytes.fromHexString(value.toHexString())) as Bytes
+  lending.revShareBeneficiaries = lentParams.revShares.beneficiaries.map<string>(
+    (item) => item.toHexString()
   );
   lending.revSharePortions = lentParams.revShares.portions;
   lending.lentAt = event.block.timestamp;
-  let lender = fetchUser(lentParams.lenderAddress);
+  let lender = fetchUser(lentParams.lenderAddress.toHexString());
   lending.user = lender.id;
   lrc.lending = lrc.lending.plus(BigInt.fromI32(1));
 
@@ -39,19 +39,21 @@ export function handleLend(event: Lend): void {
 export function handleRent(event: Rent): void {
   // let rentedParams = event.params;
   // let lendingId = rentedParams.lendingId.toString();
-  // // let rentingId = rentedParams.rentingId.toString();
+  // let rentingId = rentedParams.lendingId.toString()
+  //   .concat("::").concat(event.block.toString())
+  //   .concat("::").concat(event.transactionLogIndex.toString());
   // let lending = Lending.load(lendingId);
   // let renting = new Renting(rentingId);
   // let lrc = fetchLrc();
 
   // renting.renterAddress = rentedParams.renterAddress;
   // renting.rentDuration = BigInt.fromI32(rentedParams.rentDuration);
-  // renting.rentedAt = rentedParams.rentedAt;
+  // renting.rentedAt = event.block.timestamp;
   // renting.expired = false;
   // renting.lending = lendingId;
   // renting.rentAmount = BigInt.fromI32(rentedParams.rentAmount);
   // lending.availableAmount = lending.availableAmount.minus(renting.rentAmount);
-  // let renter = fetchUser(rentedParams.renterAddress);
+  // let renter = fetchUser(rentedParams.renterAddress.toHexString());
   // renting.user = renter.id;
   // lrc.renting = lrc.renting.plus(BigInt.fromI32(1));
 

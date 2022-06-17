@@ -1,10 +1,10 @@
-import { Address, BigInt } from "@graphprotocol/graph-ts";
+import { BigInt } from "@graphprotocol/graph-ts";
 import { User, LendingRentingCount } from "../generated/schema";
 
-export const fetchUser = (address: Address): User => {
-  let user = User.load(address.toHexString());
+export const fetchUser = (address: String): User => {
+  let user = User.load(<string>address);
   if (user === null) {
-    user = new User(address.toHexString());
+    user = new User(<string>address);
     user.save();
   }
   return <User>user;
