@@ -5,30 +5,29 @@ schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: Sylvester
+    name: Whoopi
     network: mainnet
     source:
-      address: "0xa8D3F65b6E2922fED1430b77aC2b557e1fa8DA4a"
-      abi: Sylvester
-      startBlock: 13197347
+      address: "0xBBda1DDeAd65E780b4330F771801011C995fa02E"
+      abi: Whoopi
+      startBlock: 10766629
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
-        - Sylvester
+        - Whoopi
       abis:
-        - name: Sylvester
-          file: ./build/contracts/Sylvester.json
+        - name: Whoopi
+          file: ./build/contracts/Whoopi.json
       eventHandlers:
-        - event: Lend(bool,indexed address,indexed address,indexed uint256,uint256,uint8,bytes4,uint16,uint8)
+      # TODO rev shares sig is now different
+        - event: Lend(indexed address,uint256,address[],(address[],uint8[]),uint8,uint8,indexed address,indexed uint256,uint256)
           handler: handleLend
-        - event: Rent(indexed address,indexed uint256,indexed uint256,uint16,uint8,uint32)
+        - event: Rent(indexed uint256,indexed address,uint8)
           handler: handleRent
-        - event: StopRent(indexed uint256,uint32)
-          handler: handleStopRent
-        - event: RentClaimed(indexed uint256,uint32)
-          handler: handleRentClaimed
-        - event: StopLend(indexed uint256,uint32)
+        - event: StopLend(indexed uint256)
           handler: handleStopLend
+        - event: StopRent(indexed uint256)
+          handler: handleStopRent
       file: ./mappings/core.ts

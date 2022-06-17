@@ -51,3 +51,26 @@ Also, do not forget to change the `network` to `rinkeby` in `subgraph.yaml`.
 Azrael - collateral solution
 
 Sylvester - collateral free solution
+
+Whoopi - rev share Wildlife solution
+
+### subgraph.yaml network
+
+If you want to index avalanche, use: `avalanche`.
+
+If you want to index fuji, use: `fuji`.
+
+
+### Deployment notes
+
+6/17/2022.
+
+Fuji Deployer: 0xede9a15388ccd972dffbd7c3f5504345703b63b2
+
+Resolver: 0x489C016bB2238Cae7436f16EAD9d0cD5ef9e44AF
+
+ReNFT: 0xBBda1DDeAd65E780b4330F771801011C995fa02E
+
+Noted: there is no TUSD here (payment token 5), TUSD is using USDT (payment token 4) address. There is no WETH here (payment token 1), WETH is using DAI (payment token 2).
+
+Start Block: 10766629
