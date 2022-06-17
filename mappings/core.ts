@@ -37,30 +37,30 @@ export function handleLend(event: Lend): void {
 }
 
 export function handleRent(event: Rent): void {
-  // let rentedParams = event.params;
-  // let lendingId = rentedParams.lendingId.toString();
-  // let rentingId = rentedParams.lendingId.toString()
-  //   .concat("::").concat(event.block.toString())
-  //   .concat("::").concat(event.transactionLogIndex.toString());
-  // let lending = Lending.load(lendingId);
-  // let renting = new Renting(rentingId);
-  // let lrc = fetchLrc();
+  let rentedParams = event.params;
+  let lendingId = rentedParams.lendingId.toString();
+  let rentingId = rentedParams.lendingId.toString()
+    .concat("::").concat(event.block.timestamp.toString())
+    .concat("::").concat(event.transactionLogIndex.toString());
+  // lending will never be null here
+  let lending = Lending.load(lendingId)!;
+  let renting = new Renting(rentingId);
+  let lrc = fetchLrc();
 
-  // renting.renterAddress = rentedParams.renterAddress;
-  // renting.rentDuration = BigInt.fromI32(rentedParams.rentDuration);
-  // renting.rentedAt = event.block.timestamp;
-  // renting.expired = false;
-  // renting.lending = lendingId;
-  // renting.rentAmount = BigInt.fromI32(rentedParams.rentAmount);
-  // lending.availableAmount = lending.availableAmount.minus(renting.rentAmount);
-  // let renter = fetchUser(rentedParams.renterAddress.toHexString());
-  // renting.user = renter.id;
-  // lrc.renting = lrc.renting.plus(BigInt.fromI32(1));
+  renting.renterAddress = rentedParams.renterAddress.toHexString();
+  renting.rentDuration = BigInt.fromI32(rentedParams.rentDuration);
+  renting.rentedAt = event.block.timestamp;
+  renting.expired = false;
+  renting.lending = lendingId;
+  let renter = fetchUser(rentedParams.renterAddress.toHexString());
+  renting.user = renter.id;
+  lrc.renting = lrc.renting.plus(BigInt.fromI32(1));
+  lending.lastRenting = renting.id;
 
-  // lrc.save();
-  // lending.save();
-  // renting.save();
-  // renter.save();
+  lrc.save();
+  lending.save();
+  renting.save();
+  renter.save();
 }
 
 export function handleStopLend(event: StopLend): void {
