@@ -78,15 +78,15 @@ export function handleStopLend(event: StopLend): void {
 }
 
 export function handleStopRent(event: StopRent): void {
-  // let returnParams = event.params;
-  // let renting = Renting.load(returnParams.rentingID.toString());
-  // let lending = Lending.load(renting.lending);
-  // let lrc = fetchLrc();
-  // lending.availableAmount = lending.availableAmount.plus(renting.rentAmount);
-  // let renter = User.load(renting.renterAddress.toHexString());
+  let stopParams = event.params;
+  let lending = Lending.load(stopParams.lendingId.toString())!;
+  let renting = Renting.load(lending.lastRenting!)!;
+  let lrc = fetchLrc();
+  // let renter = User.load(renting.renterAddress);
   // store.remove("Renting", renting.id);
-  // lrc.renting = lrc.renting.minus(BigInt.fromI32(1));
-  // lrc.save();
+  renting.expired = true;
+  lrc.renting = lrc.renting.minus(BigInt.fromI32(1));
+  lrc.save();
   // renter.save();
-  // lending.save();
+  lending.save();
 }
