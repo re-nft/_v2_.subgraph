@@ -61,6 +61,18 @@ Resolver: 0x489C016bB2238Cae7436f16EAD9d0cD5ef9e44AF
 
 ReNFT: 0xBBda1DDeAd65E780b4330F771801011C995fa02E
 
+Start Block: 10766629
+
 Noted: there is no TUSD here (payment token 5), TUSD is using USDT (payment token 4) address. There is no WETH here (payment token 1), WETH is using DAI (payment token 2).
 
-Start Block: 10766629
+6/28/2022.
+
+Fuji Deployer: 0x60562aa84697d2829aa14d76b3eba1bc8d4faeb8
+
+Resolver: 0x8217972a12b6e6C4089c4bEaA9dd0CbD3D23D142
+
+ReNFT: 0x5320A33087C1740d4889DbB98ae7d78344285b26
+
+Start Block: 11047937
+
+Notes: there is no TUSD here (payment token 5), TUSD is using USDT (payment token 4) address. There is no WETH here (payment token 1), WETH is using DAI (payment token 2).
