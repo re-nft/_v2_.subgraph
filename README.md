@@ -9,7 +9,7 @@ and
 
 ## Deploy
 
-To deploy run
+To deploy (to Ethereum) run
 
 `yarn codegen`
 
@@ -17,34 +17,25 @@ To deploy run
 
 `yarn deploy`
 
+To non-Ethereum networks (hosted service)
+
+To deploy to anything other than Ethereum mainnet network you need to:
+
+`yarn codegen && yarn build`
+
+`graph auth --product hosted-service <ACCESS_TOKEN>`
+
+`graph deploy --product hosted-service <GITHUB_USER>/<SUBGRAPH NAME>`
+
+So to deploy whoopi-fuji, the slug above would be `re-nft/whoopi-fuji`
+
 ## Versions
 
 Azrael Mainnet: no version (dub it 1.0.1)
 
 Sylvester Mainnet: 1.0.2
 
-Azrael Rinkeby: 1.0.1
-
-Sylvester Rinkeby: 1.0.2
-
 Sylvester Matic: 1.0.2-matic. Temp query url: https://api.studio.thegraph.com/query/3020/renft-registry/1.0.2-matic
-
-## Rinkeby
-
-No additional branches were made for the Rinkeby testnet. But here you can find the addresses
-of Rinkeby Azrael and Sylvester, as well as the starting blocks to be used in `subgraph.yaml`
-
-Azrael Rinkeby: `0x8e03432370a4a82DE1D2e2A64E3Cf8987B7D1215`
-
-Block: `10110354`
-
-Sylvester Rinkeby: `0x34175ef2ed572fb6253d153e3ab4a2f7b1c11677`
-
-Block: `10110403`
-
-Another thing to change when deploying to rinkeby is the slug in `package.json`. It should be `renft-registry-rinkeby` or `renft-rinkeby` respectively.
-
-Also, do not forget to change the `network` to `rinkeby` in `subgraph.yaml`.
 
 ## Terminology
 
@@ -59,18 +50,6 @@ Whoopi - rev share Wildlife solution
 If you want to index avalanche, use: `avalanche`.
 
 If you want to index fuji, use: `fuji`.
-
-
-### Non Ethereum Mainnet Deploys
-
-To deploy to anything other than Ethereum mainnet network you need to:
-
-`graph auth --product hosted-service <ACCESS_TOKEN>`
-
-`graph deploy --product hosted-service <GITHUB_USER>/<SUBGRAPH NAME>`
-
-So to deploy whoopi-fuji, the slug above would be `re-nft/whoopi-fuji`
-
 
 ### Deployment notes
 

@@ -40,11 +40,12 @@ export function handleLend(event: Lend): void {
 export function handleRent(event: Rent): void {
   let rentedParams = event.params;
   let lendingId = rentedParams.lendingId.toString();
-  let rentingId = rentedParams.lendingId.toString()
-    .concat("::").concat(event.block.timestamp.toString())
-    .concat("::").concat(event.transactionLogIndex.toString());
   // lending will never be null here
   let lending = Lending.load(lendingId)!;
+  let rentingId = rentedParams.lendingId.toString()
+    .concat("::").concat(lending.tokenId.toString())
+    .concat("::").concat(event.block.timestamp.toString())
+    .concat("::").concat(event.transactionLogIndex.toString());
   let renting = new Renting(rentingId);
   let lrc = fetchLrc();
 
