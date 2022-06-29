@@ -8,9 +8,9 @@ dataSources:
     name: Whoopi
     network: fuji
     source:
-      address: "0x5320A33087C1740d4889DbB98ae7d78344285b26"
+      address: "0x516775e81b0d1fC91Ec326DEd21c33728895Fc6C"
       abi: Whoopi
-      startBlock: 11047937
+      startBlock: 11095335
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
