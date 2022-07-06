@@ -75,7 +75,6 @@ export function handleStopLend(event: StopLend): void {
 
   lrc.save();
   lending.save();
-  // store.remove("Lending", lending.id);
 }
 
 export function handleStopRent(event: StopRent): void {
@@ -83,11 +82,9 @@ export function handleStopRent(event: StopRent): void {
   let lending = Lending.load(stopParams.lendingId.toString())!;
   let renting = Renting.load(lending.lastRenting!)!;
   let lrc = fetchLrc();
-  // let renter = User.load(renting.renterAddress);
-  // store.remove("Renting", renting.id);
   renting.expired = true;
   lrc.renting = lrc.renting.minus(BigInt.fromI32(1));
   lrc.save();
-  // renter.save();
+  renting.save();
   lending.save();
 }
