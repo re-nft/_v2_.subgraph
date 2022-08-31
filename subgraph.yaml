@@ -7,11 +7,12 @@ dataSources:
   - kind: ethereum/contract
     name: Whoopi
     # to deploy to avalanche mainnet, use avalanche
-    network: fuji
+    # to deploy to avalanche fuji, use fuji
+    network: avalanche
     source:
-      address: "0x516775e81b0d1fC91Ec326DEd21c33728895Fc6C"
+      address: "0xBBda1DDeAd65E780b4330F771801011C995fa02E"
       abi: Whoopi
-      startBlock: 11095335
+      startBlock: 19361654
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
