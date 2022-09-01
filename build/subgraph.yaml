@@ -8,9 +8,9 @@ dataSources:
     name: Whoopi
     network: avalanche
     source:
-      address: "0xBBda1DDeAd65E780b4330F771801011C995fa02E"
+      address: "0x6Ee495ecEd3A0255057667FF2685e53f54A19A65"
       abi: Whoopi
-      startBlock: 19361654
+      startBlock: 19408960
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
