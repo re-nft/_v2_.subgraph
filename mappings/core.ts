@@ -1,4 +1,4 @@
-import { BigInt, store, Bytes, Address, ByteArray } from "@graphprotocol/graph-ts";
+import { BigInt } from "@graphprotocol/graph-ts";
 import {
   Lend,
   Rent,
@@ -13,6 +13,12 @@ export function handleLend(event: Lend): void {
   let lrc = fetchLrc();
   let lending = new Lending(lentParams.lendingId.toString());
 
+  // using `first` in conjunction with `skip` is one way to
+  // paginate. But with the graph you will run into issues
+  // when `skip` exceeds 5000. Better way to paginate is using
+  // a cursor. See
+  // https://thegraph.com/docs/en/querying/graphql-api/#example-using-and-2
+  lending.cursor = event.block.timestamp.toI32();
   lending.nftAddress = lentParams.nftAddress.toHexString();
   lending.tokenId = lentParams.tokenId;
   lending.upfrontRentFee = lentParams.upfrontRentFee;
@@ -28,6 +34,7 @@ export function handleLend(event: Lend): void {
   lending.revSharePortions = lentParams.revShares.portions;
   lending.lentAt = event.block.timestamp;
   lending.expired = false;
+
   let lender = fetchUser(lentParams.lenderAddress.toHexString());
   lending.user = lender.id;
   lrc.lending = lrc.lending.plus(BigInt.fromI32(1));
@@ -49,11 +56,18 @@ export function handleRent(event: Rent): void {
   let renting = new Renting(rentingId);
   let lrc = fetchLrc();
 
+  // using `first` in conjunction with `skip` is one way to
+  // paginate. But with the graph you will run into issues
+  // when `skip` exceeds 5000. Better way to paginate is using
+  // a cursor. See
+  // https://thegraph.com/docs/en/querying/graphql-api/#example-using-and-2
+  renting.cursor = event.block.timestamp.toI32();
   renting.renterAddress = rentedParams.renterAddress.toHexString();
   renting.rentDuration = BigInt.fromI32(rentedParams.rentDuration);
   renting.rentedAt = event.block.timestamp;
   renting.expired = false;
   renting.lending = lendingId;
+
   let renter = fetchUser(rentedParams.renterAddress.toHexString());
   renting.user = renter.id;
   lrc.renting = lrc.renting.plus(BigInt.fromI32(1));
@@ -82,8 +96,10 @@ export function handleStopRent(event: StopRent): void {
   let lending = Lending.load(stopParams.lendingId.toString())!;
   let renting = Renting.load(lending.lastRenting!)!;
   let lrc = fetchLrc();
+
   renting.expired = true;
   lrc.renting = lrc.renting.minus(BigInt.fromI32(1));
+
   lrc.save();
   renting.save();
   lending.save();

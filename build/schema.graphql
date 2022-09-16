@@ -2,6 +2,9 @@
 # NFTs being lent out on the Rent NFT platform"
 type Lending @entity {
   id: ID!
+  # Timestamp of the transaction. Use this for pagination, filtering
+  # and sorting.
+  cursor: Int!
 
   nftAddress: String!
   tokenId: BigInt!
@@ -37,6 +40,9 @@ type Lending @entity {
 
 type Renting @entity {
   id: ID!
+  # Timestamp of the transaction. Use this for pagination, filtering
+  # and sorting.
+  cursor: Int!
 
   renterAddress: String!
   # Rent duration is in number of cycles
