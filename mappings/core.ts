@@ -35,7 +35,7 @@ export function handleLend(event: Lend): void {
   lending.lentAt = event.block.timestamp;
   lending.expired = false;
 
-  let lender = fetchUser(lentParams.lenderAddress.toHexString());
+  let lender = fetchUser(lentParams.lenderAddress.toHexString(), event.block.timestamp.toI32());
   lending.user = lender.id;
   lrc.lending = lrc.lending.plus(BigInt.fromI32(1));
 
@@ -68,7 +68,7 @@ export function handleRent(event: Rent): void {
   renting.expired = false;
   renting.lending = lendingId;
 
-  let renter = fetchUser(rentedParams.renterAddress.toHexString());
+  let renter = fetchUser(rentedParams.renterAddress.toHexString(), event.block.timestamp.toI32());
   renting.user = renter.id;
   lrc.renting = lrc.renting.plus(BigInt.fromI32(1));
   lending.lastRenting = renting.id;

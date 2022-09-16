@@ -57,6 +57,9 @@ type Renting @entity {
 type User @entity {
   "id here is user's Ethereum address"
   id: ID!
+  # Timestamp of the transaction. Use this for pagination, filtering
+  # and sorting.cursor: Int!
+  cursor: Int!
   lending: [Lending!] @derivedFrom(field: "user")
   renting: [Renting!] @derivedFrom(field: "user")
 }
