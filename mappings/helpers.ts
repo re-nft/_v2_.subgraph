@@ -1,4 +1,4 @@
-import { User, Counter } from "../generated/schema";
+import { Counter } from "../generated/schema";
 
 export const fetchCounter = (): Counter => {
   let c = Counter.load('counter');
@@ -12,17 +12,3 @@ export const fetchCounter = (): Counter => {
   }
   return <Counter>c;
 }
-
-export const fetchUser = (address: String): User => {
-  let user = User.load(<string>address);
-  if (user === null) {
-    let counter = fetchCounter();
-    user = new User(<string>address);
-    counter.user = counter.user + 1;
-    user.cursor = counter.user;
-
-    counter.save();
-    user.save();
-  }
-  return <User>user;
-};

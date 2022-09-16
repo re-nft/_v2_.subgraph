@@ -5,8 +5,8 @@ import {
   StopLend,
   StopRent
 } from "../generated/Whoopi/Whoopi";
-import { Lending, Renting } from "../generated/schema";
-import { fetchUser, fetchCounter } from "./helpers";
+import { User, Lending, Renting } from "../generated/schema";
+import { fetchCounter } from "./helpers";
 
 export function handleLend(event: Lend): void {
   let lentParams = event.params;
@@ -29,7 +29,15 @@ export function handleLend(event: Lend): void {
   lending.lentAt = event.block.timestamp;
   lending.expired = false;
 
-  let lender = fetchUser(lentParams.lenderAddress.toHexString());
+  // ! do not create a fetchUser and move it into helpers, the 
+  // counter.user will always be 0
+  // let lender = fetchUser(lentParams.lenderAddress.toHexString());
+  let lender = User.load(lentParams.lenderAddress.toHexString());
+  if (lender === null) {
+    lender = new User(lentParams.lenderAddress.toHexString());
+    counter.user = counter.user + 1;
+    lender.cursor = counter.user;
+  }
   lending.user = lender.id;
   counter.lending = counter.lending + 1;
   // using `first` in conjunction with `skip` is one way to
@@ -62,7 +70,15 @@ export function handleRent(event: Rent): void {
   renting.expired = false;
   renting.lending = lendingId;
 
-  let renter = fetchUser(rentedParams.renterAddress.toHexString());
+  // ! do not create a fetchUser and move it into helpers, the 
+  // counter.user will always be 0
+  // let renter = fetchUser(rentedParams.renterAddress.toHexString());
+  let renter = User.load(rentedParams.renterAddress.toHexString());
+  if (renter === null) {
+    renter = new User(rentedParams.renterAddress.toHexString());
+    counter.user = counter.user + 1;
+    renter.cursor = counter.user;
+  }
   renting.user = renter.id;
   counter.renting = counter.renting + 1;
   lending.lastRenting = renting.id;
