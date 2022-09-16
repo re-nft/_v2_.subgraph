@@ -8,8 +8,6 @@ import {
 import { Lending, Renting } from "../generated/schema";
 import { fetchUser, fetchLrc } from "./helpers";
 
-let rentingCursor: i32 = 0;
-
 export function handleLend(event: Lend): void {
   let lentParams = event.params;
   let lrc = fetchLrc();
@@ -58,13 +56,6 @@ export function handleRent(event: Rent): void {
   let renting = new Renting(rentingId);
   let lrc = fetchLrc();
 
-  // using `first` in conjunction with `skip` is one way to
-  // paginate. But with the graph you will run into issues
-  // when `skip` exceeds 5000. Better way to paginate is using
-  // a cursor. See
-  // https://thegraph.com/docs/en/querying/graphql-api/#example-using-and-2
-  renting.cursor = rentingCursor + 1;
-  rentingCursor = rentingCursor + 1;
   renting.renterAddress = rentedParams.renterAddress.toHexString();
   renting.rentDuration = BigInt.fromI32(rentedParams.rentDuration);
   renting.rentedAt = event.block.timestamp;
@@ -75,6 +66,12 @@ export function handleRent(event: Rent): void {
   renting.user = renter.id;
   lrc.renting = lrc.renting.plus(BigInt.fromI32(1));
   lending.lastRenting = renting.id;
+  // using `first` in conjunction with `skip` is one way to
+  // paginate. But with the graph you will run into issues
+  // when `skip` exceeds 5000. Better way to paginate is using
+  // a cursor. See
+  // https://thegraph.com/docs/en/querying/graphql-api/#example-using-and-2
+  renting.cursor = lrc.renting.toI32();
 
   lrc.save();
   lending.save();
