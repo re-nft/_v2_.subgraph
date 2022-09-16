@@ -71,7 +71,7 @@ export function handleRent(event: Rent): void {
   // when `skip` exceeds 5000. Better way to paginate is using
   // a cursor. See
   // https://thegraph.com/docs/en/querying/graphql-api/#example-using-and-2
-  renting.cursor = lrc.renting.plus(BigInt.fromI32(1)).toI32();
+  renting.cursor = lrc.renting.toI32();
 
   lrc.save();
   lending.save();
@@ -82,12 +82,12 @@ export function handleRent(event: Rent): void {
 export function handleStopLend(event: StopLend): void {
   let lendingStopParams = event.params;
   let lending = Lending.load(lendingStopParams.lendingId.toString())!;
-  let lrc = fetchLrc();
+  // let lrc = fetchLrc();
 
   lending.expired = true;
-  lrc.lending = lrc.lending.minus(BigInt.fromI32(1));
+  // lrc.lending = lrc.lending.minus(BigInt.fromI32(1));
 
-  lrc.save();
+  // lrc.save();
   lending.save();
 }
 
@@ -95,12 +95,12 @@ export function handleStopRent(event: StopRent): void {
   let stopParams = event.params;
   let lending = Lending.load(stopParams.lendingId.toString())!;
   let renting = Renting.load(lending.lastRenting!)!;
-  let lrc = fetchLrc();
+  // let lrc = fetchLrc();
 
   renting.expired = true;
-  lrc.renting = lrc.renting.minus(BigInt.fromI32(1));
+  // lrc.renting = lrc.renting.minus(BigInt.fromI32(1));
 
-  lrc.save();
+  // lrc.save();
   renting.save();
   lending.save();
 }

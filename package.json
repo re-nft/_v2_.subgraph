@@ -1,7 +1,7 @@
 {
   "name": "@renft/subgraph",
   "license": "GPL-3.0-or-later",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "author": "reNFT <hello@renft.io>",
   "scripts": {
     "codegen": "yarn graph codegen",
