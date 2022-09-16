@@ -6,19 +6,13 @@ import {
   StopRent
 } from "../generated/Whoopi/Whoopi";
 import { Lending, Renting } from "../generated/schema";
-import { fetchUser, fetchLrc } from "./helpers";
+import { fetchUser, fetchCounter } from "./helpers";
 
 export function handleLend(event: Lend): void {
   let lentParams = event.params;
-  let lrc = fetchLrc();
+  let counter = fetchCounter();
   let lending = new Lending(lentParams.lendingId.toString());
 
-  // using `first` in conjunction with `skip` is one way to
-  // paginate. But with the graph you will run into issues
-  // when `skip` exceeds 5000. Better way to paginate is using
-  // a cursor. See
-  // https://thegraph.com/docs/en/querying/graphql-api/#example-using-and-2
-  lending.cursor = lentParams.lendingId.toI32();
   lending.nftAddress = lentParams.nftAddress.toHexString();
   lending.tokenId = lentParams.tokenId;
   lending.upfrontRentFee = lentParams.upfrontRentFee;
@@ -37,9 +31,15 @@ export function handleLend(event: Lend): void {
 
   let lender = fetchUser(lentParams.lenderAddress.toHexString());
   lending.user = lender.id;
-  lrc.lending = lrc.lending.plus(BigInt.fromI32(1));
+  counter.lending = counter.lending + 1;
+  // using `first` in conjunction with `skip` is one way to
+  // paginate. But with the graph you will run into issues
+  // when `skip` exceeds 5000. Better way to paginate is using
+  // a cursor. See
+  // https://thegraph.com/docs/en/querying/graphql-api/#example-using-and-2
+  lending.cursor = counter.lending;
 
-  lrc.save();
+  counter.save();
   lending.save();
   lender.save();
 }
@@ -54,7 +54,7 @@ export function handleRent(event: Rent): void {
     .concat("::").concat(event.block.timestamp.toString())
     .concat("::").concat(event.transactionLogIndex.toString());
   let renting = new Renting(rentingId);
-  let lrc = fetchLrc();
+  let counter = fetchCounter();
 
   renting.renterAddress = rentedParams.renterAddress.toHexString();
   renting.rentDuration = BigInt.fromI32(rentedParams.rentDuration);
@@ -64,16 +64,16 @@ export function handleRent(event: Rent): void {
 
   let renter = fetchUser(rentedParams.renterAddress.toHexString());
   renting.user = renter.id;
-  lrc.renting = lrc.renting.plus(BigInt.fromI32(1));
+  counter.renting = counter.renting + 1;
   lending.lastRenting = renting.id;
   // using `first` in conjunction with `skip` is one way to
   // paginate. But with the graph you will run into issues
   // when `skip` exceeds 5000. Better way to paginate is using
   // a cursor. See
   // https://thegraph.com/docs/en/querying/graphql-api/#example-using-and-2
-  renting.cursor = lrc.renting.toI32();
+  renting.cursor = counter.renting;
 
-  lrc.save();
+  counter.save();
   lending.save();
   renting.save();
   renter.save();
@@ -82,12 +82,9 @@ export function handleRent(event: Rent): void {
 export function handleStopLend(event: StopLend): void {
   let lendingStopParams = event.params;
   let lending = Lending.load(lendingStopParams.lendingId.toString())!;
-  // let lrc = fetchLrc();
 
   lending.expired = true;
-  // lrc.lending = lrc.lending.minus(BigInt.fromI32(1));
 
-  // lrc.save();
   lending.save();
 }
 
@@ -95,12 +92,9 @@ export function handleStopRent(event: StopRent): void {
   let stopParams = event.params;
   let lending = Lending.load(stopParams.lendingId.toString())!;
   let renting = Renting.load(lending.lastRenting!)!;
-  // let lrc = fetchLrc();
 
   renting.expired = true;
-  // lrc.renting = lrc.renting.minus(BigInt.fromI32(1));
 
-  // lrc.save();
   renting.save();
   lending.save();
 }
