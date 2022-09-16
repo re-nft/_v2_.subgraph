@@ -8,6 +8,8 @@ import {
 import { Lending, Renting } from "../generated/schema";
 import { fetchUser, fetchLrc } from "./helpers";
 
+let rentingCursor: i32 = 0;
+
 export function handleLend(event: Lend): void {
   let lentParams = event.params;
   let lrc = fetchLrc();
@@ -18,7 +20,7 @@ export function handleLend(event: Lend): void {
   // when `skip` exceeds 5000. Better way to paginate is using
   // a cursor. See
   // https://thegraph.com/docs/en/querying/graphql-api/#example-using-and-2
-  lending.cursor = event.block.timestamp.toI32();
+  lending.cursor = lentParams.lendingId.toI32();
   lending.nftAddress = lentParams.nftAddress.toHexString();
   lending.tokenId = lentParams.tokenId;
   lending.upfrontRentFee = lentParams.upfrontRentFee;
@@ -35,7 +37,7 @@ export function handleLend(event: Lend): void {
   lending.lentAt = event.block.timestamp;
   lending.expired = false;
 
-  let lender = fetchUser(lentParams.lenderAddress.toHexString(), event.block.timestamp.toI32());
+  let lender = fetchUser(lentParams.lenderAddress.toHexString());
   lending.user = lender.id;
   lrc.lending = lrc.lending.plus(BigInt.fromI32(1));
 
@@ -61,14 +63,15 @@ export function handleRent(event: Rent): void {
   // when `skip` exceeds 5000. Better way to paginate is using
   // a cursor. See
   // https://thegraph.com/docs/en/querying/graphql-api/#example-using-and-2
-  renting.cursor = event.block.timestamp.toI32();
+  renting.cursor = rentingCursor + 1;
+  rentingCursor = rentingCursor + 1;
   renting.renterAddress = rentedParams.renterAddress.toHexString();
   renting.rentDuration = BigInt.fromI32(rentedParams.rentDuration);
   renting.rentedAt = event.block.timestamp;
   renting.expired = false;
   renting.lending = lendingId;
 
-  let renter = fetchUser(rentedParams.renterAddress.toHexString(), event.block.timestamp.toI32());
+  let renter = fetchUser(rentedParams.renterAddress.toHexString());
   renting.user = renter.id;
   lrc.renting = lrc.renting.plus(BigInt.fromI32(1));
   lending.lastRenting = renting.id;
