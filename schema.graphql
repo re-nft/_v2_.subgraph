@@ -2,7 +2,7 @@
 # NFTs being lent out on the Rent NFT platform"
 type Lending @entity {
   id: ID!
-  # Timestamp of the transaction. Use this for pagination, filtering
+  # Counter of the transaction. Use this for pagination, filtering
   # and sorting.
   cursor: Int!
 
@@ -26,7 +26,7 @@ type Lending @entity {
 
 type Renting @entity {
   id: ID!
-  # Timestamp of the transaction. Use this for pagination, filtering
+  # Counter of the transaction. Use this for pagination, filtering
   # and sorting.
   cursor: Int!
 
@@ -43,7 +43,7 @@ type Renting @entity {
 type User @entity {
   "id here is user's Ethereum address"
   id: ID!
-  # Timestamp of the transaction. Use this for pagination, filtering
+  # Counter of the transaction. Use this for pagination, filtering
   # and sorting.cursor: Int!
   cursor: Int!
   lending: [Lending!] @derivedFrom(field: "user")
