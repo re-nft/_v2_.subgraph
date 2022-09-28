@@ -12,7 +12,7 @@ import { fetchCounter, fetchLrc } from "./helpers";
 export function handleLend(event: Lend): void {
   let lentParams = event.params;
   let counter = fetchCounter();
-  //let lrc = fetchLrc();
+  let lrc = fetchLrc();
   let lending = new Lending(lentParams.lendingID.toString());
 
   lending.nftAddress = lentParams.nftAddress;
@@ -37,8 +37,8 @@ export function handleLend(event: Lend): void {
   lending.user = lender.id;
   counter.lending = counter.lending + 1;
   lending.cursor = counter.lending;
-  // lrc.lending = lrc.lending.plus(BigInt.fromI32(1));
-  // lrc.save();
+   lrc.lending = lrc.lending.plus(BigInt.fromI32(1));
+   lrc.save();
 
   counter.save();
   lending.save();
@@ -52,7 +52,7 @@ export function handleRent(event: Rent): void {
   let lending = Lending.load(lendingId);
   let renting = new Renting(rentingId);
   let counter = fetchCounter();
-  //let lrc = fetchLrc();
+  let lrc = fetchLrc();
   renting.renterAddress = rentedParams.renterAddress;
   renting.rentDuration = BigInt.fromI32(rentedParams.rentDuration);
   renting.rentedAt = rentedParams.rentedAt;
@@ -69,8 +69,8 @@ export function handleRent(event: Rent): void {
     renter.cursor = counter.user;
   }
   renting.user = renter.id;
-  //lrc.renting = lrc.renting.plus(BigInt.fromI32(1));
-  //lrc.save();
+  lrc.renting = lrc.renting.plus(BigInt.fromI32(1));
+  lrc.save();
   counter.renting = counter.renting + 1;
   lending.lastRenting = renting.id;
   renting.cursor = counter.renting;
