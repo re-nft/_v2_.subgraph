@@ -6,10 +6,14 @@
   "scripts": {
     "codegen": "yarn graph codegen",
     "build": "yarn graph build",
-    "deploy": "yarn graph deploy --studio renft"
+    "deploy": "yarn graph deploy --studio renft",
+    "test": "yarn graph test ./test/azrael.test.ts"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.21.1",
     "@graphprotocol/graph-ts": "0.20.1"
+  },
+  "devDependencies": {
+    "matchstick-as": "^0.5.0"
   }
 }
