@@ -3,6 +3,10 @@
 type Lending @entity {
   id: ID!
 
+  # Counter of the transaction. Use this for pagination, filtering
+  # and sorting.
+  cursor: Int!
+
   nftAddress: Bytes!
   tokenId: BigInt!
 
@@ -26,6 +30,10 @@ type Lending @entity {
 
 type Renting @entity {
   id: ID!
+
+  # Counter of the transaction. Use this for pagination, filtering
+  # and sorting.
+  cursor: Int!
 
   renterAddress: Bytes!
   rentDuration: BigInt!
@@ -74,6 +82,11 @@ type Nft @entity {
 type User @entity {
   "id here is user's Ethereum address"
   id: ID!
+
+  # Counter of the transaction. Use this for pagination, filtering
+  # and sorting.
+  cursor: Int!
+  
   "each Lending and Renting in the arrays here will have DIFFERENT nftAddress and tokenId"
   lending: [Lending!] @derivedFrom(field: "lenderUser")
   renting: [Renting!] @derivedFrom(field: "renterUser")
