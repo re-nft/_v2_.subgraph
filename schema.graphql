@@ -44,7 +44,7 @@ type User @entity {
   "id here is user's Ethereum address"
   id: ID!
   # Counter of the transaction. Use this for pagination, filtering
-  # and sorting.cursor: Int!
+  # and sorting.
   cursor: Int!
   lending: [Lending!] @derivedFrom(field: "user")
   renting: [Renting!] @derivedFrom(field: "user")
