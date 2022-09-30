@@ -1,5 +1,5 @@
-import { Address, BigInt } from "@graphprotocol/graph-ts";
-import { Counter, User, LendingRentingCount } from "../generated/schema";
+import { Address, BigInt } from '@graphprotocol/graph-ts';
+import { Counter, User, LendingRentingCount } from '../generated/schema';
 
 export const fetchUser = (address: Address): User => {
   let user = User.load(address.toHexString());
@@ -19,7 +19,7 @@ export const fetchLrc = (): LendingRentingCount => {
     lrc.save();
   }
   return <LendingRentingCount>lrc;
-}
+};
 
 export const fetchCounter = (): Counter => {
   let c = Counter.load('counter');
@@ -32,4 +32,4 @@ export const fetchCounter = (): Counter => {
     c.save();
   }
   return <Counter>c;
-}
+};
