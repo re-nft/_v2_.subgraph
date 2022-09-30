@@ -1,7 +1,7 @@
-import {Lent} from "../generated/Azrael/Azrael";
+import {Lent} from "../../generated/Azrael/Azrael";
 import {newMockEvent, test, describe, assert} from 'matchstick-as/assembly/index'
 import {Address, BigInt, Bytes, ethereum} from '@graphprotocol/graph-ts'
-import {handleLent} from "../mappings/core";
+import {handleLent} from "../../mappings/core";
 
 function createNewLentEvent(
     id: string,
@@ -123,3 +123,4 @@ describe("handleLent()", () => {
         assert.assertTrue(true)
     })
 })
+
