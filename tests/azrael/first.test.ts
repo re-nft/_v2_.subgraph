@@ -1,14 +1,18 @@
 import {Lent} from "../../generated/Azrael/Azrael";
-import {newMockEvent, test, describe, assert} from 'matchstick-as/assembly/index'
+import {newMockEvent, test, describe, assert, afterEach, clearStore} from 'matchstick-as/assembly/index'
 import {Address, BigInt, Bytes, ethereum} from '@graphprotocol/graph-ts'
 import {handleLent} from "../../mappings/core";
+import {Lending, User, Counter} from "../../generated/schema";
 
 export {handleLent}
 
+const LENDING_ENTITY = "Lending";
+const COUNTER_ENTITY = "Counter";
+
 function createNewLentEvent(
-    id: i32,
+    id: string,
     nftAddress: string,
-    tokenId: string,
+    tokenId: i32,
     lenderAddress: string,
     maxRentDuration: i32,
     dailyRentPrice: string,
@@ -32,9 +36,9 @@ function createNewLentEvent(
 
     newLentEvent.parameters = new Array()
 
-    let lendingIdValue = ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(id))
+    let lendingIdValue = ethereum.Value.fromUnsignedBigInt(BigInt.fromString(id))
     let nftAddressValue = ethereum.Value.fromAddress(Address.fromString(nftAddress))
-    let tokenIdValue = ethereum.Value.fromUnsignedBigInt(BigInt.fromString(tokenId))
+    let tokenIdValue = ethereum.Value.fromI32(tokenId)
     let lenderAddressValue = ethereum.Value.fromAddress(Address.fromString(lenderAddress))
     let maxRentDurationValue = ethereum.Value.fromI32(maxRentDuration)
     let dailyRentPriceValue = ethereum.Value.fromBytes(Bytes.fromHexString(dailyRentPrice))
@@ -42,7 +46,6 @@ function createNewLentEvent(
     let paymentTokenValue = ethereum.Value.fromI32(paymentToken)
     let lentAmountValue = ethereum.Value.fromI32(lentAmount)
     let isERC721Value = ethereum.Value.fromBoolean(isERC721)
-    let lentAtValue = ethereum.Value.fromUnsignedBigInt(mockEvent.block.timestamp)
 
     let _lendingId = new ethereum.EventParam("id", lendingIdValue)
     let _nftAddress = new ethereum.EventParam("nftAddress", nftAddressValue);
@@ -54,43 +57,111 @@ function createNewLentEvent(
     let _paymentToken = new ethereum.EventParam("paymentToken", paymentTokenValue);
     let _lentAmount = new ethereum.EventParam("lentAmount", lentAmountValue);
     let _isERC721 = new ethereum.EventParam("isERC721", isERC721Value);
-    let _lentAt = new ethereum.EventParam("lentAt", lentAtValue);
 
-    newLentEvent.parameters.push(_lendingId)
+    // ORDER IS IMPORTANT!!!
     newLentEvent.parameters.push(_nftAddress)
     newLentEvent.parameters.push(_tokenId)
+    newLentEvent.parameters.push(_lentAmount)
+    newLentEvent.parameters.push(_lendingId)
     newLentEvent.parameters.push(_lenderAddress)
     newLentEvent.parameters.push(_maxRentDuration)
     newLentEvent.parameters.push(_dailyRentPrice)
     newLentEvent.parameters.push(_nftPrice)
-    newLentEvent.parameters.push(_paymentToken)
-    newLentEvent.parameters.push(_lentAmount)
     newLentEvent.parameters.push(_isERC721)
-    newLentEvent.parameters.push(_lentAt)
+    newLentEvent.parameters.push(_paymentToken)
 
     return newLentEvent;
 }
 
+function assertLendingFields(
+    id: string,
+    nftAddress: string,
+    tokenId: i32,
+    lenderAddress: string,
+    maxRentDuration: i32,
+    dailyRentPrice: string,
+    nftPrice: string,
+    paymentToken: i32,
+    lentAmount: i32,
+    isERC721: boolean,
+    cursor: i32,
+    collateralClaimed: boolean,
+    lentAt: BigInt
+): void {
+    assert.fieldEquals(LENDING_ENTITY, id, "nftAddress", nftAddress)
+    assert.fieldEquals(LENDING_ENTITY, id, "tokenId", tokenId.toString())
+    assert.fieldEquals(LENDING_ENTITY, id, "lenderAddress", lenderAddress)
+    assert.fieldEquals(LENDING_ENTITY, id, "maxRentDuration", maxRentDuration.toString())
+    assert.fieldEquals(LENDING_ENTITY, id, "dailyRentPrice", dailyRentPrice)
+    assert.fieldEquals(LENDING_ENTITY, id, "nftPrice", nftPrice)
+    assert.fieldEquals(LENDING_ENTITY, id, "paymentToken", paymentToken.toString())
+    assert.fieldEquals(LENDING_ENTITY, id, "lentAmount", lentAmount.toString())
+    assert.fieldEquals(LENDING_ENTITY, id, "isERC721", isERC721.toString())
+    assert.fieldEquals(LENDING_ENTITY, id, "cursor", cursor.toString())
+    assert.fieldEquals(LENDING_ENTITY, id, "collateralClaimed", collateralClaimed.toString())
+    assert.fieldEquals(LENDING_ENTITY, id, "lentAt", lentAt.toString())
+}
+
+function assertCounterFields(
+    lendingCount: i32,
+    rentingCount: i32,
+    userCount: i32
+): void{
+    assert.fieldEquals(COUNTER_ENTITY, "0", "lending", lendingCount.toString())
+    assert.fieldEquals(COUNTER_ENTITY, "0", "renting", rentingCount.toString())
+    assert.fieldEquals(COUNTER_ENTITY, "0", "user", userCount.toString())
+}
+
 describe("handleLent()", () => {
 
-    test("creates Lending", () => {
+    afterEach(() => {
+        clearStore()
+    })
+
+    test("Create Lending", () => {
+        let lendingId = '1';
+        let nftAddress = "0x0000000000000000000000000000000000000001"
+        let lenderAddress = "0x0000000000000000000000000000000000000002"
+        let tokenId = 1;
+        let maxRentDuration = 1;
+        let dailyRentPrice = "0x0000000000000000000000000000000000000000000000000000000000000001";
+        let nftPrice = "0x0000000000000000000000000000000000000000000000000000000000000001";
+        let paymentToken = 1;
+        let lentAmount = 1;
+        let isERC721 = true;
+
         let newLentEvent = createNewLentEvent(
-            1,
-            "0x0000000000000000000000000000000000000001",
-            "1",
-            "0x0000000000000000000000000000000000000002",
-            1,
-            "0x0000000000000000000000000000000000000000000000000000000000000001",
-            "0x0000000000000000000000000000000000000000000000000000000000000001",
-            1,
-            1,
-            true
+            lendingId,
+            nftAddress,
+            tokenId,
+            lenderAddress,
+            maxRentDuration,
+            dailyRentPrice,
+            nftPrice,
+            paymentToken,
+            lentAmount,
+            isERC721
         )
 
-        // handleLent(newLentEvent)
+        handleLent(newLentEvent)
 
+        assertLendingFields(
+            lendingId, 
+            nftAddress, 
+            tokenId, 
+            lenderAddress, 
+            maxRentDuration, 
+            dailyRentPrice, 
+            nftPrice, 
+            paymentToken, 
+            lentAmount, 
+            isERC721, 
+            1,
+            false,
+            newLentEvent.block.timestamp
+        )
 
-        assert.assertTrue(true)
+        assertCounterFields(1, 0, 1);
     })
 })
 
