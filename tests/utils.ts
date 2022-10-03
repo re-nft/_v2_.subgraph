@@ -1,14 +1,35 @@
-import {Lent} from "../generated/Azrael/Azrael";
+import {Lent, Rented} from "../generated/Azrael/Azrael";
 import {newMockEvent, assert} from 'matchstick-as/assembly/index'
 import {Address, BigInt, Bytes, ethereum} from '@graphprotocol/graph-ts'
+import { Renting } from "../generated/schema";
 
-
-
+export const RENTING_ENTITY = "Renting";
 export const LENDING_ENTITY = "Lending";
 export const COUNTER_ENTITY = "Counter";
 export const USER_ENTITY = "User";
 export const LENDING_RENTING_COUNTER_ENTITY = "LendingRentingCount";
 export const NFT_ENTITY = "Nft";
+
+export function createNewRentedEvent(): Rented {
+    let mockEvent = newMockEvent();
+
+    let newRentedEvent =  new Rented(
+        mockEvent.address,
+        mockEvent.logIndex,
+        mockEvent.transactionLogIndex,
+        mockEvent.logType,
+        mockEvent.block,
+        mockEvent.transaction,
+        mockEvent.parameters,
+        mockEvent.receipt
+    );
+
+    newRentedEvent.parameters = new Array()
+
+
+
+    return newRentedEvent;
+}
 
 export function createMultipleNewLentEvents(
     numberOfEvents: number,
@@ -117,7 +138,8 @@ export function assertLendingFields(
     isERC721: boolean,
     cursor: i32,
     collateralClaimed: boolean,
-    lentAt: BigInt
+    lentAt: BigInt,
+    hasRenting: boolean = false,
 ): void {
     assert.fieldEquals(LENDING_ENTITY, id, "nftAddress", nftAddress)
     assert.fieldEquals(LENDING_ENTITY, id, "tokenId", tokenId.toString())
@@ -131,6 +153,16 @@ export function assertLendingFields(
     assert.fieldEquals(LENDING_ENTITY, id, "cursor", cursor.toString())
     assert.fieldEquals(LENDING_ENTITY, id, "collateralClaimed", collateralClaimed.toString())
     assert.fieldEquals(LENDING_ENTITY, id, "lentAt", lentAt.toString())
+
+    if (hasRenting) {
+        let renting = Renting.load(id);
+        
+        assert.assertNotNull(renting);
+    } else {
+        let renting = Renting.load(id);
+        
+        assert.assertNull(renting);
+    }
 }
 
 export function assertCounterFields(

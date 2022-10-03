@@ -1,4 +1,4 @@
-import { test, describe, afterEach, clearStore} from 'matchstick-as/assembly/index'
+import { test, describe, afterEach, clearStore, assert} from 'matchstick-as/assembly/index'
 import {handleLent} from "../../mappings/core";
 import {assertCounterFields, assertLendingFields, assertUserFields, createNewLentEvent, assertLendingRentingCounterFields, createMultipleNewLentEvents} from "../utils";
 
@@ -50,7 +50,8 @@ describe("Handle Lent Event(s)", () => {
             isERC721, 
             1,
             false,
-            newLentEvent.block.timestamp
+            newLentEvent.block.timestamp,
+            false
         )
         assertCounterFields(1, 0, 1);
         assertUserFields(lenderAddress, 1);
@@ -148,7 +149,8 @@ describe("Handle Lent Event(s)", () => {
             isERC721, 
             1,
             false,
-            newLentEvent1.block.timestamp
+            newLentEvent1.block.timestamp,
+            false
         )
         assertLendingFields(
             '2', 
@@ -163,7 +165,8 @@ describe("Handle Lent Event(s)", () => {
             isERC721, 
             2,
             false,
-            newLentEvent1.block.timestamp
+            newLentEvent1.block.timestamp,
+            false
         )
 
         assertCounterFields(2, 0, 2);
