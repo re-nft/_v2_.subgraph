@@ -1,6 +1,6 @@
-import { test, describe, afterEach, clearStore} from 'matchstick-as/assembly/index'
+import { test, describe, afterEach, clearStore, logStore} from 'matchstick-as/assembly/index'
 import {handleLent} from "../../mappings/core";
-import {assertCounterFields, assertLendingFields, assertUserFields, createNewLentEvent} from "../utils";
+import {assertCounterFields, assertLendingFields, assertUserFields, createNewLentEvent, assertLendingRentingCounterFields, assertNftFields} from "../utils";
 
 export {handleLent}
 
@@ -52,10 +52,10 @@ describe("handleLent()", () => {
             false,
             newLentEvent.block.timestamp
         )
-
         assertCounterFields(1, 0, 1);
-
         assertUserFields(lenderAddress, 1);
+        assertLendingRentingCounterFields(1, 0);
+        // assertNftFields(nftAddress, tokenId, lentAmount);
     })
 
 })
