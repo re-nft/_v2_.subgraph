@@ -1,5 +1,4 @@
-import { store } from '@graphprotocol/graph-ts';
-import { test, describe, afterEach, clearStore, logStore, beforeEach} from 'matchstick-as/assembly/index'
+import { test, describe, afterEach, clearStore} from 'matchstick-as/assembly/index'
 import {handleLent} from "../../mappings/core";
 import {assertCounterFields, assertLendingFields, assertUserFields, createNewLentEvent, assertLendingRentingCounterFields, createMultipleNewLentEvents} from "../utils";
 
