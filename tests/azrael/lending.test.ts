@@ -8,7 +8,6 @@ export {handleLent}
 describe("handleLent()", () => {
 
     afterEach(() => {
-        logStore()
         clearStore()
     })
 
@@ -61,7 +60,7 @@ describe("handleLent()", () => {
     })
 
     test("Create Multiple Lendings by same user", () => {
-        let numberOfEvents = 2;
+        let numberOfEvents = 5;
 
         let nftAddress = "0x0000000000000000000000000000000000000001"
         let lenderAddress = "0x0000000000000000000000000000000000000002"
