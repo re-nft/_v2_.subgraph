@@ -3,13 +3,13 @@ import {handleRented} from "../../mappings/core";
 
 export {handleRented}
 
-describe("handleRented()", () => {
+describe("Handle Rented Event(s)", () => {
 
     afterEach(() => {
         clearStore()
     })
 
-    test("Create Single Renting", () => {
+    test("Handle Single Renting", () => {
         assert.assertTrue(true)
     })
 })

@@ -4,13 +4,13 @@ import {assertCounterFields, assertLendingFields, assertUserFields, createNewLen
 
 export {handleLent}
 
-describe("handleLent()", () => {
+describe("Handle Lent Event(s)", () => {
 
     afterEach(() => {
         clearStore()
     })
 
-    test("Create Single Lending", () => {
+    test("Handle Single Lending", () => {
         let lendingId = '1';
         let nftAddress = "0x0000000000000000000000000000000000000001"
         let lenderAddress = "0x0000000000000000000000000000000000000002"
@@ -58,7 +58,7 @@ describe("handleLent()", () => {
         // assertNftFields(nftAddress, tokenId, lentAmount);
     })
 
-    test("Create Multiple Lendings by same user", () => {
+    test("Handle Multiple Lendings by same user", () => {
         let numberOfEvents = 5;
 
         let nftAddress = "0x0000000000000000000000000000000000000001"
@@ -91,7 +91,7 @@ describe("handleLent()", () => {
         assertLendingRentingCounterFields(numberOfEvents, 0);
     })
 
-    test("Create Multiple Lendings from different users", () => {
+    test("Handle Multiple Lendings from different users", () => {
         let nftAddress = "0x0000000000000000000000000000000000000001"
 
         let lenderAddress1 = "0x0000000000000000000000000000000000000002"
