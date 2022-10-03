@@ -8,6 +8,7 @@ export {handleLent}
 
 const LENDING_ENTITY = "Lending";
 const COUNTER_ENTITY = "Counter";
+const USER_ENTITY = "User";
 
 function createNewLentEvent(
     id: string,
@@ -112,6 +113,14 @@ function assertCounterFields(
     assert.fieldEquals(COUNTER_ENTITY, "0", "user", userCount.toString())
 }
 
+function assertUserFields(
+    address: string,
+    cursor: i32
+): void {
+    assert.fieldEquals(USER_ENTITY, address, "id", address)
+    assert.fieldEquals(USER_ENTITY, address, "cursor", cursor.toString())
+}
+
 describe("handleLent()", () => {
 
     afterEach(() => {
@@ -162,6 +171,9 @@ describe("handleLent()", () => {
         )
 
         assertCounterFields(1, 0, 1);
+
+        assertUserFields(lenderAddress, 1);
     })
+
 })
 
