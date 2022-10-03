@@ -83,9 +83,28 @@ describe("Handle Lent Event(s)", () => {
             isERC721
         )
 
-        newLentEvents.forEach(element => {
-            handleLent(element)
+        newLentEvents.forEach(event => {
+            handleLent(event)
         });
+
+        for(let i = 1; i < numberOfEvents + 1; i++) {
+            assertLendingFields(
+                i.toString(), 
+                nftAddress, 
+                i, 
+                lenderAddress, 
+                maxRentDuration, 
+                dailyRentPrice, 
+                nftPrice, 
+                paymentToken, 
+                lentAmount, 
+                isERC721, 
+                i,
+                false,
+                newLentEvents[i - 1].block.timestamp,
+                false
+            )
+        }
 
         assertCounterFields(numberOfEvents, 0, 1);
         assertUserFields(lenderAddress, 1);
