@@ -10,6 +10,36 @@ export const USER_ENTITY = "User";
 export const LENDING_RENTING_COUNTER_ENTITY = "LendingRentingCount";
 export const NFT_ENTITY = "Nft";
 
+export function createMultipleNewLentEvents(
+    numberOfEvents: number,
+    nftAddress: string,
+    lenderAddress: string,
+    maxRentDuration: i32,
+    dailyRentPrice: string,
+    nftPrice: string,
+    paymentToken: i32,
+    lentAmount: i32,
+    isERC721: boolean
+): Array<Lent> {
+    let lentEvents = new Array<Lent>();
+    for (let i = 1; i < numberOfEvents + 1; i++) {
+        let newLentEvent = createNewLentEvent(
+            i.toString(),
+            nftAddress,
+            i,
+            lenderAddress,
+            maxRentDuration,
+            dailyRentPrice,
+            nftPrice,
+            paymentToken,
+            lentAmount,
+            isERC721
+        )
+        lentEvents.push(newLentEvent);
+    }
+    return lentEvents;
+}
+
 export function createNewLentEvent(
     id: string,
     nftAddress: string,

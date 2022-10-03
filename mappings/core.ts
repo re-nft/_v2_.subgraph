@@ -7,17 +7,12 @@ import {
   LendingStopped,
 } from "../generated/Azrael/Azrael";
 import { Lending, Renting, Nft, User, LendingRentingCount } from "../generated/schema";
-import { fetchNft, getNftId, fetchCounter } from "./helpers";
+import { fetchNft, getNftId, fetchCounter, fetchLendingRentingCount } from "./helpers";
 
 
 // ! notes for self
 // 1. string templating does not work
 // 2. variables from function scope not visible inside of .filter
-
-let lrc = new LendingRentingCount("lendingRentingCount");
-lrc.lending = BigInt.fromI32(0);
-lrc.renting = BigInt.fromI32(0);
-lrc.save();
 
 export function handleLent(event: Lent): void {
   let lentParams = event.params;
@@ -36,6 +31,7 @@ export function handleLent(event: Lent): void {
   // AKA mortgage backed security
 
   let lending = new Lending(lentParams.lendingId.toString());
+  let lrc = fetchLendingRentingCount();
   let counter = fetchCounter();
 
   lending.nftAddress = lentParams.nftAddress;
@@ -82,6 +78,7 @@ export function handleRented(event: Rented): void {
   let lendingId = rentedParams.lendingId.toString();
 
   let renting = new Renting(lendingId);
+  let lrc = fetchLendingRentingCount();
   let counter = fetchCounter();
 
   renting.renterAddress = rentedParams.renterAddress;
@@ -125,6 +122,7 @@ export function handleRented(event: Rented): void {
 export function handleReturned(event: Returned): void {
   let returnParams = event.params;
   let lending = Lending.load(returnParams.lendingId.toString())!;
+  let lrc = fetchLendingRentingCount();
   let renting = lending.renting!;
   let Renter = Renting.load(renting)!;
 
@@ -150,6 +148,7 @@ export function handleReturned(event: Returned): void {
 export function handleClaimCollateral(event: CollateralClaimed): void {
   let claimParams = event.params;
   let lending = Lending.load(claimParams.lendingId.toString())!;
+  let lrc = fetchLendingRentingCount();
 
   let nftId = getNftId(claimParams.lendingId);
   let nft = Nft.load(nftId)!;
@@ -169,6 +168,7 @@ export function handleClaimCollateral(event: CollateralClaimed): void {
 export function handleStopLending(event: LendingStopped): void {
   let lendingStopParams = event.params;
   let lending = Lending.load(lendingStopParams.lendingId.toString())!;
+  let lrc = fetchLendingRentingCount();
 
   lrc.lending = lrc.lending.plus(BigInt.fromI32(1));
 
