@@ -10,6 +10,27 @@ export const USER_ENTITY = "User";
 export const LENDING_RENTING_COUNTER_ENTITY = "LendingRentingCount";
 export const NFT_ENTITY = "Nft";
 
+export function createMultipleNewRentedEvents(
+    lendings: Array<Lent>,
+    renterAddress: string,
+    rentDuration: i32,
+    rentedAtOffset: i32,
+): Array<Rented> {
+    let newRentedEvents: Array<Rented> = new Array<Rented>();
+    for(let i = 0; i < lendings.length; i++){
+        let newRentedEvent = createNewRentedEvent(
+            lendings[i].params.lendingId.toString(),
+            renterAddress,
+            rentDuration,
+            lendings[i].block.timestamp.plus(BigInt.fromI32(rentedAtOffset)).toI32()
+        )
+
+        newRentedEvents.push(newRentedEvent)
+    }
+
+    return newRentedEvents
+}
+
 export function createNewRentedEvent(
     lendingId: string,
     renterAddress: string,
@@ -148,13 +169,15 @@ export function assertRentingFields(
     lendingId: string,
     renterAddress: string,
     rentDuration: i32,
-    rentedAt: i32
+    rentedAt: i32,
+    cursor: i32
 ): void {
     assert.fieldEquals(RENTING_ENTITY, lendingId, "id", lendingId);
     assert.fieldEquals(RENTING_ENTITY, lendingId, "renterAddress", renterAddress);
     assert.fieldEquals(RENTING_ENTITY, lendingId, "rentedAt", rentedAt.toString());
     assert.fieldEquals(RENTING_ENTITY, lendingId, "rentDuration", rentDuration.toString());
     assert.fieldEquals(RENTING_ENTITY, lendingId, "lending", lendingId);
+    assert.fieldEquals(RENTING_ENTITY, lendingId, "cursor", cursor.toString());
 }
 
 export function assertLendingFields(
