@@ -10,7 +10,12 @@ export const USER_ENTITY = "User";
 export const LENDING_RENTING_COUNTER_ENTITY = "LendingRentingCount";
 export const NFT_ENTITY = "Nft";
 
-export function createNewRentedEvent(): Rented {
+export function createNewRentedEvent(
+    lendingId: string,
+    renterAddress: string,
+    rentDuration: i32,
+    rentedAt: i32
+): Rented {
     let mockEvent = newMockEvent();
 
     let newRentedEvent =  new Rented(
@@ -26,7 +31,21 @@ export function createNewRentedEvent(): Rented {
 
     newRentedEvent.parameters = new Array()
 
+    let lendingIdValue = ethereum.Value.fromUnsignedBigInt(BigInt.fromString(lendingId))
+    let renterAddressValue = ethereum.Value.fromAddress(Address.fromString(renterAddress))
+    let rentDurationValue = ethereum.Value.fromI32(rentDuration)
+    let rentedAtValue = ethereum.Value.fromI32(rentedAt)
 
+    let _lendingId = new ethereum.EventParam("lendingId", lendingIdValue)
+    let _renterAddress = new ethereum.EventParam('renterAddress', renterAddressValue)
+    let _rentDuration = new ethereum.EventParam('rentDuration', rentDurationValue)
+    let _rentedAt = new ethereum.EventParam('rentedAt', rentedAtValue)
+
+    // ORDER IS IMPORTANT!!
+    newRentedEvent.parameters.push(_lendingId)
+    newRentedEvent.parameters.push(_renterAddress)
+    newRentedEvent.parameters.push(_rentDuration)
+    newRentedEvent.parameters.push(_rentedAt)
 
     return newRentedEvent;
 }
@@ -123,6 +142,19 @@ export function createNewLentEvent(
     newLentEvent.parameters.push(_paymentToken)
 
     return newLentEvent;
+}
+
+export function assertRentingFields(
+    lendingId: string,
+    renterAddress: string,
+    rentDuration: i32,
+    rentedAt: i32
+): void {
+    assert.fieldEquals(RENTING_ENTITY, lendingId, "id", lendingId);
+    assert.fieldEquals(RENTING_ENTITY, lendingId, "renterAddress", renterAddress);
+    assert.fieldEquals(RENTING_ENTITY, lendingId, "rentedAt", rentedAt.toString());
+    assert.fieldEquals(RENTING_ENTITY, lendingId, "rentDuration", rentDuration.toString());
+    assert.fieldEquals(RENTING_ENTITY, lendingId, "lending", lendingId);
 }
 
 export function assertLendingFields(
