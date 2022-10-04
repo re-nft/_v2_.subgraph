@@ -2,6 +2,9 @@
 # NFTs being lent out on the Rent NFT platform"
 type Lending @entity {
   id: ID!
+  # Counter of the transaction. Use this for pagination, filtering
+  # and sorting.
+  cursor: Int!
 
   nftAddress: Bytes!
   tokenID: BigInt!
@@ -23,6 +26,9 @@ type Lending @entity {
 
 type Renting @entity {
   id: ID!
+  # Counter of the transaction. Use this for pagination, filtering
+  # and sorting.
+  cursor: Int!
 
   renterAddress: Bytes!
   rentAmount: BigInt!
@@ -37,8 +43,22 @@ type Renting @entity {
 type User @entity {
   "id here is user's Ethereum address"
   id: ID!
+  # Counter of the transaction. Use this for pagination, filtering
+  # and sorting.
+  cursor: Int!
   lending: [Lending!] @derivedFrom(field: "user")
   renting: [Renting!] @derivedFrom(field: "user")
+}
+
+# How many lendings, rentings, users there were in total
+# These are used as cursors to paginate through the result
+# set. They are all Ints which makes ordering natural,
+# unlike BigInt which is a string (alhpanumeric ordering)
+type Counter @entity {
+  id: ID!
+  lending: Int!
+  renting: Int!
+  user: Int!
 }
 
 type LendingRentingCount @entity {

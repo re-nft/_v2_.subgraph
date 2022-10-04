@@ -1,14 +1,13 @@
-import { BigInt, store } from '@graphprotocol/graph-ts';
+import { BigInt, store } from "@graphprotocol/graph-ts";
 import {
   Lend,
   Rent,
   StopRent,
   RentClaimed,
   StopLend,
-} from '../generated/Sylvester/Sylvester';
-import { Lending, Renting, User } from '../generated/schema';
-import { fetchCounter, fetchLrc } from './helpers';
-export { runTests } from '../test/sylvester.test';
+} from "../generated/Sylvester/Sylvester";
+import { Lending, Renting, User } from "../generated/schema";
+import { fetchCounter, fetchLrc } from "./helpers";
 
 export function handleLend(event: Lend): void {
   let lentParams = event.params;
@@ -90,7 +89,7 @@ export function handleStopRent(event: StopRent): void {
   let lrc = fetchLrc();
   lending.availableAmount = lending.availableAmount.plus(renting.rentAmount);
   let renter = User.load(renting.renterAddress.toHexString())!;
-  store.remove('Renting', renting.id);
+  store.remove("Renting", renting.id);
   lrc.renting = lrc.renting.minus(BigInt.fromI32(1));
   lrc.save();
   renter.save();
@@ -117,5 +116,5 @@ export function handleStopLend(event: StopLend): void {
   let lrc = fetchLrc();
   lrc.lending = lrc.lending.minus(BigInt.fromI32(1));
   lrc.save();
-  store.remove('Lending', lending.id);
+  store.remove("Lending", lending.id);
 }
