@@ -1,3 +1,7 @@
+# Matchstick-as
+tests/.bin
+tests/.latest.json
+
 # Logs
 logs
 *.log
