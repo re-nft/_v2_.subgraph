@@ -170,6 +170,7 @@ export function handleStopLending(event: LendingStopped): void {
   let lending = Lending.load(lendingStopParams.lendingId.toString())!;
   let lrc = fetchLendingRentingCount();
 
+  // TODO: should this be `minus`?
   lrc.lending = lrc.lending.plus(BigInt.fromI32(1));
 
   store.remove('Lending', lending.id);

@@ -1,4 +1,4 @@
-import {Lent, Rented} from "../generated/Azrael/Azrael";
+import {LendingStopped, Lent, Rented} from "../generated/Azrael/Azrael";
 import {newMockEvent, assert} from 'matchstick-as/assembly/index'
 import {Address, BigInt, Bytes, ethereum} from '@graphprotocol/graph-ts'
 import { Renting } from "../generated/schema";
@@ -9,6 +9,38 @@ export const COUNTER_ENTITY = "Counter";
 export const USER_ENTITY = "User";
 export const LENDING_RENTING_COUNTER_ENTITY = "LendingRentingCount";
 export const NFT_ENTITY = "Nft";
+
+
+export function createNewLendingStoppedEvent(
+    lendingId: string,
+    stoppedAt: i32
+): LendingStopped {
+    let mockEvent = newMockEvent();
+
+    let newLendingStoppedEvent =  new LendingStopped(
+        mockEvent.address,
+        mockEvent.logIndex,
+        mockEvent.transactionLogIndex,
+        mockEvent.logType,
+        mockEvent.block,
+        mockEvent.transaction,
+        mockEvent.parameters,
+        mockEvent.receipt
+    );
+
+    newLendingStoppedEvent.parameters = new Array()
+
+    let lendingIdValue = ethereum.Value.fromUnsignedBigInt(BigInt.fromString(lendingId));
+    let stoppedAtValue = ethereum.Value.fromI32(stoppedAt);
+
+    let _lendingId = new ethereum.EventParam("lendingId", lendingIdValue);
+    let _stoppedAt = new ethereum.EventParam("stoppedAt", stoppedAtValue);
+
+    newLendingStoppedEvent.parameters.push(_lendingId);
+    newLendingStoppedEvent.parameters.push(_stoppedAt);
+
+    return newLendingStoppedEvent
+}
 
 export function createMultipleNewRentedEvents(
     lendings: Array<Lent>,
