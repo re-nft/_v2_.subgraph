@@ -51,7 +51,6 @@ describe("Handle LendingStopped Event(s)", () => {
         assertUserFields(lenderAddress, 1);
         
         // TODO: this should not fail but it does
-        // assertLendingRentingCounterFields(1, 0);
         // assertNftFields(nftAddress, tokenId, lentAmount);
     })
 

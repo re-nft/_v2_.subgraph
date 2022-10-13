@@ -2,7 +2,7 @@ import { BigInt } from '@graphprotocol/graph-ts';
 import { test, describe, afterEach, clearStore, assert, beforeEach, logStore} from 'matchstick-as/assembly/index'
 import { Lent, Rented } from '../../generated/Azrael/Azrael';
 import {handleRented, handleLent} from "../../mappings/core";
-import {createMultipleNewLentEvents, createNewRentedEvent, assertRentingFields, assertCounterFields, assertLendingRentingCounterFields, assertUserFields, createMultipleNewRentedEvents} from '../utils'
+import {createMultipleNewLentEvents, createNewRentedEvent, assertRentingFields, assertCounterFields, assertUserFields, createMultipleNewRentedEvents} from '../utils'
 
 export {handleRented, handleLent}
 
@@ -79,7 +79,6 @@ describe("Handle Rented Event(s)", () => {
 
         assertRentingFields(lendingId, renterAddress, rentDuration, rentedAt, 1)
         assertCounterFields(lendings.length, 1, 2)
-        assertLendingRentingCounterFields(lendings.length, 1);
         assertUserFields(renterAddress, 2)
     })
 
@@ -108,7 +107,6 @@ describe("Handle Rented Event(s)", () => {
         }
 
         assertCounterFields(lendings.length, newRentedEvents.length, 2)
-        assertLendingRentingCounterFields(lendings.length, newRentedEvents.length);
         assertUserFields(renterAddress, 2)
     })
 })

@@ -1,6 +1,6 @@
 import { test, describe, afterEach, clearStore, assert} from 'matchstick-as/assembly/index'
 import {handleLent} from "../../mappings/core";
-import {assertCounterFields, assertLendingFields, assertUserFields, createNewLentEvent, assertLendingRentingCounterFields, createMultipleNewLentEvents} from "../utils";
+import {assertCounterFields, assertLendingFields, assertUserFields, createNewLentEvent, createMultipleNewLentEvents} from "../utils";
 
 export {handleLent}
 
@@ -55,7 +55,6 @@ describe("Handle Lent Event(s)", () => {
         )
         assertCounterFields(1, 0, 1);
         assertUserFields(lenderAddress, 1);
-        assertLendingRentingCounterFields(1, 0);
         // assertNftFields(nftAddress, tokenId, lentAmount);
     })
 
@@ -108,7 +107,6 @@ describe("Handle Lent Event(s)", () => {
 
         assertCounterFields(numberOfEvents, 0, 1);
         assertUserFields(lenderAddress, 1);
-        assertLendingRentingCounterFields(numberOfEvents, 0);
     })
 
     test("Handle Multiple Lendings from different users", () => {
@@ -191,7 +189,6 @@ describe("Handle Lent Event(s)", () => {
         assertCounterFields(2, 0, 2);
         assertUserFields(lenderAddress1, 1);
         assertUserFields(lenderAddress2, 2);
-        assertLendingRentingCounterFields(2, 0);
         // assertNftFields(nftAddress, tokenId, lentAmount);
     })
 

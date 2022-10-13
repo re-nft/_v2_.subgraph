@@ -92,13 +92,6 @@ type User @entity {
   renting: [Renting!] @derivedFrom(field: "renterUser")
 }
 
-type LendingRentingCount @entity {
-  id: ID!
-  lending: BigInt!
-  "less or equal lending"
-  renting: BigInt!
-}
-
 # How many lendings, rentings, users there were in total
 # These are used as cursors to paginate through the result
 # set. They are all Ints which makes ordering natural,
