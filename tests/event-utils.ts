@@ -1,15 +1,38 @@
-import { Lend } from "../generated/Sylvester/Sylvester";
-import {
-  assert,
-  describe,
-  test,
-  newMockEvent,
-} from "matchstick-as/assembly/index";
+import { Lend, Rent } from "../generated/Sylvester/Sylvester";
+import { newMockEvent } from "matchstick-as/assembly/index";
 import { Address, BigInt, Bytes, ethereum } from "@graphprotocol/graph-ts";
-import { handleLend } from "../mappings/core";
-export { handleLend };
 
-function createNewLendEvent(
+// Lend mock event generators
+export function createMultipleNewLendEvents(
+  numberOfEvents: number,
+  isERC721: boolean,
+  lenderAddress: string,
+  nftAddress: string,
+  maxRentDuration: i32,
+  dailyRentPrice: string,
+  lendAmount: i32,
+  paymentToken: i32
+): Array<Lend> {
+  let lendEvents = new Array<Lend>();
+  for (let i = 1; i <= numberOfEvents; i++) {
+    let newLendEvent = createNewLendEvent(
+      isERC721,
+      lenderAddress,
+      nftAddress,
+      i.toString(),
+      i.toString(),
+      maxRentDuration,
+      dailyRentPrice,
+      lendAmount,
+      paymentToken
+    );
+    lendEvents.push(newLendEvent);
+  }
+
+  return lendEvents;
+}
+
+export function createNewLendEvent(
   isERC721: boolean,
   lenderAddress: string,
   nftAddress: string,
@@ -91,20 +114,7 @@ function createNewLendEvent(
   return newLendEvent;
 }
 
-describe("handleLend()", () => {
-  test("Should handle a new Lend", () => {
-    let newLendEvent = createNewLendEvent(
-      true,
-      "0x0000000000000000000000000000000000000002",
-      "0x0000000000000000000000000000000000000001",
-      "1",
-      "1",
-      1,
-      "0x0000000000000000000000000000000000000000000000000000000000000001",
-      1,
-      1
-    );
-    handleLend(newLendEvent);
-    assert.assertTrue(true);
-  });
-});
+// Rent mock event generators
+export function createNewMultipleRentEvents(): Array<Rent> {}
+
+export function createNewRentEvent(): Rent {}

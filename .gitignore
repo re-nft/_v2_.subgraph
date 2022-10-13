@@ -110,4 +110,8 @@ generated/
 .env*
 .DS_Store
 
+# Local prettier configurations
 .prettierrc
+
+# Unit tests generated files
+tests/.bin
