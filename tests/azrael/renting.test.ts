@@ -2,7 +2,8 @@ import { BigInt } from '@graphprotocol/graph-ts';
 import { test, describe, afterEach, clearStore, assert, beforeEach} from 'matchstick-as/assembly/index'
 import { Lent, Rented } from '../../generated/Azrael/Azrael';
 import {handleRented, handleLent} from "../../mappings/core";
-import {createMultipleNewLentEvents, createNewRentedEvent, assertRentingFields, assertCounterFields, assertUserFields, createMultipleNewRentedEvents} from '../utils'
+import {assertRentingFields, assertCounterFields, assertUserFields} from '../assert-utils'
+import {createMultipleNewLentEvents, createNewRentedEvent, createMultipleNewRentedEvents} from "../event-utils";
 
 export {handleRented, handleLent}
 

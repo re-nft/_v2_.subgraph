@@ -1,6 +1,7 @@
-import { test, describe, afterEach, clearStore, assert, logStore} from 'matchstick-as/assembly/index'
+import { test, describe, afterEach, clearStore} from 'matchstick-as/assembly/index'
 import {handleLent} from "../../mappings/core";
-import {assertCounterFields, assertLendingFields, assertUserFields, createNewLentEvent, assertNftFields, createMultipleNewLentEvents} from "../utils";
+import {assertCounterFields, assertLendingFields, assertUserFields, assertNftFields} from "../assert-utils";
+import {createNewLentEvent, createMultipleNewLentEvents} from "../event-utils";
 
 export {handleLent}
 

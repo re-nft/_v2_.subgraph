@@ -2,7 +2,8 @@ import { BigInt } from '@graphprotocol/graph-ts';
 import { test, describe, afterEach, clearStore, assert} from 'matchstick-as/assembly/index'
 import { LendingStopped } from '../../generated/Azrael/Azrael';
 import {handleLent, handleStopLending} from "../../mappings/core";
-import {assertCounterFields, assertUserFields, createNewLentEvent, createNewLendingStoppedEvent, assertNftFields} from "../utils";
+import {assertCounterFields, assertUserFields, assertNftFields} from "../assert-utils";
+import {createNewLentEvent, createNewLendingStoppedEvent} from "../event-utils";
 
 export {handleLent, handleStopLending}
 
