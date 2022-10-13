@@ -269,12 +269,8 @@ export function assertUserFields(
     assert.fieldEquals(USER_ENTITY, address, "cursor", cursor.toString())
 }
 
-// TODO: Nft.id on deployed subgraph does not match the one in unit test. Concerning!
 export function assertNftFields(
-    nftAddress: string,
-    tokenId: i32,
-    lentAmount: i32
+    lendingId: string
 ): void {
-    let id = nftAddress.concat("::").concat(tokenId.toString()).concat('::').concat(lentAmount.toString())
-    assert.fieldEquals(NFT_ENTITY, id, "id", id)
+    assert.fieldEquals(NFT_ENTITY, lendingId, "id", lendingId)
 }

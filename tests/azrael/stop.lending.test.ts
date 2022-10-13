@@ -2,7 +2,7 @@ import { BigInt } from '@graphprotocol/graph-ts';
 import { test, describe, afterEach, clearStore, assert} from 'matchstick-as/assembly/index'
 import { LendingStopped } from '../../generated/Azrael/Azrael';
 import {handleLent, handleStopLending} from "../../mappings/core";
-import {assertCounterFields, assertUserFields, createNewLentEvent, createNewLendingStoppedEvent} from "../utils";
+import {assertCounterFields, assertUserFields, createNewLentEvent, createNewLendingStoppedEvent, assertNftFields} from "../utils";
 
 export {handleLent, handleStopLending}
 
@@ -49,9 +49,7 @@ describe("Handle LendingStopped Event(s)", () => {
         assert.notInStore("Lending", lendingId)
         assertCounterFields(1, 0, 1);
         assertUserFields(lenderAddress, 1);
-        
-        // TODO: this should not fail but it does
-        // assertNftFields(nftAddress, tokenId, lentAmount);
+        assertNftFields(lendingId);
     })
 
 })

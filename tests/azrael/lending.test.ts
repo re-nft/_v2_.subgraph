@@ -1,6 +1,6 @@
-import { test, describe, afterEach, clearStore, assert} from 'matchstick-as/assembly/index'
+import { test, describe, afterEach, clearStore, assert, logStore} from 'matchstick-as/assembly/index'
 import {handleLent} from "../../mappings/core";
-import {assertCounterFields, assertLendingFields, assertUserFields, createNewLentEvent, createMultipleNewLentEvents} from "../utils";
+import {assertCounterFields, assertLendingFields, assertUserFields, createNewLentEvent, assertNftFields, createMultipleNewLentEvents} from "../utils";
 
 export {handleLent}
 
@@ -55,7 +55,7 @@ describe("Handle Lent Event(s)", () => {
         )
         assertCounterFields(1, 0, 1);
         assertUserFields(lenderAddress, 1);
-        // assertNftFields(nftAddress, tokenId, lentAmount);
+        assertNftFields(lendingId);
     })
 
     test("Handle Multiple Lendings by same user", () => {
@@ -103,6 +103,7 @@ describe("Handle Lent Event(s)", () => {
                 newLentEvents[i - 1].block.timestamp,
                 false
             )
+            assertNftFields(i.toString());
         }
 
         assertCounterFields(numberOfEvents, 0, 1);
@@ -189,7 +190,8 @@ describe("Handle Lent Event(s)", () => {
         assertCounterFields(2, 0, 2);
         assertUserFields(lenderAddress1, 1);
         assertUserFields(lenderAddress2, 2);
-        // assertNftFields(nftAddress, tokenId, lentAmount);
+        assertNftFields('1');
+        assertNftFields('2');
     })
 
 })
