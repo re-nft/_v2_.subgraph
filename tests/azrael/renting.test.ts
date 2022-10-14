@@ -16,7 +16,6 @@ const paymentToken = 1;
 const lentAmount = 1;
 const isERC721 = true;
 
-
 const LENDING_COUNT = 5;
 
 function createLendings(

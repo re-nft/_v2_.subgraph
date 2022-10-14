@@ -207,10 +207,10 @@
     "@ethersproject/properties" "^5.7.0"
     "@ethersproject/strings" "^5.7.0"
 
-"@graphprotocol/graph-cli@^0.30.1":
-  version "0.30.4"
-  resolved "https://registry.yarnpkg.com/@graphprotocol/graph-cli/-/graph-cli-0.30.4.tgz#c1b353eb3362450259b78acc9f969e67c9f55858"
-  integrity sha512-BZNnkSJBgGIVvSx/cxlep1ytKhvGM1ZUZU/73Lu4yH+lpGQN3UtKjlUzcasHqPEwqyp47OifMHlHxDBm4+CVoQ==
+"@graphprotocol/graph-cli@0.30.1":
+  version "0.30.1"
+  resolved "https://registry.yarnpkg.com/@graphprotocol/graph-cli/-/graph-cli-0.30.1.tgz#f717fcd9dbab9ae54a946a10f3b861cba48400c8"
+  integrity sha512-Wlbfn3K2Fv5pNtM2sTBNymSNswNXnh0+YrctZgdiu+8B1ugg9JY8PRx0IaCxamMb0gTMoZrDCpp97O/TwsWRNA==
   dependencies:
     assemblyscript "0.19.10"
     binary-install-raw "0.0.13"
@@ -238,7 +238,7 @@
     which "2.0.2"
     yaml "1.9.2"
 
-"@graphprotocol/graph-ts@^0.27.0":
+"@graphprotocol/graph-ts@0.27.0", "@graphprotocol/graph-ts@^0.27.0":
   version "0.27.0"
   resolved "https://registry.yarnpkg.com/@graphprotocol/graph-ts/-/graph-ts-0.27.0.tgz#948fe1716f6082964a01a63a19bcbf9ac44e06ff"
   integrity sha512-r1SPDIZVQiGMxcY8rhFSM0y7d/xAbQf5vHMWUf59js1KgoyWpM6P3tczZqmQd7JTmeyNsDGIPzd9FeaxllsU4w==
@@ -1405,9 +1405,9 @@ glob@^7.1.3:
     once "^1.3.0"
     path-is-absolute "^1.0.0"
 
-"gluegun@https://github.com/edgeandnode/gluegun#v4.3.1-pin-colors-dep":
+"gluegun@git+https://github.com/edgeandnode/gluegun.git#v4.3.1-pin-colors-dep":
   version "4.3.1"
-  resolved "https://github.com/edgeandnode/gluegun#b34b9003d7bf556836da41b57ef36eb21570620a"
+  resolved "git+https://github.com/edgeandnode/gluegun.git#b34b9003d7bf556836da41b57ef36eb21570620a"
   dependencies:
     apisauce "^1.0.1"
     app-module-path "^2.2.0"
@@ -2161,7 +2161,7 @@ mafmt@^7.0.0:
   dependencies:
     multiaddr "^7.3.0"
 
-matchstick-as@^0.5.0:
+matchstick-as@0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/matchstick-as/-/matchstick-as-0.5.0.tgz#cdafc1ef49d670b9cbe98e933bc2a5cb7c450aeb"
   integrity sha512-4K619YDH+so129qt4RB4JCNxaFwJJYLXPc7drpG+/mIj86Cfzg6FKs/bA91cnajmS1CLHdhHl9vt6Kd6Oqvfkg==
