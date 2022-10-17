@@ -1,4 +1,4 @@
-import { Lend, Rent, StopLend } from "../generated/Sylvester/Sylvester";
+import { Lend, Rent, StopLend, StopRent } from "../generated/Sylvester/Sylvester";
 import { newMockEvent } from "matchstick-as/assembly/index";
 import { Address, BigInt, Bytes, ethereum } from "@graphprotocol/graph-ts";
 
@@ -33,11 +33,11 @@ export function createMultipleNewLendEvents(
 }
 
 export function createNewLendEvent(
-  isERC721: boolean,
+  is721: boolean,
   lenderAddress: string,
   nftAddress: string,
-  tokenId: string,
-  lendingId: string,
+  tokenID: string,
+  lendingID: string,
   maxRentDuration: i32,
   dailyRentPrice: string,
   lendAmount: i32,
@@ -58,32 +58,32 @@ export function createNewLendEvent(
   newLendEvent.parameters = new Array();
 
   // Creating ethereum values
-  let isERC721Value = ethereum.Value.fromBoolean(isERC721);
+  let is721Value = ethereum.Value.fromBoolean(is721);
   let lenderAddressValue = ethereum.Value.fromAddress(Address.fromString(lenderAddress));
   let nftAddressValue = ethereum.Value.fromAddress(Address.fromString(nftAddress));
-  let tokenIdValue = ethereum.Value.fromUnsignedBigInt(BigInt.fromString(tokenId));
-  let lendingIdValue = ethereum.Value.fromUnsignedBigInt(BigInt.fromString(lendingId));
+  let tokenIDValue = ethereum.Value.fromUnsignedBigInt(BigInt.fromString(tokenID));
+  let lendingIDValue = ethereum.Value.fromUnsignedBigInt(BigInt.fromString(lendingID));
   let maxRentDurationValue = ethereum.Value.fromI32(maxRentDuration);
   let dailyRentPriceValue = ethereum.Value.fromBytes(Bytes.fromHexString(dailyRentPrice));
   let lendAmountValue = ethereum.Value.fromI32(lendAmount);
   let paymentTokenValue = ethereum.Value.fromI32(paymentToken);
 
   // Configure the parameters
-  let _isERC721 = new ethereum.EventParam("isERC721", isERC721Value);
+  let _is721 = new ethereum.EventParam("is721", is721Value);
   let _lenderAddress = new ethereum.EventParam("lenderAddress", lenderAddressValue);
   let _nftAddress = new ethereum.EventParam("nftAddress", nftAddressValue);
-  let _tokenId = new ethereum.EventParam("tokenId", tokenIdValue);
-  let _lendingId = new ethereum.EventParam("id", lendingIdValue);
+  let _tokenID = new ethereum.EventParam("tokenID", tokenIDValue);
+  let _lendingID = new ethereum.EventParam("id", lendingIDValue);
   let _maxRentDuration = new ethereum.EventParam("maxRentDuration", maxRentDurationValue);
   let _dailyRentPrice = new ethereum.EventParam("dailyRentPrice", dailyRentPriceValue);
   let _lendAmount = new ethereum.EventParam("lentAmount", lendAmountValue);
   let _paymentToken = new ethereum.EventParam("paymentToken", paymentTokenValue);
   // Add parameters to the Lend_params array
-  newLendEvent.parameters.push(_isERC721);
+  newLendEvent.parameters.push(_is721);
   newLendEvent.parameters.push(_lenderAddress);
   newLendEvent.parameters.push(_nftAddress);
-  newLendEvent.parameters.push(_tokenId);
-  newLendEvent.parameters.push(_lendingId);
+  newLendEvent.parameters.push(_tokenID);
+  newLendEvent.parameters.push(_lendingID);
   newLendEvent.parameters.push(_maxRentDuration);
   newLendEvent.parameters.push(_dailyRentPrice);
   newLendEvent.parameters.push(_lendAmount);
@@ -165,7 +165,7 @@ export function createNewRentEvent(
   return newRentEvent;
 }
 
-export function createNewStopLendEvent(lendingId: string, stoppedAt: string) {
+export function createNewStopLendEvent(lendingId: string, stoppedAt: string): StopLend {
   let mockEvent = newMockEvent();
 
   let newStopLendEvent = new StopLend(
@@ -193,10 +193,10 @@ export function createNewStopLendEvent(lendingId: string, stoppedAt: string) {
   return newStopLendEvent;
 }
 
-export function createNewStopRentEvent(rentingId: string, stoppedAt: string) {
+export function createNewStopRentEvent(rentingId: string, stoppedAt: string): StopRent {
   let mockEvent = newMockEvent();
 
-  let newStopRentEvent = new StopLend(
+  let newStopRentEvent = new StopRent(
     mockEvent.address,
     mockEvent.transactionLogIndex,
     mockEvent.logIndex,

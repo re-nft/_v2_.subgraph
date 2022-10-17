@@ -1,5 +1,7 @@
-import { assert, describe, test, afterEach, clearStore } from "matchstick-as/assembly/index";
+import { describe, test, afterEach, clearStore } from "matchstick-as/assembly/index";
+import { log } from "matchstick-as/assembly/log";
 import { handleLend } from "../../mappings/core";
+import { assertCounterFields, assertLendingFields, assertNftFields, assertUserFields } from "../assert-utils";
 import { createNewLendEvent } from "../event-utils";
 export { handleLend };
 
@@ -18,6 +20,7 @@ describe("handleLend()", () => {
     let dailyRentPrice = "0x0000000000000000000000000000000000000000000000000000000000000001";
     let lendAmount = 1;
     let paymentToken = 1;
+
     let newLendEvent = createNewLendEvent(
       isERC721,
       lenderAddress,
@@ -29,8 +32,27 @@ describe("handleLend()", () => {
       lendAmount,
       paymentToken
     );
+
     handleLend(newLendEvent);
-    assert.assertTrue(true);
+
+    assertLendingFields(
+      isERC721,
+      lenderAddress,
+      nftAddress,
+      tokenId,
+      lendingId,
+      maxRentDuration,
+      dailyRentPrice,
+      lendAmount,
+      paymentToken,
+      1,
+      newLendEvent.block.timestamp,
+      false
+    );
+
+    assertCounterFields(1, 0, 1);
+    assertUserFields(lenderAddress, 1);
+    assertNftFields(lendingId);
   });
 
   // test("Should handle multiple Lends from the same user", () => {

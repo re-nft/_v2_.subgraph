@@ -20,7 +20,7 @@ type Lending @entity {
 
   renting: [Renting!] @derivedFrom(field: "lending")
   user: User!
-
+  nft: Nft!
   rentClaimed: Boolean!
 }
 
@@ -35,7 +35,7 @@ type Renting @entity {
   rentDuration: BigInt!
   rentedAt: BigInt!
   expired: Boolean!
-
+  nft: Nft!
   lending: Lending!
   user: User!
 }
@@ -61,8 +61,30 @@ type Counter @entity {
   user: Int!
 }
 
-type LendingRentingCount @entity {
+# Tracks all of the lending and renting of a single NFT
+# same NFT can be re-lent / re-rented multiple times
+# This type tracks all of that
+# per unique id := lendingId.toString() combination
+
+# 1. Note: you will always have an array of lending
+# but not neccesarily an array of renting.
+# Renting array is only ever populated if the Nft has been rented.
+
+# 2. Note: that this is a single entity and there will be multiple
+# entities. When we make a graphql request, we will be pulling ALL
+# such entities
+
+# 3. Also note that when this nftAddress::tokenId::lentAmount unique combo gets
+# re-lent by the renter, we push into the lending array. This implies
+# that if you have lending.length === renting.length + 1, then the
+# nft and tokenId combo are available for lend.
+# If, however, lending.length === renting.length, then it is being currently
+# rented by someone"
+type Nft @entity {
+  "id is lendingId.toString()"
   id: ID!
-  lending: BigInt!
-  renting: BigInt!
+
+  "each Lending and Renting in the arrays here will have the SAME nftAddress and tokenId!!!!!! As per the id of this entity"
+  lending: [Lending!]! @derivedFrom(field: "nft")
+  renting: [Renting!] @derivedFrom(field: "nft")
 }

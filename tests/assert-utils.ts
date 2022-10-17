@@ -1,6 +1,7 @@
 import { assert } from "matchstick-as";
 import { Renting } from "../generated/schema";
 import { BigInt } from "@graphprotocol/graph-ts";
+
 export const RENTING_ENTITY = "Renting";
 export const LENDING_ENTITY = "Lending";
 export const COUNTER_ENTITY = "Counter";
@@ -8,11 +9,11 @@ export const USER_ENTITY = "User";
 export const NFT_ENTITY = "Nft";
 
 export function assertLendingFields(
-  isERC721: boolean,
+  is721: boolean,
   lenderAddress: string,
   nftAddress: string,
-  tokenId: string,
-  lendingId: string,
+  tokenID: string,
+  lendingID: string,
   maxRentDuration: i32,
   dailyRentPrice: string,
   lendAmount: i32,
@@ -21,19 +22,17 @@ export function assertLendingFields(
   lentAt: BigInt,
   hasRenting: boolean = false
 ): void {
-  assert.fieldEquals(LENDING_ENTITY, lendingId, "isERC721", isERC721.toString());
-  assert.fieldEquals(LENDING_ENTITY, lendingId, "lenderAddress", lenderAddress);
-  assert.fieldEquals(LENDING_ENTITY, lendingId, "nftAddress", nftAddress);
-  assert.fieldEquals(LENDING_ENTITY, lendingId, "tokenId", tokenId);
-  assert.fieldEquals(LENDING_ENTITY, lendingId, "maxRentDuration", maxRentDuration.toString());
-  assert.fieldEquals(LENDING_ENTITY, lendingId, "dailyRentPrice", dailyRentPrice);
-  assert.fieldEquals(LENDING_ENTITY, lendingId, "lendAmount", lendAmount);
-  assert.fieldEquals(LENDING_ENTITY, lendingId, "paymentToken", paymentToken);
-  assert.fieldEquals(LENDING_ENTITY, lendingId, "cursor", cursor.toString());
-  assert.fieldEquals(LENDING_ENTITY, lendingId, "lentAt", lentAt.toString());
-  assert.fieldEquals(LENDING_ENTITY, lendingId, "hasRenting", hasRenting.toString());
-
-  let rent = Renting.load(lendingId);
+  assert.fieldEquals(LENDING_ENTITY, lendingID, "is721", is721.toString());
+  assert.fieldEquals(LENDING_ENTITY, lendingID, "lenderAddress", lenderAddress);
+  assert.fieldEquals(LENDING_ENTITY, lendingID, "nftAddress", nftAddress);
+  assert.fieldEquals(LENDING_ENTITY, lendingID, "tokenID", tokenID);
+  assert.fieldEquals(LENDING_ENTITY, lendingID, "maxRentDuration", maxRentDuration.toString());
+  assert.fieldEquals(LENDING_ENTITY, lendingID, "dailyRentPrice", dailyRentPrice);
+  assert.fieldEquals(LENDING_ENTITY, lendingID, "lendAmount", lendAmount.toString());
+  assert.fieldEquals(LENDING_ENTITY, lendingID, "paymentToken", paymentToken.toString());
+  assert.fieldEquals(LENDING_ENTITY, lendingID, "cursor", cursor.toString());
+  assert.fieldEquals(LENDING_ENTITY, lendingID, "lentAt", lentAt.toString());
+  let rent = Renting.load(lendingID);
   if (hasRenting) {
     assert.assertNotNull(rent);
   } else {
