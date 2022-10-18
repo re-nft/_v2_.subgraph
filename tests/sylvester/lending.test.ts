@@ -1,5 +1,4 @@
 import { describe, test, afterEach, clearStore } from "matchstick-as/assembly/index";
-import { log } from "matchstick-as/assembly/log";
 import { handleLend } from "../../mappings/core";
 import { assertCounterFields, assertLendingFields, assertNftFields, assertUserFields } from "../assert-utils";
 import { createMultipleNewLendEvents, createNewLendEvent } from "../event-utils";
