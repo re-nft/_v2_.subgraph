@@ -14,7 +14,7 @@ export function createMultipleNewLendEvents(
   paymentToken: i32
 ): Array<Lend> {
   let lendEvents = new Array<Lend>();
-  for (let i = 0; i < numberOfEvents; i++) {
+  for (let i = 1; i <= numberOfEvents; i++) {
     let newLendEvent = createNewLendEvent(
       isERC721,
       lenderAddress,
