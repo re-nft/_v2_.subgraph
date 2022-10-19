@@ -1,6 +1,7 @@
 import { Lend, Rent, StopLend, StopRent } from "../generated/Sylvester/Sylvester";
 import { newMockEvent } from "matchstick-as/assembly/index";
 import { Address, BigInt, Bytes, ethereum } from "@graphprotocol/graph-ts";
+import { handleLend } from "../mappings/core";
 
 // Lend mock event generators
 export function createMultipleNewLendEvents(

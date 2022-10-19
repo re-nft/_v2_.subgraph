@@ -54,7 +54,7 @@ export function assertRentingFields(
   assert.fieldEquals(RENTING_ENTITY, rentingId, "rentAmount", rentAmount.toString());
   assert.fieldEquals(RENTING_ENTITY, rentingId, "rentDuration", rentDuration.toString());
   assert.fieldEquals(RENTING_ENTITY, rentingId, "rentedAt", rentedAt);
-  assert.fieldEquals(RENTING_ENTITY, rentingId, "cursor", cursor.toString(ßßß));
+  assert.fieldEquals(RENTING_ENTITY, rentingId, "cursor", cursor.toString());
 }
 
 export function assertCounterFields(lendingCount: i32, rentingCount: i32, userCount: i32): void {
