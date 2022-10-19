@@ -23,7 +23,7 @@ type Lending @entity {
 
   collateralClaimed: Boolean!
 
-  "id := nftAddresss::tokenId::lentAmount"
+  "id := lendingId.toString()"
   nft: Nft!
   lenderUser: User!
 }
@@ -41,7 +41,7 @@ type Renting @entity {
 
   lending: Lending!
 
-  "id := nftAddress::tokenId::lentAmount"
+  "id := lendingId.toString()"
   nft: Nft!
   renterUser: User!
 }
@@ -49,7 +49,7 @@ type Renting @entity {
 # Tracks all of the lending and renting of a single NFT
 # same NFT can be re-lent / re-rented multiple times
 # This type tracks all of that
-# per unique id := nftAddress::tokenId::lentAmount combination
+# per unique id := lendingId.toString() combination
 
 # 1. Note: you will always have an array of lending
 # but not neccesarily an array of renting.
@@ -66,8 +66,9 @@ type Renting @entity {
 # If, however, lending.length === renting.length, then it is being currently
 # rented by someone"
 type Nft @entity {
-  "id is nftAddress::tokenId::lentAmount"
+  "id is lendingId.toString()"
   id: ID!
+  
   "each Lending and Renting in the arrays here will have the SAME nftAddress and tokenId!!!!!! As per the id of this entity"
   lending: [Lending!]! @derivedFrom(field: "nft")
   renting: [Renting!] @derivedFrom(field: "nft")
