@@ -6,7 +6,7 @@
   "scripts": {
     "codegen": "yarn graph codegen",
     "build": "yarn graph build",
-    "deploy": "graph deploy --studio renft-registry"
+    "deploy": "graph deploy --studio sylvester"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.21.1",
