@@ -30,6 +30,7 @@ export function handleLend(event: Lend): void {
   counter.lending = counter.lending + 1;
   lending.cursor = counter.lending;
 
+  counter.save();
   lending.save();
   lender.save();
 }
@@ -60,6 +61,7 @@ export function handleRent(event: Rent): void {
   counter.renting = counter.renting + 1;
   renting.cursor = counter.renting;
 
+  counter.save();
   lending.save();
   renting.save();
   renter.save();
