@@ -11,8 +11,6 @@ export const fetchUser = (address: Address): User => {
   return <User>user;
 };
 
-import { Counter } from "../generated/schema";
-
 export const fetchCounter = (): Counter => {
   let c = Counter.load("counter");
   if (c === null) {
