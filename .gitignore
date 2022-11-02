@@ -115,3 +115,6 @@ generated/
 tests/.bin
 
 subgraph.yaml
+
+# IDEs
+.idea
