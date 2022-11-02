@@ -9,7 +9,17 @@ and
 
 ## Deploy
 
-To deploy run
+To deploy on Mainnet, use:
+
+```shell
+yarn deploy:mainnet
+```
+
+To deploy on Polygon, use:
+
+```shell
+yarn deploy:matic --product hosted-service <account-name>/<subgraph-name>
+```
 
 `yarn codegen`
 
