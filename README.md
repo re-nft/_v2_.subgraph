@@ -21,12 +21,6 @@ To deploy on Polygon, use:
 yarn deploy:matic --product hosted-service <account-name>/<subgraph-name>
 ```
 
-`yarn codegen`
-
-`yarn build`
-
-`yarn deploy`
-
 ## Versions
 
 Azrael Mainnet: no version (dub it 1.0.1)
