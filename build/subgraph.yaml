@@ -1,16 +1,16 @@
 specVersion: 0.0.2
-description: ReNFT is a decentralised protofol for NFT lending and renting
+description: ReNFT is a decentralised protocol for NFT lending and renting
 repository: https://github.com/re-nft/subgraph
 schema:
   file: schema.graphql
 dataSources:
   - kind: ethereum/contract
     name: Sylvester
-    network: mainnet
+    network: matic
     source:
-      address: "0xa8D3F65b6E2922fED1430b77aC2b557e1fa8DA4a"
+      address: "0xfa06cfe34c85ec6b6d29a6a99806cc68ba0018fe"
       abi: Sylvester
-      startBlock: 13197347
+      startBlock: 28399140
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
