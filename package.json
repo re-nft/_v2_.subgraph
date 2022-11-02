@@ -5,11 +5,11 @@
   "author": "reNFT <hello@renft.io>",
   "scripts": {
     "prepare:mainnet": "mustache config/mainnet.json subgraph.template.yaml > subgraph.yaml",
-    "prepare:polygon": "mustache config/polygon.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:matic": "mustache config/matic.json subgraph.template.yaml > subgraph.yaml",
     "codegen": "yarn graph codegen",
     "build": "yarn graph build",
     "deploy::mainnet": "yarn prepare:mainnet && graph deploy",
-    "deploy::polygon": "yarn prepare:polygon && graph deploy"
+    "deploy::matic": "yarn prepare:matic && graph deploy"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.21.1",
