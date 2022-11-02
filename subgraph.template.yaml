@@ -6,11 +6,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: Sylvester
-    network: mainnet
+    network: {{network}}
     source:
-      address: "0xa8D3F65b6E2922fED1430b77aC2b557e1fa8DA4a"
+      address: '{{address}}'
       abi: Sylvester
-      startBlock: 13197347
+      startBlock: {{startBlock}}
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4

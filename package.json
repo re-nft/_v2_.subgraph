@@ -4,6 +4,8 @@
   "version": "1.0.3",
   "author": "reNFT <hello@renft.io>",
   "scripts": {
+    "prepare:mainnet": "mustache config/mainnet.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:polygon": "mustache config/polygon.json subgraph.template.yaml > subgraph.yaml",
     "codegen": "yarn graph codegen",
     "build": "yarn graph build",
     "deploy": "graph deploy --studio sylvester"
@@ -11,5 +13,8 @@
   "dependencies": {
     "@graphprotocol/graph-cli": "0.21.1",
     "@graphprotocol/graph-ts": "0.20.1"
+  },
+  "devDependencies": {
+    "mustache": "4.2.0"
   }
 }
