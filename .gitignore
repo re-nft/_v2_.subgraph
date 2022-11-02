@@ -113,3 +113,5 @@ generated/
 .prettierrc
 
 tests/.bin
+
+subgraph.yaml
