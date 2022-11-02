@@ -1,5 +1,5 @@
 specVersion: 0.0.2
-description: ReNFT is a decentralised protofol for NFT lending and renting
+description: ReNFT is a decentralised protocol for NFT lending and renting
 repository: https://github.com/re-nft/subgraph
 schema:
   file: ./schema.graphql
