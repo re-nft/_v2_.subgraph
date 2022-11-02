@@ -8,7 +8,8 @@
     "prepare:polygon": "mustache config/polygon.json subgraph.template.yaml > subgraph.yaml",
     "codegen": "yarn graph codegen",
     "build": "yarn graph build",
-    "deploy": "graph deploy --studio sylvester"
+    "deploy::mainnet": "yarn prepare:mainnet && graph deploy",
+    "deploy::polygon": "yarn prepare:polygon && graph deploy"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.21.1",
