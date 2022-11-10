@@ -17,6 +17,7 @@ export function handleLend(event: Lend): void {
   lending.paymentToken = BigInt.fromI32(lentParams.paymentToken);
   lending.revShareBeneficiaries = lentParams.revShares.beneficiaries.map<string>(item => item.toHexString());
   lending.revSharePortions = lentParams.revShares.portions;
+  lending.userShare = 100 - lending.revSharePortions.reduce((partialSum, item) => partialSum + item, 0);
   lending.lentAt = event.block.timestamp;
   lending.expired = false;
   lending.isAvailable = true;

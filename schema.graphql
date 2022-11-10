@@ -19,6 +19,8 @@ type Lending @entity {
   revShareBeneficiaries: [String!]!
   revSharePortions: [Int!]!
   lentAt: BigInt!
+  # userShare is equal to 100 - sum(revSharePortions)
+  userShare: Int!
   # Used to track if lending is active
   # Due to the fact that we need to be trackign all the
   # historical lendings and rentings, we can't delete
