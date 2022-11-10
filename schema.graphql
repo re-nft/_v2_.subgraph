@@ -26,7 +26,7 @@ type Lending @entity {
   # Therfore, to know if a particular lending is active,
   # we check that expired is false.
   expired: Boolean!
-
+  isAvailable: Boolean!
   # This is an array of all rentings, even the expired ones
   # To stop renting, you call a function with a lending id
   # There is no way to identify the renting
