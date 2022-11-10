@@ -109,3 +109,5 @@ generated/
 
 .env*
 .DS_Store
+
+tests/.bin/
