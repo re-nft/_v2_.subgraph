@@ -22,7 +22,7 @@ dataSources:
           file: Sylvester/build/contracts/Sylvester.json
       eventHandlers:
         - event: Lend(bool,indexed address,indexed address,indexed
-            uint256,uint256,uint8,bytes4,uint16,uint8)
+            uint256,uint256,uint8,bytes4,uint16,uint8,bool)
           handler: handleLend
         - event: Rent(indexed address,indexed uint256,indexed uint256,uint16,uint8,uint32)
           handler: handleRent
@@ -30,6 +30,6 @@ dataSources:
           handler: handleStopRent
         - event: RentClaimed(indexed uint256,uint32)
           handler: handleRentClaimed
-        - event: StopLend(indexed uint256,uint32)
+        - event: StopLend(indexed uint256,uint32,uint16)
           handler: handleStopLend
       file: Sylvester/Sylvester.wasm

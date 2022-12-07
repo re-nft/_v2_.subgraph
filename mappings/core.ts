@@ -18,6 +18,7 @@ export function handleLend(event: Lend): void {
   lending.lendAmount = BigInt.fromI32(lentParams.lendAmount);
   lending.availableAmount = BigInt.fromI32(lentParams.lendAmount);
   lending.is721 = lentParams.is721;
+  lending.willAutoRenew = lentParams.willAutoRenew;
   lending.lentAt = event.block.timestamp;
 
   let lender = User.load(lentParams.lenderAddress.toHexString());
@@ -71,7 +72,11 @@ export function handleStopRent(event: StopRent): void {
   let returnParams = event.params;
   let renting = Renting.load(returnParams.rentingID.toString())!;
   let lending = Lending.load(renting.lending)!;
-  lending.availableAmount = lending.availableAmount.plus(renting.rentAmount);
+  
+  if(lending.willAutoRenew){
+    lending.availableAmount = lending.availableAmount.plus(renting.rentAmount);
+  }
+  
   let renter = User.load(renting.renterAddress.toHexString())!;
   store.remove("Renting", renting.id);
 
@@ -95,5 +100,12 @@ export function handleStopLend(event: StopLend): void {
   let lendingStopParams = event.params;
   let lending = Lending.load(lendingStopParams.lendingID.toString())!;
 
-  store.remove("Lending", lending.id);
+
+  // remove lending only if the amount is equal to the lend amount
+  if(BigInt.compare(BigInt.fromI32(lendingStopParams.amount), lending.lendAmount)){
+    store.remove("Lending", lending.id);
+  }else{
+    lending.lendAmount = lending.lendAmount.minus(BigInt.fromI32(lendingStopParams.amount));
+    lending.save();
+  }
 }

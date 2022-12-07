@@ -76,6 +76,12 @@
         "internalType": "enum IResolver.PaymentToken",
         "name": "paymentToken",
         "type": "uint8"
+      },
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "willAutoRenew",
+        "type": "bool"
       }
     ],
     "name": "Lend",
@@ -157,6 +163,12 @@
         "internalType": "uint32",
         "name": "stoppedAt",
         "type": "uint32"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint16",
+        "name": "amount",
+        "type": "uint16"
       }
     ],
     "name": "StopLend",
@@ -353,6 +365,11 @@
         "internalType": "enum IResolver.PaymentToken[]",
         "name": "paymentToken",
         "type": "uint8[]"
+      },
+      {
+        "internalType": "bool[]",
+        "name": "willAutoRenew",
+        "type": "bool[]"
       }
     ],
     "name": "lend",
