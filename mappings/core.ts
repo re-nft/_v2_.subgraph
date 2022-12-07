@@ -100,9 +100,10 @@ export function handleStopLend(event: StopLend): void {
   let lendingStopParams = event.params;
   let lending = Lending.load(lendingStopParams.lendingID.toString())!;
 
-
   // remove lending only if the amount is equal to the lend amount
-  if(BigInt.compare(BigInt.fromI32(lendingStopParams.amount), lending.lendAmount)){
+  let shouldRemove = BigInt.compare(BigInt.fromI32(lendingStopParams.amount), lending.lendAmount) == 0;
+  
+  if(shouldRemove){
     store.remove("Lending", lending.id);
   }else{
     lending.lendAmount = lending.lendAmount.minus(BigInt.fromI32(lendingStopParams.amount));
