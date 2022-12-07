@@ -18,6 +18,8 @@ type Lending @entity {
   is721: Boolean!
   lentAt: BigInt!
 
+  willAutoRenew: Boolean!
+
   renting: [Renting!] @derivedFrom(field: "lending")
   user: User!
 
