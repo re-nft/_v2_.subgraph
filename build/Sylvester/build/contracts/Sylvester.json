@@ -73,7 +73,7 @@
       },
       {
         "indexed": false,
-        "internalType": "enum IResolver.PaymentToken",
+        "internalType": "uint8",
         "name": "paymentToken",
         "type": "uint8"
       },
@@ -362,7 +362,7 @@
         "type": "bytes4[]"
       },
       {
-        "internalType": "enum IResolver.PaymentToken[]",
+        "internalType": "uint8[]",
         "name": "paymentToken",
         "type": "uint8[]"
       },
