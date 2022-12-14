@@ -42,6 +42,10 @@ Sylvester Rinkeby: `0x34175ef2ed572fb6253d153e3ab4a2f7b1c11677`
 
 Block: `10110403`
 
+Sylvester-v1 Polygon Mainnet [etherscan](https://polygonscan.com/address/0x4e52b73aa28b7ff84d88ea3a90c0668f46043450): `0x4e52b73aa28b7ff84d88ea3a90c0668f46043450` 
+
+Block: `36825974`
+
 Another thing to change when deploying to rinkeby is the slug in `package.json`. It should be `renft-registry-rinkeby` or `renft-rinkeby` respectively.
 
 Also, do not forget to change the `network` to `rinkeby` in `subgraph.yaml`.
