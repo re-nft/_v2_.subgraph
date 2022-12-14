@@ -17,7 +17,7 @@ To deploy run
 
 `yarn deploy`
 
-## Versions
+## Subraph Versions
 
 Azrael Mainnet: no version (dub it 1.0.1)
 
@@ -28,6 +28,12 @@ Azrael Rinkeby: 1.0.1
 Sylvester Rinkeby: 1.0.2
 
 Sylvester Matic: 1.0.2-matic. Temp query url: https://api.studio.thegraph.com/query/3020/renft-registry/1.0.2-matic
+
+## Contract Versions
+
+Sylvester-v1 Polygon Mainnet [etherscan](https://polygonscan.com/address/0x4e52b73aa28b7ff84d88ea3a90c0668f46043450): `0x4e52b73aa28b7ff84d88ea3a90c0668f46043450` 
+
+Block: `36825974`
 
 ## Rinkeby
 
@@ -41,10 +47,6 @@ Block: `10110354`
 Sylvester Rinkeby: `0x34175ef2ed572fb6253d153e3ab4a2f7b1c11677`
 
 Block: `10110403`
-
-Sylvester-v1 Polygon Mainnet [etherscan](https://polygonscan.com/address/0x4e52b73aa28b7ff84d88ea3a90c0668f46043450): `0x4e52b73aa28b7ff84d88ea3a90c0668f46043450` 
-
-Block: `36825974`
 
 Another thing to change when deploying to rinkeby is the slug in `package.json`. It should be `renft-registry-rinkeby` or `renft-rinkeby` respectively.
 
