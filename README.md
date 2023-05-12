@@ -10,6 +10,26 @@ or
 
 depending on whether you are using `yarn` or `npm`.
 
+This command will install `graph` binary on your machine.
+If after the installation you don't have the binary, add it to your path.
+You can figure out where `yarn` installs global binaries by running:
+
+`yarn global bin`
+
+take this directory and then add to your path:
+
+```export PATH="$PATH:`yarn global bin`"```
+
+This repository is a [yarn workspace](https://classic.yarnpkg.com/lang/en/docs/workspaces/).
+
+To install deps, in the root run `yarn install`.
+
+To execute workspace scripts run something like:
+
+`yarn workspace @renft/subgraphs-azrael codegen`
+
+This would execute `codegen` script in `subgraphs/azrael`
+
 ---
 
 There are four deployments of v1 renft contracts. These represent collateral (Azrael) and collateral-free (Sylvester) contracts on both the mainnet and rinkeby.
