@@ -1,0 +1,76 @@
+# The set of all the Lending entities is the set of all of the"
+# NFTs being lent out on the Rent NFT platform"
+type Lending @entity {
+  id: ID!
+  # Timestamp of the transaction. Use this for pagination, filtering
+  # and sorting.
+  cursor: Int!
+
+  nftAddress: String!
+  tokenId: BigInt!
+
+  upfrontRentFee: BigInt!
+  lenderAddress: String!
+  # Max rent duration is in number of cycles
+  maxRentDuration: BigInt!
+  paymentToken: BigInt!
+  # If the list is empty, then anyone can rent
+  allowedRenters: [String!]!
+  revShareBeneficiaries: [String!]!
+  revSharePortions: [Int!]!
+  lentAt: BigInt!
+  # Used to track if lending is active
+  # Due to the fact that we need to be trackign all the
+  # historical lendings and rentings, we can't delete
+  # the lendings and rentings from the store.
+  # Therfore, to know if a particular lending is active,
+  # we check that expired is false.
+  expired: Boolean!
+
+  # This is an array of all rentings, even the expired ones
+  # To stop renting, you call a function with a lending id
+  # There is no way to identify the renting
+  # For that reason, we had an additional attribute on this
+  # schema: `lastRenting`, so that we know which one to set
+  # to `expired` when the renting is stopped.
+  renting: [Renting!] @derivedFrom(field: "lending")
+  lastRenting: Renting
+  user: User!
+}
+
+type Renting @entity {
+  id: ID!
+  # Timestamp of the transaction. Use this for pagination, filtering
+  # and sorting.
+  cursor: Int!
+
+  renterAddress: String!
+  # Rent duration is in number of cycles
+  rentDuration: BigInt!
+  rentedAt: BigInt!
+  expired: Boolean!
+
+  lending: Lending!
+  user: User!
+}
+
+type User @entity {
+  "id here is user's Ethereum address"
+  id: ID!
+  # Timestamp of the transaction. Use this for pagination, filtering
+  # and sorting.cursor: Int!
+  cursor: Int!
+  lending: [Lending!] @derivedFrom(field: "user")
+  renting: [Renting!] @derivedFrom(field: "user")
+}
+
+# How many lendings, rentings, users there were in total
+# These are used as cursors to paginate through the result
+# set. They are all Ints which makes ordering natural,
+# unlike BigInt which is a string (alhpanumeric ordering)
+type Counter @entity {
+  id: ID!
+  lending: Int!
+  renting: Int!
+  user: Int!
+}
