@@ -1,0 +1,15 @@
+{
+  "name": "@renft/subgraphs-azrael",
+  "license": "MIT",
+  "version": "1.0.1",
+  "author": "reNFT <hello@renft.io>",
+  "scripts": {
+    "codegen": "yarn graph codegen",
+    "build": "yarn graph build",
+    "deploy": "yarn graph deploy --studio renft"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "0.21.1",
+    "@graphprotocol/graph-ts": "0.20.1"
+  }
+}

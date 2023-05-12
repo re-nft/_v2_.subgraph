@@ -1,15 +1,8 @@
 {
-  "name": "@renft/subgraph",
-  "license": "GPL-3.0-or-later",
-  "version": "1.0.1",
+  "name": "@renft/subgraphs",
+  "license": "MIT",
+  "version": "0.0.1",
   "author": "reNFT <hello@renft.io>",
-  "scripts": {
-    "codegen": "yarn graph codegen",
-    "build": "yarn graph build",
-    "deploy": "yarn graph deploy --studio renft"
-  },
-  "dependencies": {
-    "@graphprotocol/graph-cli": "0.21.1",
-    "@graphprotocol/graph-ts": "0.20.1"
-  }
+  "private": true,
+  "workspaces": ["subgraphs/*"]
 }

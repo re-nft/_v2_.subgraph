@@ -1,5 +1,3 @@
-# The set of all the Lending entities is the set of all of the"
-# NFTs being lent out on the Rent NFT platform"
 type Lending @entity {
   id: ID!
 
@@ -42,15 +40,12 @@ type Renting @entity {
 # same NFT can be re-lent / re-rented multiple times
 # This type tracks all of that
 # per unique id := nftAddress::tokenId::lentAmount combination
-
 # 1. Note: you will always have an array of lending
 # but not neccesarily an array of renting.
 # Renting array is only ever populated if the Nft has been rented.
-
 # 2. Note: that this is a single entity and there will be multiple
 # entities. When we make a graphql request, we will be pulling ALL
 # such entities
-
 # 3. Also note that when this nftAddress::tokenId::lentAmount unique combo gets
 # re-lent by the renter, we push into the lending array. This implies
 # that if you have lending.length === renting.length + 1, then the
@@ -60,7 +55,7 @@ type Renting @entity {
 type Nft @entity {
   "id is nftAddress::tokenId::lentAmount"
   id: ID!
-  "each Lending and Renting in the arrays here will have the SAME nftAddress and tokenId!!!!!! As per the id of this entity"
+  "each Lending and Renting in the arrays here will have the SAME nftAddress and tokenId! As per the id of this entity"
   lending: [Lending!]! @derivedFrom(field: "nft")
   renting: [Renting!] @derivedFrom(field: "nft")
 }
