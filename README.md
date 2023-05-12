@@ -1,5 +1,17 @@
 # ReNFT Subgraph
 
+To get started, first, globally install `graph` binary:
+
+`yarn global add @graphprotocol/graph-cli`
+
+or
+
+`npm install -g @graphprotocol/graph-cli`
+
+depending on whether you are using `yarn` or `npm`.
+
+---
+
 There are four deployments of v1 renft contracts. These represent collateral (Azrael) and collateral-free (Sylvester) contracts on both the mainnet and rinkeby.
 
 The branches for the respective subgraphs are:

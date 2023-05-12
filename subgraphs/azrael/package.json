@@ -4,12 +4,12 @@
   "version": "1.0.1",
   "author": "reNFT <hello@renft.io>",
   "scripts": {
-    "codegen": "yarn graph codegen",
-    "build": "yarn graph build",
-    "deploy": "yarn graph deploy --studio renft"
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "deploy": "graph deploy --studio renft # todo: had to update deps below; implies that this command will no longer work, let's fix it"
   },
   "dependencies": {
-    "@graphprotocol/graph-cli": "0.21.1",
-    "@graphprotocol/graph-ts": "0.20.1"
+    "@graphprotocol/graph-cli": "0.49.0",
+    "@graphprotocol/graph-ts": "0.29.1"
   }
 }
