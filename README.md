@@ -1,4 +1,4 @@
-# ReNFT Subgraph
+# reNFT subgraphs
 
 To get started, first, globally install `graph` binary:
 
