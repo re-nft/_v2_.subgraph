@@ -1,0 +1,35 @@
+specVersion: 0.0.5
+description: ReNFT is a decentralised protocol for NFT lending and renting
+repository: https://github.com/re-nft/subgraph
+schema:
+  file: schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: Sylvester
+    network: matic
+    source:
+      address: "0x4e52b73aa28b7ff84d88ea3a90c0668f46043450"
+      abi: Sylvester
+      startBlock: 36825974
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Sylvester
+      abis:
+        - name: Sylvester
+          file: Sylvester/abis/Sylvester.json
+      eventHandlers:
+        - event: Lend(bool,indexed address,indexed address,indexed
+            uint256,uint256,uint8,bytes4,uint16,uint8,bool)
+          handler: handleLend
+        - event: Rent(indexed address,indexed uint256,indexed uint256,uint16,uint8,uint32)
+          handler: handleRent
+        - event: StopRent(indexed uint256,uint32)
+          handler: handleStopRent
+        - event: RentClaimed(indexed uint256,uint32)
+          handler: handleRentClaimed
+        - event: StopLend(indexed uint256,uint32,uint16)
+          handler: handleStopLend
+      file: Sylvester/Sylvester.wasm

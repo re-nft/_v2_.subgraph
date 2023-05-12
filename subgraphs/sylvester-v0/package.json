@@ -6,10 +6,10 @@
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --node https://api.studio.thegraph.com/deploy/ sylvester",
-    "create-local": "graph create --node http://localhost:8020/ sylvester",
-    "remove-local": "graph remove --node http://localhost:8020/ sylvester",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 sylvester",
+    "deploy": "graph deploy --node https://api.studio.thegraph.com/deploy/ sylvester-v0",
+    "create-local": "graph create --node http://localhost:8020/ sylvester-v0",
+    "remove-local": "graph remove --node http://localhost:8020/ sylvester-v0",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 sylvester-v0",
     "test": "graph test"
   },
   "dependencies": {

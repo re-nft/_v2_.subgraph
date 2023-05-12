@@ -1,0 +1,20 @@
+{
+  "name": "@renft/subgraphs-sylvester-v1",
+  "license": "MIT",
+  "version": "1.0.3",
+  "author": "reNFT <hello@renft.io>",
+  "scripts": {
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "deploy": "graph deploy --node https://api.studio.thegraph.com/deploy/ sylvester-v1",
+    "create-local": "graph create --node http://localhost:8020/ sylvester-v1",
+    "remove-local": "graph remove --node http://localhost:8020/ sylvester-v1",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 sylvester-v1",
+    "test": "graph test"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "0.49.0",
+    "@graphprotocol/graph-ts": "0.29.1"
+  },
+  "devDependencies": { "matchstick-as": "0.5.0" }
+}
