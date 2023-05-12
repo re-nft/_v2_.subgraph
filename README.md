@@ -29,43 +29,5 @@ Consider familiarising yourself with [The Graph FAQ](https://thegraph.com/docs/e
 If you wish to run the subgraph locally, see [this](https://thegraph.com/docs/en/operating-graph-node/#getting-started-using-docker). You do not need to take any extra steps other than cloning this repository and all of its submoduels to run all the subgraphs within locally. Simply see `package.json` for all the scripts at your disposal to get up and running with local subgraphs. For this reason, this repository adds `graph-node` as a submodule (read [here](https://git-scm.com/book/en/v2/Git-Tools-Submodules) to familiarise yourself with git submodules). Be careful about pointing this submodule to updated commits. Ensure everything works as expected after you do (all tests passing and nodes/subgraphs deploy correctly).
 
 (To start your local `graph-node`, you will need the following installed on your machine: `docker`, `docker-compose` and `jq`.) <- maybe not needed
+
 TODO: a script to start local graph node
-
----
-
-There are four deployments of v1 renft contracts. These represent collateral (Azrael) and collateral-free (Sylvester) contracts on both the mainnet and rinkeby.
-
-## Deploy
-
-TODO: fix this (we are using workspaces now)
-
-To deploy run
-
-`yarn codegen`
-
-`yarn build`
-
-`yarn deploy`
-
-## Prod Versions
-
-Azrael Mainnet: no version (dub it 1.0.1)
-
-Sylvester Mainnet: 1.0.2
-
-Azrael Rinkeby: 1.0.1
-
-Sylvester Rinkeby: 1.0.2
-
-Sylvester Matic: 1.0.2-matic. Temp query url: https://api.studio.thegraph.com/query/3020/renft-registry/1.0.2-matic
-
-## Rinkeby
-
-No additional branches were made for the Rinkeby testnet. But here you can find the addresses
-of Rinkeby Azrael and Sylvester, as well as the starting blocks to be used in `subgraph.yaml`
-
-Azrael Rinkeby: `0x8e03432370a4a82DE1D2e2A64E3Cf8987B7D1215`
-Block: `10110354`
-Sylvester Rinkeby: `0x34175ef2ed572fb6253d153e3ab4a2f7b1c11677`
-Block: `10110403`
-
