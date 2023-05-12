@@ -4,15 +4,9 @@ To get started, first, globally install `graph` binary:
 
 `yarn global add @graphprotocol/graph-cli`
 
-or
+depending on whether you are using `yarn`. We suggest you use `yarn` instead of `npm`.
 
-`npm install -g @graphprotocol/graph-cli`
-
-depending on whether you are using `yarn` or `npm`.
-
-This command will install `graph` binary on your machine.
-If after the installation you don't have the binary, add it to your path.
-You can figure out where `yarn` installs global binaries by running:
+This command will install `graph` binary on your machine. If after the installation you don't have the binary, add it to your path. You can figure out where `yarn` installs global binaries by running:
 
 `yarn global bin`
 
@@ -30,16 +24,17 @@ To execute workspace scripts run something like:
 
 This would execute `codegen` script in `subgraphs/azrael`
 
+Consider familiarising yourself with [The Graph FAQ](https://thegraph.com/docs/en/developing/developer-faqs/).
+
+If you wish to run the subgraph locally, see [this](https://thegraph.com/docs/en/operating-graph-node/#getting-started-using-docker). It explains how to get the graph node up and running with docker. For that reason, this repository adds `graph-node` as a submodule (read [here](https://git-scm.com/book/en/v2/Git-Tools-Submodules) to familiarise yourself with git submodules). Be careful about pointing this submodule to updated commits. Ensure everything works as expected after you do (all tests passing and nodes/subgraphs deploy correctly).
+
 ---
 
 There are four deployments of v1 renft contracts. These represent collateral (Azrael) and collateral-free (Sylvester) contracts on both the mainnet and rinkeby.
 
-The branches for the respective subgraphs are:
-`azrael`
-and
-`sylvester`
-
 ## Deploy
+
+TODO: fix this (we are using workspaces now)
 
 To deploy run
 
@@ -49,7 +44,7 @@ To deploy run
 
 `yarn deploy`
 
-## Versions
+## Prod Versions
 
 Azrael Mainnet: no version (dub it 1.0.1)
 
@@ -67,19 +62,7 @@ No additional branches were made for the Rinkeby testnet. But here you can find 
 of Rinkeby Azrael and Sylvester, as well as the starting blocks to be used in `subgraph.yaml`
 
 Azrael Rinkeby: `0x8e03432370a4a82DE1D2e2A64E3Cf8987B7D1215`
-
 Block: `10110354`
-
 Sylvester Rinkeby: `0x34175ef2ed572fb6253d153e3ab4a2f7b1c11677`
-
 Block: `10110403`
 
-Another thing to change when deploying to rinkeby is the slug in `package.json`. It should be `renft-registry-rinkeby` or `renft-rinkeby` respectively.
-
-Also, do not forget to change the `network` to `rinkeby` in `subgraph.yaml`.
-
-## Terminology
-
-Azrael - collateral solution
-
-Sylvester - collateral free solution
