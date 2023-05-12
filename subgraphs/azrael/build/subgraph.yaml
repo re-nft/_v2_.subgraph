@@ -1,0 +1,35 @@
+specVersion: 0.0.5
+description: ReNFT is a decentralised protofol for NFT lending and renting
+repository: https://github.com/re-nft/subgraph
+schema:
+  file: schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: Azrael
+    network: mainnet
+    source:
+      address: "0x94D8f036a0fbC216Bb532D33bDF6564157Af0cD7"
+      abi: Azrael
+      startBlock: 12875508
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Azrael
+      abis:
+        - name: Azrael
+          file: Azrael/abis/Azrael.json
+      eventHandlers:
+        - event: Lent(indexed address,indexed uint256,uint8,uint256,indexed
+            address,uint8,bytes4,bytes4,bool,uint8)
+          handler: handleLent
+        - event: Rented(uint256,indexed address,uint8,uint32)
+          handler: handleRented
+        - event: Returned(indexed uint256,uint32)
+          handler: handleReturned
+        - event: CollateralClaimed(indexed uint256,uint32)
+          handler: handleClaimCollateral
+        - event: LendingStopped(indexed uint256,uint32)
+          handler: handleStopLending
+      file: Azrael/Azrael.wasm

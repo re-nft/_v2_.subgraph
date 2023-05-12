@@ -1,13 +1,19 @@
 import { BigInt, store } from "@graphprotocol/graph-ts";
 import {
+  CollateralClaimed,
+  LendingStopped,
   Lent,
   Rented,
   Returned,
-  CollateralClaimed,
-  LendingStopped,
 } from "../generated/Azrael/Azrael";
-import { Lending, Renting, Nft, User, LendingRentingCount } from "../generated/schema";
-import { fetchNft, getNftId, fetchCounter } from "./helpers";
+import {
+  Lending,
+  LendingRentingCount,
+  Nft,
+  Renting,
+  User,
+} from "../generated/schema";
+import { fetchCounter, fetchNft, getNftId } from "./helpers";
 
 // ! notes for self
 // 1. string templating does not work
@@ -96,25 +102,26 @@ export function handleRented(event: Rented): void {
   }
   renting.renterUser = renter.id;
 
-  // increment counter
   counter.renting = counter.renting + 1;
-  // assign cursor
   renting.cursor = counter.renting;
 
   let lending = Lending.load(lendingId);
-  lending.renting = renting.id;
+  // ! lending is never null here because rent event would not have been
+  // ! emitted otherwise
+  lending!.renting = renting.id;
   let nftId = getNftId(rentedParams.lendingId);
   // we know nft exists here, no need to fetch
+  // same reasonins as for lending
   let nft = Nft.load(nftId);
-  renting.nft = nft.id;
+  renting.nft = nft!.id;
 
   lrc.renting = lrc.renting.plus(BigInt.fromI32(1));
 
   counter.save();
-  lending.save();
+  lending!.save();
   renting.save();
   renter.save();
-  nft.save();
+  nft!.save();
   lrc.save();
 }
 
@@ -124,22 +131,22 @@ export function handleRented(event: Rented): void {
 export function handleReturned(event: Returned): void {
   let returnParams = event.params;
   let lending = Lending.load(returnParams.lendingId.toString());
-  let renting = lending.renting;
-  let Renter = Renting.load(renting);
+  let renting = lending!.renting;
+  let _renter = Renting.load(renting!);
 
-  let renter = User.load(Renter.renterAddress.toHexString());
-  store.remove("Renting", renting);
+  let renter = User.load(_renter!.renterAddress.toHexString());
+  store.remove("Renting", renting!);
 
   let nftId = getNftId(returnParams.lendingId);
   let nft = Nft.load(nftId);
 
-  lending.renting = null;
+  lending!.renting = null;
 
   lrc.renting = lrc.renting.minus(BigInt.fromI32(1));
 
-  renter.save();
-  lending.save();
-  nft.save();
+  renter!.save();
+  lending!.save();
+  nft!.save();
   lrc.save();
 }
 
@@ -153,13 +160,13 @@ export function handleClaimCollateral(event: CollateralClaimed): void {
   let nftId = getNftId(claimParams.lendingId);
   let nft = Nft.load(nftId);
 
-  lending.collateralClaimed = true;
+  lending!.collateralClaimed = true;
 
   lrc.renting = lrc.renting.minus(BigInt.fromI32(1));
   lrc.lending = lrc.lending.plus(BigInt.fromI32(1));
 
-  lending.save();
-  nft.save();
+  lending!.save();
+  nft!.save();
   lrc.save();
 }
 
@@ -171,7 +178,7 @@ export function handleStopLending(event: LendingStopped): void {
 
   lrc.lending = lrc.lending.plus(BigInt.fromI32(1));
 
-  store.remove('Lending', lending.id);
+  store.remove("Lending", lending!.id);
   // it is incorrect to call save after store remove operation. the below will not work
   // lending.save();
   lrc.save();

@@ -1,5 +1,5 @@
-import { Address, BigInt, Bytes } from "@graphprotocol/graph-ts";
-import { User, Nft, Counter } from "../generated/schema";
+import { BigInt } from "@graphprotocol/graph-ts";
+import { Counter, Nft } from "../generated/schema";
 
 // id is set to nftAddress::tokenId
 export const fetchNft = (id: string): Nft => {
@@ -11,14 +11,12 @@ export const fetchNft = (id: string): Nft => {
   return <Nft>nft;
 };
 
-export const getNftId = (lendingId: BigInt): string =>
-  lendingId.toString();
-
+export const getNftId = (lendingId: BigInt): string => lendingId.toString();
 
 export const fetchCounter = (): Counter => {
-  let c = Counter.load('counter');
+  let c = Counter.load("counter");
   if (c === null) {
-    c = new Counter('counter');
+    c = new Counter("counter");
     c.lending = 0;
     c.renting = 0;
     c.user = 0;
@@ -26,4 +24,4 @@ export const fetchCounter = (): Counter => {
     c.save();
   }
   return <Counter>c;
-}
+};
