@@ -1,7 +1,7 @@
 {
   "name": "@renft/subgraphs-azrael",
   "license": "MIT",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "reNFT <hello@renft.io>",
   "scripts": {
     "codegen": "graph codegen",
