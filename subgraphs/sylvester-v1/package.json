@@ -9,7 +9,7 @@
     "deploy": "graph deploy --node https://api.studio.thegraph.com/deploy/ sylvester-v1",
     "create-local": "graph create --node http://localhost:8020/ sylvester-v1",
     "remove-local": "graph remove --node http://localhost:8020/ sylvester-v1",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 sylvester-v1",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 --version-label 1.0.3 sylvester-v1",
     "test": "graph test"
   },
   "dependencies": {
