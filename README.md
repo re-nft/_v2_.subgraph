@@ -30,6 +30,8 @@ To start the local graph node, you will need `docker`, `docker-compose`, and `jq
 
 To deploy a subgraph, run:
 
+yarn workspace @renft/subgraphs-azrael codegen
+
 `yarn workspace @renft/subgraphs-azrael create-local`
 
 `yarn workspace @renft/subgraphs-azrael deploy-local`
