@@ -1,4 +1,4 @@
-# This docker compose file was pulled from here as a base: 
+# Most of this docker compose file was copied from here: 
 # https://github.com/graphprotocol/graph-node/blob/5ba079fff124f621b6beeba9dc39b81920a2f85b/docker/docker-compose.yml
 
 version: '3.9'
@@ -24,8 +24,12 @@ services:
       postgres_pass: let-me-in
       postgres_db: graph-node
       ipfs: 'ipfs:5001'
-      ethereum: 'mainnet:${ETH_MAINNET_ALCHEMY_API_KEY} matic:${POLYGON_MAINNET_ALCHEMY_API_KEY} avalanche:https://api.avax.network/ext/bc/C/rpc'
+      ethereum: 'mainnet:${ETH_MAINNET_ALCHEMY_RPC} matic:${POLYGON_MAINNET_ALCHEMY_RPC} avalanche:${AVALANCHE_MAINNET_RPC}'
       GRAPH_LOG: info
+      # We dont need the node syncing 250 most recent blocks by default.
+      # Syncing from the most recent block should be enough for a local setup.
+      ETHEREUM_REORG_THRESHOLD: 1
+      ETHEREUM_ANCESTOR_COUNT: 1
   ipfs:
     image: ipfs/go-ipfs:v0.10.0
     ports:
@@ -45,9 +49,6 @@ services:
       POSTGRES_USER: graph-node
       POSTGRES_PASSWORD: let-me-in
       POSTGRES_DB: graph-node
-      # FIXME: remove this env. var. which we shouldn't need. Introduced by
-      # <https://github.com/graphprotocol/graph-node/pull/3511>, maybe as a
-      # workaround for https://github.com/docker/for-mac/issues/6270?
       PGDATA: "/var/lib/postgresql/data"
       POSTGRES_INITDB_ARGS: "-E UTF8 --locale=C"
     volumes:

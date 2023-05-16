@@ -111,5 +111,5 @@ generated/
 .DS_Store
 
 # Spinning up the graph node docker image creates a volume
-# that shouldnt be pushed to version control
+# that should not be pushed to version control
 data
