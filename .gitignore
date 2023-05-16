@@ -107,7 +107,6 @@ dist
 .vscode/
 generated/
 
-.env*
 .DS_Store
 
 # Spinning up the graph node docker image creates a volume
