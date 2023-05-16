@@ -1,3 +1,6 @@
+# This docker compose file was pulled from here as a base: 
+# https://github.com/graphprotocol/graph-node/blob/5ba079fff124f621b6beeba9dc39b81920a2f85b/docker/docker-compose.yml
+
 version: '3.9'
 services:
   graph-node:
