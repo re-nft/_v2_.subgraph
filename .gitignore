@@ -110,10 +110,6 @@ generated/
 .env*
 .DS_Store
 
-# we need to ignore graph-node because when starting up
-# locally it does some changes to docker compose yaml
-# we do not want to commit any of that
-# note that this will still allow us to switch between
-# different commits within the graph-node submodule without
-# a problem
-graph-node/
+# Spinning up the graph node docker image creates a volume
+# that shouldnt be pushed to version control
+data
