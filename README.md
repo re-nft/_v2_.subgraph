@@ -26,32 +26,42 @@ This would execute `codegen` script in `subgraphs/azrael`
 
 ## Adding RPC urls
 
-First, specify a space-separated list of RPCs to add to the graph node in the .env file.
+Specify a space-separated list of RPCs to add to the graph node in the .env file.
 
-Each RPC will be tagged with the name of the network, followed by the RPC. The list of supported networks can be found [here](https://thegraph.com/docs/en/developing/supported-networks/).
+Each RPC will be tagged with the name of the network, followed by the RPC. Examples of the formatting for RPC urls can be found in `.env.example`. The list of supported networks can be found [here](https://thegraph.com/docs/en/developing/supported-networks/).
 
 ## Notes on using Anvil and other local RPCs
 
 This docker compose file uses `host.docker.internal` which allows docker containers to access ports on the host machine. 
 
-When using localhost RPCs such as Anvil, replace `localhost` with `host.docker.internal` before adding the RPC to the .env file. For example, `https://localhost:8545` should become `http://host.docker.internal:8545`.
+When using localhost RPCs, such as Anvil, replace `localhost` with `host.docker.internal` before adding the RPC to the .env file. For example, `https://localhost:8545` should become `http://host.docker.internal:8545`.
 
-More info on that can be found [here](https://medium.com/@TimvanBaarsen/how-to-connect-to-the-docker-host-from-inside-a-docker-container-112b4c71bc66).
+More info on this topic can be found [here](https://medium.com/@TimvanBaarsen/how-to-connect-to-the-docker-host-from-inside-a-docker-container-112b4c71bc66).
 
-## Running a subgraph
+## Running the graph node
 
-To start the local graph node, you will need `docker`, `docker-compose`, and `jq`. Then, run:
+To start the local graph node, you will need `docker`, `docker-compose`, and `jq`. 
 
-`docker compose up`
+Then, run:
+
+`./scripts/run_node.sh`
+
+## Deploying a subgraph
 
 To deploy a subgraph, run:
 
-yarn workspace @renft/subgraphs-azrael codegen
+`./scripts/deploy_subgraphs.sh {list of subgraph names}`
 
-`yarn workspace @renft/subgraphs-azrael create-local`
+For example, to create a single subgraph, run:
 
-`yarn workspace @renft/subgraphs-azrael deploy-local`
+`./scripts/deploy_subgraphs.sh azrael`
 
-This would create and deploy a subgraph for azrael.
+To deploy multiple subgraphs at once, run:
+
+`./scripts/deploy_subgraphs.sh azrael sylvester-v0`
+
+To deploy all subgraphs, leave off any parameters to the script:
+
+`./scripts/deploy_subgraphs.sh`
 
 Consider familiarising yourself with [The Graph FAQ](https://thegraph.com/docs/en/developing/developer-faqs/).
