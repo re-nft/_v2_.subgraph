@@ -10,6 +10,7 @@
     "create-local": "graph create --node http://localhost:8020/ whoopi",
     "remove-local": "graph remove --node http://localhost:8020/ whoopi",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 --version-label 1.0.3 whoopi",
+    "execute-local-deploy": "run-s codegen create-local deploy-local",
     "test": "graph test"
   },
   "dependencies": {
