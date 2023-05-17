@@ -36,6 +36,8 @@ This docker compose file uses `host.docker.internal` which allows docker contain
 
 When using localhost RPCs such as Anvil, replace `localhost` with `host.docker.internal` before adding the RPC to the .env file. For example, `https://localhost:8545` should become `http://host.docker.internal:8545`.
 
+More info on that can be found [here](https://medium.com/@TimvanBaarsen/how-to-connect-to-the-docker-host-from-inside-a-docker-container-112b4c71bc66).
+
 ## Running a subgraph
 
 To start the local graph node, you will need `docker`, `docker-compose`, and `jq`. Then, run:
