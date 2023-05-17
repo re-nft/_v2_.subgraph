@@ -15,7 +15,7 @@ services:
       - ipfs
       - postgres
     extra_hosts:
-      - 172.20.0.1:host-gateway
+      - host.docker.internal:host-gateway
     env_file:
       - .env
     environment:
