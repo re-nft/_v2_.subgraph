@@ -4,5 +4,22 @@
   "version": "0.0.1",
   "author": "reNFT <hello@renft.io>",
   "private": true,
-  "workspaces": ["subgraphs/*"]
+  "workspaces": [
+    "subgraphs/*"
+  ],
+  "scripts": {
+    "deploy-local": "run-p deploy-local:**",
+    "remove-local": "run-p remove-local:**",
+    "deploy-local:azrael": "yarn workspace @renft/subgraphs-azrael execute-local-deploy",
+    "remove-local:azrael": "yarn workspace @renft/subgraphs-azrael remove-local",
+    "deploy-local:sylvester-v0": "yarn workspace @renft/subgraphs-sylvester-v0 execute-local-deploy",
+    "remove-local:sylvester-v0": "yarn workspace @renft/subgraphs-sylvester-v0 remove-local",
+    "deploy-local:sylvester-v1": "yarn workspace @renft/subgraphs-sylvester-v1 execute-local-deploy",
+    "remove-local:sylvester-v1": "yarn workspace @renft/subgraphs-sylvester-v1 remove-local",
+    "deploy-local:whoopi": "yarn workspace @renft/subgraphs-whoopi execute-local-deploy",
+    "remove-local:whoopi": "yarn workspace @renft/subgraphs-whoopi remove-local"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
+  }
 }

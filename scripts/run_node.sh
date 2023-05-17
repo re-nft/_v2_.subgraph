@@ -23,7 +23,8 @@ start_docker() {
 
 stop_docker() {
     $DC down
-    # exit $!
+
+    exit 0
 }
 
 trap stop_docker EXIT
