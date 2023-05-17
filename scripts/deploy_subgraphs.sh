@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Exit script if any commands error
+set -e
+
 # fetch the environment variables of the .env file, 
 # and automatically export them
 set -a && source .env && set +a
