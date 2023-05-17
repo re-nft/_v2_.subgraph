@@ -24,7 +24,7 @@ services:
       postgres_pass: let-me-in
       postgres_db: graph-node
       ipfs: 'ipfs:5001'
-      ethereum: 'mainnet:${ETH_MAINNET_ALCHEMY_RPC} matic:${POLYGON_MAINNET_ALCHEMY_RPC} avalanche:${AVALANCHE_MAINNET_RPC}'
+      ethereum: '${RPC_TEXT}'
       GRAPH_LOG: info
       # We dont need the node syncing 250 most recent blocks by default.
       # Syncing from the most recent block should be enough for a local setup.

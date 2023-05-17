@@ -24,6 +24,20 @@ To execute workspace scripts run something like:
 
 This would execute `codegen` script in `subgraphs/azrael`
 
+## Adding RPC urls
+
+First, specify a space-separated list of RPCs to add to the graph node in the .env file.
+
+Each RPC will be tagged with the name of the network, followed by the RPC. The list of supported networks can be found [here](https://thegraph.com/docs/en/developing/supported-networks/).
+
+## Notes on using Anvil and other local RPCs
+
+This docker compose file uses `host.docker.internal` which allows docker containers to access ports on the host machine. 
+
+When using localhost RPCs such as Anvil, replace `localhost` with `host.docker.internal` before adding the RPC to the .env file. For example, `https://localhost:8545` should become `http://host.docker.internal:8545`.
+
+## Running a subgraph
+
 To start the local graph node, you will need `docker`, `docker-compose`, and `jq`. Then, run:
 
 `docker compose up`
