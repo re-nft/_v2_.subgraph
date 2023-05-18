@@ -1,32 +1,50 @@
 # reNFT subgraphs
 
-To get started, first, globally install `graph` binary:
+## Getting Started
 
-`yarn global add @graphprotocol/graph-cli`
+First, globally install `graph` binary:
 
-depending on whether you are using `yarn`. We suggest you use `yarn` instead of `npm`.
+```
+yarn global add @graphprotocol/graph-cli
+```
 
-This command will install `graph` binary on your machine. If after the installation you don't have the binary, add it to your path. You can figure out where `yarn` installs global binaries by running:
+> We suggest you use `yarn` instead of `npm`.
 
-`yarn global bin`
+This command will install the `graph` binary on your machine. If you still don't have the binary after the installation, you can add it to your path. You can figure out where `yarn` installs global binaries by running:
 
-take this directory and then add to your path:
+```
+yarn global bin
+```
 
-```export PATH="$PATH:`yarn global bin`"```
+Take this yarn directory and then add to your path:
+
+```
+export PATH="$PATH:`yarn global bin`"
+```
+
+Consider familiarising yourself with [The Graph FAQ](https://thegraph.com/docs/en/developing/developer-faqs/) as well.
+
+## Installation
 
 This repository is a [yarn workspace](https://classic.yarnpkg.com/lang/en/docs/workspaces/).
 
-To install deps, in the root run `yarn install`.
+To install dependencies, run:
 
-To execute workspace scripts run something like:
+```
+yarn install
+```
 
-`yarn workspace @renft/subgraphs-azrael codegen`
+To execute scripts specific to a workspace, you can run:
 
-This would execute `codegen` script in `subgraphs/azrael`
+```
+yarn workspace @renft/subgraphs-azrael codegen
+```
+
+This would execute the `codegen` script in `subgraphs/azrael`
 
 ## Adding RPC urls
 
-Specify a space-separated list of RPCs to add to the graph node in the .env file.
+To use the subgraphs, you must specify a space-separated list of RPCs to add to the graph node in the .env file.
 
 Each RPC will be tagged with the name of the network, followed by the RPC. Examples of the formatting for RPC urls can be found in `.env.example`. The list of supported networks can be found [here](https://thegraph.com/docs/en/developing/supported-networks/).
 
@@ -40,28 +58,34 @@ More info on this topic can be found [here](https://medium.com/@TimvanBaarsen/ho
 
 ## Running the graph node
 
-To start the local graph node, you will need `docker`, `docker-compose`, and `jq`. 
+To start the local graph node, you will need `docker`, `docker-compose`, and `jq`. Then, run:
 
-Then, run:
-
-`./scripts/run_node.sh`
+```
+./scripts/run_node.sh
+```
 
 ## Deploying a subgraph
 
-To deploy a subgraph, run:
+To create a single subgraph, specify the subgraph in the script. Examples:
 
-`./scripts/deploy_subgraphs.sh {list of subgraph names}`
+```
+yarn deploy-local:azrael
 
-For example, to create a single subgraph, run:
-
-`./scripts/deploy_subgraphs.sh azrael`
-
-To deploy multiple subgraphs at once, run:
-
-`./scripts/deploy_subgraphs.sh azrael sylvester-v0`
+yarn deploy-local:sylvester-v0
+```
 
 To deploy all subgraphs, leave off any parameters to the script:
 
-`./scripts/deploy_subgraphs.sh`
+```
+yarn deploy-local
+```
 
-Consider familiarising yourself with [The Graph FAQ](https://thegraph.com/docs/en/developing/developer-faqs/).
+## Adding a new subgraph
+
+After adding a new subgraph folder, you will want to add a few scripts to `package.json`.
+
+To connect with the workspace root command to deploy all subgraphs at once, you will need a script called `execute-local-deploy`, which will use `npm-run-all` to call the `codegen`, `create-local`, and `deploy` scripts. Examples of these can be found in other subgraph folders.
+
+Once these scripts are added, complete the script linking process by adding a script in the workspace root `package.json` called `deploy-local:<subgraph_folder_name>`. This script will call the `execute-local-deploy` script that is found in your new subgraph workspace. 
+
+Now all subgraphs can be deployed at once with `yarn deploy-local`.
