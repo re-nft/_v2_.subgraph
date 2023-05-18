@@ -64,6 +64,8 @@ To start the local graph node, you will need `docker`, `docker-compose`, and `jq
 ./scripts/run_node.sh
 ```
 
+> **_NOTE:_**  The node must be running before deploying local subgraphs.
+
 ## Deploying a subgraph
 
 To create a single subgraph, specify the subgraph in the script. Examples:
