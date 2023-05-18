@@ -23,7 +23,6 @@ start_docker() {
 
 stop_docker() {
     $DC down
-
     exit 0
 }
 
