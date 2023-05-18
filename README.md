@@ -91,3 +91,9 @@ To connect with the workspace root command to deploy all subgraphs at once, you 
 Once these scripts are added, complete the script linking process by adding a script in the workspace root `package.json` called `deploy-local:<subgraph_folder_name>`. This script will call the `execute-local-deploy` script that is found in your new subgraph workspace. 
 
 Now all subgraphs can be deployed at once with `yarn deploy-local`.
+
+## Known Issues
+
+> :warning: Indexing with a graph node makes frequent on-chain calls, consider using a private RPC url to avoid throttling.
+
+> :warning: **If you are using Macbook M1**: The graph node docker container has memory issues with Macbook M1. See [here](https://github.com/graphprotocol/graph-node/tree/master/docker#running-graph-node-on-an-macbook-m1) for more details on this.
