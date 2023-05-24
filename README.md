@@ -77,7 +77,11 @@ RPC_TEXT="mainnet:http://host.docker.internal:8545"
 
 ## Running the graph node
 
-To start the local graph node, you will need `docker`, `docker-compose`, and `jq`. Then, run:
+To start the local graph node, you will need `docker`, `docker-compose`, and `jq`. 
+
+> This repo has been tested with Docker version 23.0.5
+
+Then, run:
 
 ```
 ./scripts/run_node.sh
