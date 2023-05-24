@@ -10,7 +10,11 @@ yarn global add @graphprotocol/graph-cli
 
 > We suggest you use `yarn` instead of `npm`.
 
-This command will install the `graph` binary on your machine. If you still don't have the binary after the installation, you can add it to your path. You can figure out where `yarn` installs global binaries by running:
+This command will install the `graph` binary on your machine. This repo works out of the box for Mac and Linux and has been tested with the following binaries:
+- `@graphprotocol/graph-cli/0.49.0 darwin-x64 node-v18.14.2`
+- `@graphprotocol/graph-cli/0.49.0 linux-x64 node-v18.16.0`
+
+If you don't have the binary after the installation, you can add it to your path. You can figure out where `yarn` installs global binaries by running:
 
 ```
 yarn global bin
@@ -52,9 +56,24 @@ Each RPC will be tagged with the name of the network, followed by the RPC. Examp
 
 This docker compose file uses `host.docker.internal` which allows docker containers to access ports on the host machine. 
 
-When using localhost RPCs, such as Anvil, replace `localhost` with `host.docker.internal` before adding the RPC to the .env file. For example, `https://localhost:8545` should become `http://host.docker.internal:8545`.
+When using localhost RPCs, such as [Anvil](https://github.com/foundry-rs/foundry/tree/1e78cabbe7029f13a67cb54590afa969a9518638/anvil), replace `localhost` with `host.docker.internal` before adding the RPC to the .env file. For example, `https://localhost:8545` should become `http://host.docker.internal:8545`.
 
 More info on this topic can be found [here](https://medium.com/@TimvanBaarsen/how-to-connect-to-the-docker-host-from-inside-a-docker-container-112b4c71bc66).
+
+---
+
+To run a local Eth mainnet node with anvil:
+```
+anvil --fork-url=https://eth-archival-rpc.gateway.pokt.network --fork-block-number=16232800 --chain-id=1 --host 0.0.0.0
+```
+
+Anvil will now be running at `http://0.0.0.0:8545`
+
+Then, make sure the `.env` is configured as follows:
+```
+# .env
+RPC_TEXT="mainnet:http://host.docker.internal:8545"
+```
 
 ## Running the graph node
 
