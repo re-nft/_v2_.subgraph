@@ -116,7 +116,7 @@ export function handleStopLend(event: StopLend): void {
   let lending = Lending.load(lendingStopParams.lendingID.toString())!;
 
   // OLD_COMMENT: remove lending only if the amount is equal to the lend amount
-  // now, instead of removing, we merely set lending's `expired` to true
+  // CURRENT_STATUS: now, instead of removing, we merely set lending's `expired` to true
   // reason for why we do this, is in the comment in handleRentClaimed
   let shouldRemove =
     BigInt.compare(
