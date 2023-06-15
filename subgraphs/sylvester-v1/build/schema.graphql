@@ -24,6 +24,14 @@ type Lending @entity {
   user: User!
 
   rentClaimed: Boolean!
+
+  # this shouldn't exist because ideally we remove the lendings when
+  # lending is stopped. However, if willAutoRenew is false
+  # when renting is claimed, StopLend is emitted before RentClaimed
+  # which causes indexing error since handleRentClaimed cannot retrieve
+  # deleted lending. Therefore, purpose of this flag is purely to distinguish
+  # between active and expired lendings
+  expired: Boolean!
 }
 
 type Renting @entity {
